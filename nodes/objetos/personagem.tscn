@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sprites/frames/espadachin.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://script/objetos/personagem.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "andar"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 7 ]
+}
+
+[node name="personagem" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 1 )
+animation = "parado"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/andar = SubResource( 1 )
