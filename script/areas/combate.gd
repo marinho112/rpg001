@@ -25,8 +25,10 @@ func carregar_personagens():
 	for i in tamanhoAmigo:
 		var item= listaAmigos[i]
 		var personagem = pre_personagem.instance()
+		personagem.get_node("AnimatedSprite").set_animation("default")
 		listaAmigosObjeto.append(personagem)
 		add_child(personagem)
+		add_to_group("party")
 		
 		var x=900
 		var y= i * 130
@@ -42,8 +44,10 @@ func carregar_personagens():
 		var item= listaInimigos[i]
 		var personagem = pre_personagem.instance()
 		personagem.get_node("AnimatedSprite").set_flip_h(true)
+		personagem.get_node("AnimatedSprite").set_animation("default")
 		listaInimigosObjeto.append(personagem)
 		add_child(personagem)
+		add_to_group("inimigo")
 		
 		var x=400
 		var y= i * 130
@@ -65,6 +69,9 @@ func _process(delta):
 		turno=0
 		rodada+=1
 	
+func seleciona(tipoSelecao,tipoAcao):
+		
+	pass
 	#if Input.is_action_just_released("a"):
 	#	if(turno<tamanhoAmigo):
 	#		listaAmigosObjeto[turno].ativa(0)

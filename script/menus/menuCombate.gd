@@ -28,30 +28,31 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	if (Input.is_action_just_pressed("a")):
-		ativaAcaoBtn(lista[posicao+primeiro])
-		
-	elif (Input.is_action_pressed("ui_up")):
-		if((posicao>0)and(contaTempo==0)):
-			posicao-=1
-		elif(contaTempo==0):
-			if(primeiro>0):
-				primeiro-=1
-				desenhaMenu()
-		contaTempo+=delta
-	elif Input.is_action_pressed("ui_down"):
-		if((posicao<tamanho-1)and(contaTempo==0)):
-			posicao+=1
-		elif(contaTempo==0):
-			if(primeiro<len(lista)-tamanho):
-				primeiro+=1
-				desenhaMenu()
-		contaTempo+=delta
-	else:
-		contaTempo=0
-	if(contaTempo>=0.25):
-		contaTempo=0
-	atualizaPosicao()
+	if(ativado):
+		if (Input.is_action_just_pressed("a")):
+			ativaAcaoBtn(lista[posicao+primeiro])
+			
+		elif (Input.is_action_pressed("ui_up")):
+			if((posicao>0)and(contaTempo==0)):
+				posicao-=1
+			elif(contaTempo==0):
+				if(primeiro>0):
+					primeiro-=1
+					desenhaMenu()
+			contaTempo+=delta
+		elif Input.is_action_pressed("ui_down"):
+			if((posicao<tamanho-1)and(contaTempo==0)):
+				posicao+=1
+			elif(contaTempo==0):
+				if(primeiro<len(lista)-tamanho):
+					primeiro+=1
+					desenhaMenu()
+			contaTempo+=delta
+		else:
+			contaTempo=0
+		if(contaTempo>=0.25):
+			contaTempo=0
+		atualizaPosicao()
 	pass
 	
 
@@ -60,6 +61,9 @@ func ativaAcaoBtn(botao):
 		0:
 			lista=botao.proximo
 			desenhaMenu()
+		1: 
+			ativado=false
+			get_parent().seleciona(0,1)
 		_:
 			print(botao.texto)
 	
