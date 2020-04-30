@@ -30,9 +30,10 @@ class personagem:
 	
 	
 	var esferasAtaque = 1
-	var esferasDefesa = 2
+	var esferasDefesa = 1
 	var esferasEsquiva = 1
 	var esferasAcerto = 1
+	
 	
 	func _init(lv,classe,forca,agi,des,vit,inte,will):
 		
@@ -58,6 +59,10 @@ class personagem:
 
 class personagemParty extends personagem:
 	
+	var menu=[]
+	var habilidadesOfensivas=[]
+	var habilidadesPassivas=[]
+	
 	var equipeCabeca
 	var equipeCorpo
 	var equipeDireita
@@ -70,11 +75,24 @@ class personagemParty extends personagem:
 	
 	
 	
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+class elementoMenu:
+	var texto
+	var tipo
+	var proximo
+	var extra
+	
+	
+	func _init(texto,tipo,proximo=null,extra=null):
+		self.texto=texto
+		self.tipo=tipo
+		set_proximo(proximo)
+		set_extra(extra)
+	func set_proximo(proximo):
+		self.proximo=proximo
+	
+	func set_extra(extra):
+		self.extra=extra
+
+

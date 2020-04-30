@@ -2,8 +2,8 @@ extends Node2D
 
 var listaAmigos = [0,1,2,3,4,5]
 var listaInimigos = [0,1,2,3,4,5]
-var tamanhoAmigo=len(listaAmigos)
-var tamanhoInimigo=len(listaInimigos)
+var tamanhoAmigo
+var tamanhoInimigo
 var listaAmigosObjeto = []
 var listaInimigosObjeto = []
 var pre_personagem = preload("res://nodes/objetos/personagem_combate.tscn")
@@ -18,17 +18,21 @@ func _ready():
 	pass # Replace with function body.
 
 func carregar_personagens():
+	
+	tamanhoAmigo=len(listaAmigos)
+	tamanhoInimigo=len(listaInimigos)
+
 	for i in tamanhoAmigo:
 		var item= listaAmigos[i]
 		var personagem = pre_personagem.instance()
 		listaAmigosObjeto.append(personagem)
 		add_child(personagem)
 		
-		var x=800
-		var y= i * 200
+		var x=900
+		var y= i * 130
 		if(i>2):
-			x=1000
-			y+= 120 - 600
+			x=1100
+			y+= 120 - 130 *3
 		else:
 			y+= 180
 			
@@ -41,11 +45,11 @@ func carregar_personagens():
 		listaInimigosObjeto.append(personagem)
 		add_child(personagem)
 		
-		var x=300
-		var y= i * 200
+		var x=400
+		var y= i * 130
 		if(i>2):
-			x=100
-			y+= 120 - 600
+			x=200
+			y+= 120 - 130 * 3
 		else:
 			y+= 180
 			
@@ -61,11 +65,11 @@ func _process(delta):
 		turno=0
 		rodada+=1
 	
-	if Input.is_action_just_released("a"):
-		if(turno<tamanhoAmigo):
-			listaAmigosObjeto[turno].ativa(0)
-		elif(turno<tamanhoAmigo+tamanhoInimigo):
-			listaInimigosObjeto[turno-tamanhoAmigo].ativa(0)
-		turno+=1
+	#if Input.is_action_just_released("a"):
+	#	if(turno<tamanhoAmigo):
+	#		listaAmigosObjeto[turno].ativa(0)
+	#	elif(turno<tamanhoAmigo+tamanhoInimigo):
+	#		listaInimigosObjeto[turno-tamanhoAmigo].ativa(0)
+	#	turno+=1
 		
 	
