@@ -8,6 +8,7 @@ var tamanho=0
 var lista = []
 var linhas = []
 var ativado = true
+var personagemTurno
 
 var contaTempo=0
 
@@ -63,7 +64,7 @@ func ativaAcaoBtn(botao):
 			desenhaMenu()
 		1: 
 			ativado=false
-			get_parent().seleciona(0,1)
+			get_parent().seleciona(2,0,0,personagemTurno)
 		_:
 			print(botao.texto)
 	

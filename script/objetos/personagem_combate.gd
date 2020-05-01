@@ -4,12 +4,12 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var ativado=false
 var personagem
 var moverAtaque=false
 var speed = 200
 var atacado 
 var listaInimigos= []
+var posicaoInicial
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,38 +19,23 @@ func _ready():
 
 func _process(delta):
 	
-	if(ativado):
-		if Input.is_action_pressed("a"):
-			pass
-			#$AnimatedSprite.set_animation("batendo")
-			#$AnimationPlayer.play("atacando")
-			
-		if Input.is_action_pressed("s"):
-			pass
-		
-		if Input.is_action_pressed("d"):
-			pass
-			
 	moverAtaque(delta)
 	
-func ativa(num):
-	match num:
-		0:
-			ativado=false
-		_:
-			ativado=true
 
-func atacar(atacado):
+func alteraPosicaoPermanente(posicao):
+	set_position(posicao)
+	posicaoInicial=posicao
+
+func atacar(atacado,tipoAtaque):
 	self.listaInimigos=get_parent().listaInimigosObjeto
 	self.atacado=atacado
 	moverAtaque=true
-	
 	pass
 
 func moverAtaque(delta):
 	if(moverAtaque):
 		$AnimatedSprite.set_animation("movendo")
-		var inimigoAtacado = listaInimigos[atacado]
+		var inimigoAtacado = atacado
 		var posiAtacado=inimigoAtacado.get_position()
 		var frames =inimigoAtacado.get_node("AnimatedSprite").get_sprite_frames()
 		var anim = inimigoAtacado.get_node("AnimatedSprite").get_animation()
@@ -90,8 +75,9 @@ func moverAtaque(delta):
 		else:
 			moverAtaque=false
 			$AnimatedSprite.set_animation("default")
+			set_position(posicaoInicial)
+			get_parent().terminaTurno()
 		
-		print(get_position())
 	pass
 	
 func animacaoAtaque():
