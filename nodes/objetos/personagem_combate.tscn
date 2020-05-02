@@ -62,3 +62,4 @@ animation = "movendo"
 anims/apanhando = SubResource( 1 )
 anims/atacando = SubResource( 2 )
 anims/parado = SubResource( 3 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

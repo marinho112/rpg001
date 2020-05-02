@@ -9,7 +9,7 @@
 [ext_resource path="res://sprites/personagem/espadachin/espadachin00054.bmp" type="Texture" id=7]
 [ext_resource path="res://sprites/personagem/espadachin/espadachin00056.bmp" type="Texture" id=8]
 [ext_resource path="res://sprites/personagem/espadachin/espadachin00075.bmp" type="Texture" id=9]
-[ext_resource path="res://sprites/personagem/espadachin/espadachin00072.bmp" type="Texture" id=10]
+[ext_resource path="res://sprites/personagem/espadachin/espadachin00074.bmp" type="Texture" id=10]
 
 [resource]
 resource_name = "personagem_combate"
@@ -24,11 +24,6 @@ animations = [ {
 "name": "morto",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "batendo",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "movendo",
@@ -37,5 +32,10 @@ animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "apanhando",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "batendo",
 "speed": 5.0
 } ]
