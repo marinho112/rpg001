@@ -4,6 +4,7 @@ class personagem:
 	var lv =1
 	var classe =0
 	var esferas=5
+	var posicaoCombate
 		
 	var hpMaximo
 	var hpAtual
@@ -26,7 +27,7 @@ class personagem:
 	var bloqueio
 	var acertoMagico
 	var esquivaMagica
-	var bloquioMagico
+	var bloqueioMagico
 	
 	
 	var esferasAtaque = 1
@@ -35,7 +36,11 @@ class personagem:
 	var esferasAcerto = 1
 	
 	
-	func _init(lv,classe,forca,agi,des,vit,inte,will):
+	var habilidadesOfensivas=[]
+	var habilidadesPassivas=[]
+	
+	
+	func _init(lv=1,classe=0,forca=1,agi=1,des=1,vit=1,inte=1,will=1):
 		
 		self.lv=lv
 		self.classe=classe
@@ -60,8 +65,6 @@ class personagem:
 class personagemParty extends personagem:
 	
 	var menu=[]
-	var habilidadesOfensivas=[]
-	var habilidadesPassivas=[]
 	
 	var equipeCabeca
 	var equipeCorpo
@@ -73,10 +76,13 @@ class personagemParty extends personagem:
 	var equipeAcessorio3
 	var equipeAcessorio4
 	
+	var SextaEsferaDesbloqueada=false
 	
+class personagemMob extends personagem:
+
+	var Inteligencia
+	var caracteristicas = []
 	
-
-
 class elementoMenu:
 	var texto
 	var tipo

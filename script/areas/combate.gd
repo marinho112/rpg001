@@ -1,15 +1,16 @@
 extends Node2D
 
 #Listas 
-var listaAmigos = [0,1,2,3,4,5]
-var listaInimigos = [0,1,2,3,4,5]
+var listaAmigos = []
+var listaInimigos = []
 var listaAmigosObjeto = []
 var listaInimigosObjeto = []
 var listaTurnos = []
 var vetorSelecionados = []
-var listaAmigosSelecionados=[]
-var listaInimigosSelecionados=[]
+var listaSelecionados=[]
 var listaCursoresSobressalentes=[]
+
+var matrizPosicao=[]
 
 #Preloads
 var pre_personagem = preload("res://nodes/objetos/personagem_combate.tscn")
@@ -29,14 +30,15 @@ var mudarLadoSelecao=false
 var selecaoAliados=false
 var selecaoIndividual=true
 var emSelecao=false
-var posicaoCursor = 0
-var ocilante= 0
+var posicaoXCursor = 0
+var posicaoYCursor = 0
 var clicavel = true
 
 #Contadores
 var turno=0
 var rodada=0
-var numPersonagens= len(listaAmigos) + len(listaInimigos)
+var ocilante= 0
+var ocilantePersonagemPermanete =0
 var numSelecionados =0
 
 #objetos 
@@ -45,12 +47,71 @@ var atacante
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[0].posicaoCombate=5
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[1].posicaoCombate=4
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[2].posicaoCombate=3
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[3].posicaoCombate=0
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[4].posicaoCombate=2
+	listaAmigos.append(Global.personagemParty.new())
+	listaAmigos[5].posicaoCombate=1
+	
+	
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[0].posicaoCombate = 0
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[1].posicaoCombate = 1
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[2].posicaoCombate = 2
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[3].posicaoCombate = 3
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[4].posicaoCombate = 4
+	listaInimigos.append(Global.personagemMob.new())
+	listaInimigos[5].posicaoCombate = 5
+	
+	for i in 3:
+		listaAmigos.remove(randi()%(len(listaAmigos)+1))
+	
+	for i in 3:
+		listaInimigos.remove(randi()%(len(listaInimigos)+1))
+	
 	carregar_personagens()
 	set_process(true)
 	pass # Replace with function body.
 
+func desenhaMatrizPosicao():
+	for i in 4:
+		matrizPosicao.append([null,null,null])
+	
+	for i in listaAmigosObjeto:
+		
+		var p = i.personagem.posicaoCombate
+		var y = p%3
+		var x=2
+		if(p>2):
+			x=3
+			
+		matrizPosicao[x][y]=i
+	
+	for i in listaInimigosObjeto:
+		
+		var p = i.personagem.posicaoCombate
+		var y = p%3
+		var x=0
+		if(p<3):
+			x=1
+			
+		matrizPosicao[x][y]=i
+	
 
 func _process(delta):
+	
+	animaTurno(delta)
 	
 	if(controleDeTurno):
 		if(turno<len(listaTurnos)):
@@ -63,16 +124,33 @@ func _process(delta):
 			else:
 				print("turno do monstro: "+ str(turno))
 				turno+=1
-		else:
+		if(turno>=len(listaTurnos)):
 			turno=0
 			rodada+=1
 	
 	emSelecao(delta)
 
+func animaTurno(delta):
+	var personagem = listaTurnos[turno]
+	var position = personagem.get_global_position()
+	var frames =personagem.get_node("AnimatedSprite").get_sprite_frames()
+	var anim = personagem.get_node("AnimatedSprite").get_animation()
+	var frame =personagem.get_node("AnimatedSprite").get_frame()
+	var altura = frames.get_frame(anim,frame).get_size().y
+	
+	ocilantePersonagemPermanete+=delta *20
+	if(ocilantePersonagemPermanete>=8):
+		ocilantePersonagemPermanete=0
+	position.y-= -10+ ocilantePersonagemPermanete + altura
+	$apontaPersonagem.set_global_position(position)
+	pass
+
 func carregar_personagens():
 	
 	tamanhoAmigo=len(listaAmigos)
 	tamanhoInimigo=len(listaInimigos)
+	listaAmigosObjeto=[]
+	listaInimigosObjeto=[]
 
 	for i in tamanhoAmigo:
 		var item= listaAmigos[i]
@@ -84,8 +162,8 @@ func carregar_personagens():
 		personagem.add_to_group(Constantes.GRUPO_ALIADOS)
 		
 		var x=900
-		var y= i * 130
-		if(i>2):
+		var y= item.posicaoCombate * 130
+		if(item.posicaoCombate>2):
 			x=1100
 			y+= 120 - 130 *3
 		else:
@@ -105,8 +183,8 @@ func carregar_personagens():
 		personagem.add_to_group(Constantes.GRUPO_INIMIGO)
 		
 		var x=400
-		var y= i * 130
-		if(i>2):
+		var y= item.posicaoCombate * 130
+		if(item.posicaoCombate>2):
 			x=200
 			y+= 120 - 130 * 3
 		else:
@@ -115,7 +193,7 @@ func carregar_personagens():
 		personagem.alteraPosicaoPermanente(Vector2(x,y))
 	
 	ordenaTurno()
-		
+	desenhaMatrizPosicao()
 
 	
 func ordenaTurno():
@@ -123,16 +201,27 @@ func ordenaTurno():
 
 func emSelecao(delta):
 	if(emSelecao):
-		var lista=[]
-		if(selecaoAliados):
+		if(posicaoXCursor>1):
 			$cursor.set_frame(0)
-			desenhaCursorSelecao(listaAmigosObjeto,delta)
-			lista = listaAmigosSelecionados
+			desenhaCursorSelecao(delta)
 		else:
 			$cursor.set_frame(1)
-			desenhaCursorSelecao(listaInimigosObjeto,delta)
-			lista = listaInimigosSelecionados
+			desenhaCursorSelecao(delta)
+		
+		var xMax=0
+		var xMin=0
+		
+		if(mudarLadoSelecao):
+			xMax=3
+			xMin=0
+		elif(selecaoAliados):
+			xMax=3
+			xMin=2
+		else:
+			xMax=1
+			xMin=0
 			
+			pass
 		var repetir=true
 		
 		if Input.is_action_just_pressed("ui_up"):
@@ -140,12 +229,21 @@ func emSelecao(delta):
 				clicavel=true
 			while(repetir):
 				repetir=false
-				if(posicaoCursor>0):
-					posicaoCursor-=1
+				if(posicaoYCursor>0):
+					posicaoYCursor-=1
 				else:
-					posicaoCursor=5
-				for i in len(lista):
-					if(posicaoCursor==lista[i]):
+					posicaoYCursor=(2)
+					if(posicaoXCursor>xMin):
+						posicaoXCursor-=1
+					else:
+						posicaoXCursor = xMax
+						posicaoYCursor = 2
+				
+				if(matrizPosicao[posicaoXCursor][posicaoYCursor]==null):
+					repetir=true
+				var posicaoAtual=(posicaoXCursor*10)+posicaoYCursor
+				for i in len(listaSelecionados):
+					if(posicaoAtual==listaSelecionados[i]):
 						repetir=true
 		
 		repetir=true
@@ -154,12 +252,22 @@ func emSelecao(delta):
 				clicavel=true
 			while(repetir):
 				repetir=false
-				if(posicaoCursor<5):
-					posicaoCursor+=1
+				if(posicaoYCursor< 2):
+					posicaoYCursor+=1
 				else:
-					posicaoCursor=0
-				for i in len(lista):
-					if(posicaoCursor==lista[i]):
+					posicaoYCursor=0
+					if(posicaoXCursor<xMax):
+						posicaoXCursor+=1
+					else:
+						posicaoXCursor = xMin
+						posicaoYCursor = 0
+				
+					
+				if(matrizPosicao[posicaoXCursor][posicaoYCursor]==null):
+					repetir=true
+				var posicaoAtual=(posicaoXCursor*10)+posicaoYCursor
+				for i in len(listaSelecionados):
+					if(posicaoAtual==listaSelecionados[i]):
 						repetir=true
 		
 		if (Input.is_action_just_pressed("a") and clicavel):
@@ -174,17 +282,12 @@ func emSelecao(delta):
 				clicavel=false
 				
 				listaCursoresSobressalentes.append(novoCursor)
-				if(selecaoAliados):
-					listaAmigosSelecionados.append(posicaoCursor)
-				else:
-					listaInimigosSelecionados.append(posicaoCursor)
+				
+				listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
 				
 			if(numSelecionados<numSelecao):
 				numSelecionados+=1
-				if(selecaoAliados):
-					vetorSelecionados.append(listaAmigosObjeto[posicaoCursor])
-				else:
-					vetorSelecionados.append(listaInimigosObjeto[posicaoCursor])
+				vetorSelecionados.append(matrizPosicao[posicaoXCursor][posicaoYCursor])
 			if(numSelecionados>=numSelecao):
 				if(!clicavel):
 					clicavel=true
@@ -192,55 +295,50 @@ func emSelecao(delta):
 				emSelecao=false
 				$cursor.set_visible(false)
 				chamaAcao(vetorSelecionados) # envias a ação
-				listaAmigosSelecionados=[]
-				listaInimigosSelecionados=[]
+				listaSelecionados=[]
 				for i in len(listaCursoresSobressalentes):
 					listaCursoresSobressalentes[i].queue_free()
 				listaCursoresSobressalentes=[]
-		var posicaoAntiga = posicaoCursor
+		var posicaoAntiga = (posicaoXCursor*10) + posicaoYCursor
 		if Input.is_action_just_pressed("ui_right"):
+			
 			if(!clicavel):
 				clicavel=true
-			if(selecaoAliados and (posicaoCursor<3)):
-				posicaoCursor += 3
-			elif(posicaoCursor>=3):
-				posicaoCursor -= 3
-			elif(!selecaoAliados and mudarLadoSelecao):
-				selecaoAliados=true
-				posicaoCursor=0
+			for i in 3:
+				if((posicaoXCursor+i<xMax)and(matrizPosicao[posicaoXCursor+(1+i)][posicaoYCursor]!= null)):
+					posicaoXCursor+=1+i
+					break
 		elif Input.is_action_just_pressed("ui_left"):
 			if(!clicavel):
 				clicavel=true
-			if(!selecaoAliados and (posicaoCursor<3)):
-				posicaoCursor += 3
-			elif(posicaoCursor>=3):
-				posicaoCursor -= 3
-			elif(selecaoAliados and mudarLadoSelecao):
-				selecaoAliados=false
-				posicaoCursor=0
-				
-		for i in len(lista):
-			if(posicaoCursor==lista[i]):
-				posicaoCursor=posicaoAntiga
+			var novoX=posicaoXCursor
+			for i in 3:
+				if((posicaoXCursor-i>xMin)and(matrizPosicao[posicaoXCursor-(1+i)][posicaoYCursor]!= null)):
+					posicaoXCursor-=1+i
+					break
+		for i in len(listaSelecionados):
+			var posicaoCursor= (posicaoXCursor*10) + posicaoYCursor
+			if(posicaoCursor==listaSelecionados[i]):
+				posicaoYCursor=posicaoAntiga%10
+				posicaoXCursor=int((posicaoAntiga-posicaoYCursor)/10)
 				break
-		
-		
-			pass
 
-func desenhaCursorSelecao(lista,delta):
+		
+func desenhaCursorSelecao(delta):
 	
 	#var position = $cursor.get_position()
-	var positionElemento = lista[posicaoCursor].get_position()
-	var frames =lista[posicaoCursor].get_node("AnimatedSprite").get_sprite_frames()
-	var anim = lista[posicaoCursor].get_node("AnimatedSprite").get_animation()
-	var frame =lista[posicaoCursor].get_node("AnimatedSprite").get_frame()
+	var perso = matrizPosicao[posicaoXCursor][posicaoYCursor]
+	var positionElemento = perso.get_position()
+	var frames =perso.get_node("AnimatedSprite").get_sprite_frames()
+	var anim = perso.get_node("AnimatedSprite").get_animation()
+	var frame =perso.get_node("AnimatedSprite").get_frame()
 	var tamanhoElemento = frames.get_frame(anim,frame).get_size()
 	var ajusteTamanho = tamanhoElemento.x + 12 + ocilante
 	if (ocilante< 4):
 		ocilante += delta *18
 	else:
 		ocilante*=-1
-	if(selecaoAliados):
+	if(posicaoXCursor>1):
 		ajusteTamanho *=-1
 	
 	$cursor.set_position(Vector2(positionElemento.x + ajusteTamanho, positionElemento.y))
@@ -257,28 +355,48 @@ func chamaAcao(alvos):
 
 func seleciona(tipoSelecao,numSelecao,tipoAcao,codAcao,fonte):
 	
-	posicaoCursor = 0
 	acaoPretendida=tipoAcao
 	valorAcaoPretendida=codAcao
 	atacante=fonte
 	emSelecao=true
 	vetorSelecionados=[]
-	self.numSelecao=numSelecao
 	numSelecionados=0
 	$cursor.set_visible(true)
-	if((tipoSelecao|61)==(63)):
-		mudarLadoSelecao=true
-	else:
-		mudarLadoSelecao=false
 	if((tipoSelecao|62)==(63)):
 		selecaoAliados = true
 	else:
 		selecaoAliados = false
+	if((tipoSelecao|61)==(63)):
+		mudarLadoSelecao=true
+	else:
+		mudarLadoSelecao=false
 	if((tipoSelecao|59)==(63)):
 		selecaoIndividual=true
 	else:
 		selecaoIndividual=false
 	
+	var x = 1
+	var y = 0
+	var z =-1
+	
+	if(selecaoAliados):
+		x = 2
+		z = 1
+	
+	while(matrizPosicao[x][y] == null):
+		y+=1
+		if(y>2):
+			x+= z
+			y=0
+			 
+	posicaoXCursor = x
+	posicaoYCursor = y
+	
+	
+	if ((len(listaInimigos) < numSelecao) and selecaoIndividual):
+		self.numSelecao<=len(listaInimigos)
+	else:
+		self.numSelecao=numSelecao
 	pass
 	
 	

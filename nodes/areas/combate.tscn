@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://script/areas/combate.gd" type="Script" id=1]
 [ext_resource path="res://sprites/cenario/fundoCombate.jpg" type="Texture" id=2]
 [ext_resource path="res://nodes/menus/menuCombate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://nodes/objetos/cursor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://nodes/objetos/alertaTelaCombate.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sprites/ferramentas/cursor.png" type="Texture" id=6]
 
 [node name="combate" type="Node2D"]
 script = ExtResource( 1 )
@@ -27,4 +28,10 @@ position = Vector2( 1017.14, 649.701 )
 [node name="timerAlerta" type="Timer" parent="."]
 pause_mode = 2
 one_shot = true
+
+[node name="apontaPersonagem" type="Sprite" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.2, 0.2 )
+z_index = 2
+texture = ExtResource( 6 )
 [connection signal="timeout" from="timerAlerta" to="." method="_on_Timer_timeout"]
