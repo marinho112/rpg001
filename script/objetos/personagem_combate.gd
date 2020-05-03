@@ -8,14 +8,25 @@ var personagem
 var moverAtaque=true
 var animacaoAtaque = true
 var controlaAtaque = false
+var controlaHits=false
 var voltando = true
+var bloqueado = false
+var virado = false
+var golpeDistancia= false
+var golpeMagico = false
 var speed = 200
 var atacados=[]
 var listaInimigos= []
 var posicaoInicial
-var ataquesRealizados=0
-var golpesRealizados = 0
-var golpesPorAtaque=2
+var ataquesRealizados=0 # Numero de movimentos para ataque
+var golpesRealizados = 0 
+var golpesPorAtaque=2 #Numero animações de ataque
+var intervaloHits=0.01
+var hitsPorGolpeRaiz=1 # efeitos de golpe por animação de ataque
+var hitsPorGolpe=0
+var hitsSecundariosPorGolpe=1 # hits por efeitos de golpe
+var distanciaDeSurgimentoDoGolpe = 5
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,18 +37,47 @@ func _ready():
 func _process(delta):
 	
 	controlaAtaque(delta)
+	golpesControleHits(delta)
+	
 	
 
 func alteraPosicaoPermanente(posicao):
 	set_position(posicao)
 	posicaoInicial=posicao
 
+func atribuiValoresAtaque(golpesPorAtaque,hitsPorGolpeRaiz,intervaloHits,hitsSecundariosPorGolpe,distanciaDeSurgimentoDoGolpe,distancia,magia):
+	self.golpesPorAtaque=golpesPorAtaque 
+	self.hitsPorGolpeRaiz=hitsPorGolpeRaiz
+	self.intervaloHits=intervaloHits
+	self.hitsSecundariosPorGolpe=hitsSecundariosPorGolpe
+	self.distanciaDeSurgimentoDoGolpe = distanciaDeSurgimentoDoGolpe
+	self.golpeDistancia=distancia
+	self.golpeMagico=magia
+
 func atacar(atacados,tipoAtaque):
+	
+	match tipoAtaque:
+		0:
+			atribuiValoresAtaque(1,1,0.01,1,50,false,false)
+			
+	
+	moverAtaque=!golpeDistancia
 	self.listaInimigos=get_parent().listaInimigosObjeto
 	self.atacados=atacados
 	ataquesRealizados=0
 	controlaAtaque=true
 	pass
+
+func bloqueado(area):
+	if(moverAtaque):
+		if(is_in_group(Constantes.GRUPO_ALIADOS)):
+			if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
+				bloqueado=true
+				golpesRealizados=golpesPorAtaque
+		elif(is_in_group(Constantes.GRUPO_INIMIGO)):
+			if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
+				bloqueado=true
+				golpesRealizados=golpesPorAtaque
 
 func controlaAtaque(delta):
 	if(controlaAtaque):
@@ -53,12 +93,14 @@ func controlaAtaque(delta):
 				$AnimationPlayer.stop()
 				controlaAtaque=false
 				get_parent().terminaTurno()
-			
-
+		
+		if(bloqueado):
+			animacaoVoltar(delta)
+		
 func moverAtaque(delta):
-	if(moverAtaque):
+	if(moverAtaque and !bloqueado):
 		$AnimatedSprite.set_animation("movendo")
-		$AnimatedSprite.set_flip_h(true)
+		$AnimatedSprite.set_flip_h(!virado)
 		var inimigoAtacado = atacados[ataquesRealizados]
 		var posiAtacado=inimigoAtacado.get_position()
 		var frames =inimigoAtacado.get_node("AnimatedSprite").get_sprite_frames()
@@ -73,7 +115,7 @@ func moverAtaque(delta):
 		
 		if(mover(distanciaX,distanciaY,delta)):
 			moverAtaque=false
-			$AnimatedSprite.set_flip_h(false)
+			$AnimatedSprite.set_flip_h(virado)
 			
 		
 	pass
@@ -81,9 +123,11 @@ func moverAtaque(delta):
 func animacaoAtaque(delta):
 	
 	if(golpesRealizados>=golpesPorAtaque):
-		moverAtaque=true
+		moverAtaque=!golpeDistancia
 		ataquesRealizados+=1
 		golpesRealizados=0
+		if(ataquesRealizados>=len(atacados)):
+			voltando = true
 	
 	if(!moverAtaque and animacaoAtaque):
 		$AnimatedSprite.set_animation("batendo")
@@ -91,7 +135,38 @@ func animacaoAtaque(delta):
 		
 	pass
 
-func calculaDano():
+func ativaControlaHits():
+	controlaHits=true
+	hitsPorGolpe=hitsPorGolpeRaiz
+
+func golpesControleHits(delta):
+	if(controlaHits and ($timerHit.is_stopped())):
+		if(hitsPorGolpe<=0):
+			controlaHits=false
+		else:
+			$timerHit.set_wait_time(intervaloHits)
+			$timerHit.start()
+		
+func criarGolpe():
+	
+	var golpe = preload("res://nodes/golpes/ataque_simples.tscn").instance()
+	add_child(golpe)
+	var position = get_global_position()
+	var icremento = distanciaDeSurgimentoDoGolpe
+	if(!virado):
+		icremento *= -1
+	position.x = position.x + icremento
+	golpe.set_global_position(position)
+	golpe.set_z_index(1)
+	var grupos = get_groups()
+	for i in grupos:
+		golpe.add_to_group(i)
+	golpe.numHits=hitsSecundariosPorGolpe
+	golpe.get_node("AnimatedSprite").set_flip_h(!virado)
+	golpe.get_node("AnimationPlayer").play("golpe")
+
+func calculaDano(alvo):
+	
 	pass
 	
 func causaDano():
@@ -108,13 +183,21 @@ func animacaoApanhar():
 func animacaoVoltar(delta):
 	if(voltando):
 		$AnimatedSprite.set_animation("movendo")
-		$AnimatedSprite.set_flip_h(false)
+		$AnimatedSprite.set_flip_h(virado)
 		var position= get_position()
 		var distanciaX= (posicaoInicial.x) - (position.x)
 		var distanciaY= ((posicaoInicial.y) - (position.y) )
 	
 		if(mover(distanciaX,distanciaY,delta)):
 			voltando=false
+			$AnimatedSprite.set_animation("default")
+			$AnimatedSprite.set_flip_h(virado)
+			
+			if(bloqueado):
+				var tituloAlerta="Bloqueado!"
+				var textoAlerta= "Seu golpe foi bloqueado pelo oponente que estava \nno caminho. Tente atacar um oponente que não \nesteja protegido."
+				get_parent().alertaCombate(tituloAlerta,textoAlerta,3,true)
+				bloqueado=false
 
 func mover(distanciaX,distanciaY,delta):
 	
@@ -153,6 +236,16 @@ func mover(distanciaX,distanciaY,delta):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if(anim_name=="atacando"):
 		golpesRealizados+=1
-		
 	
 	pass 
+
+
+func _on_timerHit_timeout():	
+	criarGolpe()
+	hitsPorGolpe -=1
+	
+
+
+func _on_personagem_combate_area_entered(area):
+	bloqueado(area)
+	pass # Replace with function body.

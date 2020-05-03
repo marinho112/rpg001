@@ -1,12 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://script/areas/combate.gd" type="Script" id=1]
 [ext_resource path="res://sprites/cenario/fundoCombate.jpg" type="Texture" id=2]
 [ext_resource path="res://nodes/menus/menuCombate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://nodes/objetos/cursor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://nodes/objetos/alertaTelaCombate.tscn" type="PackedScene" id=5]
 
 [node name="combate" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="alertaTelaCombate" parent="." instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 668, 130 )
+z_index = 2
 
 [node name="Fundo" type="Sprite" parent="."]
 position = Vector2( 683.673, 382.339 )
@@ -17,3 +23,8 @@ texture = ExtResource( 2 )
 position = Vector2( 1017.14, 649.701 )
 
 [node name="cursor" parent="." instance=ExtResource( 4 )]
+
+[node name="timerAlerta" type="Timer" parent="."]
+pause_mode = 2
+one_shot = true
+[connection signal="timeout" from="timerAlerta" to="." method="_on_Timer_timeout"]

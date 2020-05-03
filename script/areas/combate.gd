@@ -96,6 +96,7 @@ func carregar_personagens():
 	for i in tamanhoInimigo:
 		var item= listaInimigos[i]
 		var personagem = pre_personagem.instance()
+		personagem.virado = true
 		personagem.get_node("AnimatedSprite").set_flip_h(true)
 		personagem.get_node("AnimatedSprite").set_animation("default")
 		personagem.personagem=item
@@ -190,7 +191,7 @@ func emSelecao(delta):
 					
 				emSelecao=false
 				$cursor.set_visible(false)
-				chamaAcao(vetorSelecionados)
+				chamaAcao(vetorSelecionados) # envias a ação
 				listaAmigosSelecionados=[]
 				listaInimigosSelecionados=[]
 				for i in len(listaCursoresSobressalentes):
@@ -254,7 +255,7 @@ func chamaAcao(alvos):
 		0:
 			atacante.atacar(alvos,valorAcaoPretendida)
 
-func seleciona(tipoSelecao,tipoAcao,codAcao,numSelecao,fonte):
+func seleciona(tipoSelecao,numSelecao,tipoAcao,codAcao,fonte):
 	
 	posicaoCursor = 0
 	acaoPretendida=tipoAcao
@@ -286,4 +287,19 @@ func terminaTurno():
 	turno+=1
 	print("ESTAMOS NO TURNO: "+ str(turno))
 		
+
+func alertaCombate(titulo,texto,tempo,pausar):
+	$alertaTelaCombate/fundo/titulo.set_text(titulo)
+	$alertaTelaCombate/fundo/texto.set_text(texto)
+	$timerAlerta.set_wait_time(tempo)
+	$alertaTelaCombate.set_visible(true)
+	$timerAlerta.start()
+	get_tree().paused=pausar
 	
+	pass
+
+
+func _on_Timer_timeout():
+	$alertaTelaCombate.set_visible(false)
+	get_tree().paused=false
+	pass 

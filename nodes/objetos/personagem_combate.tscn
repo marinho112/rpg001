@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://sprites/frames/personagem_combate.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://script/objetos/personagem_combate.gd" type="Script" id=2]
@@ -34,6 +34,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0, 5 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "ativaControlaHits"
+} ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "parado"
@@ -51,15 +65,26 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[node name="personagem_combate" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 30, 30 )
+
+[node name="personagem_combate" type="Area2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
-animation = "movendo"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/apanhando = SubResource( 1 )
 anims/atacando = SubResource( 2 )
 anims/parado = SubResource( 3 )
+
+[node name="area" type="CollisionShape2D" parent="."]
+shape = SubResource( 4 )
+
+[node name="timerHit" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+[connection signal="area_entered" from="." to="." method="_on_personagem_combate_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="timerHit" to="." method="_on_timerHit_timeout"]
