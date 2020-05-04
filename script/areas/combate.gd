@@ -273,9 +273,6 @@ func emSelecao(delta):
 		if (Input.is_action_just_pressed("a") and clicavel):
 			clickaPersonagem()
 		if(Input.is_action_just_pressed("mouse_left")):
-			var mousePosition = get_viewport().get_mouse_position()
-			
-			
 			for x in (xMax-xMin+1):
 				for y in 3:
 					if(matrizPosicao[x+xMin][y]!=null):

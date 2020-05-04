@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 var itens= []
 var itens2=[]
@@ -53,6 +53,29 @@ func _process(delta):
 			contaTempo=0
 		if(contaTempo>=0.25):
 			contaTempo=0
+		
+		if(Input.is_action_just_pressed("mouse_left")):
+			var areas = get_overlapping_areas()
+			var cursorNoLocal = false 
+			for i in areas:
+				if(i.is_in_group(Constantes.GRUPO_CURSOR_MOUSE)):
+					cursorNoLocal=true
+			if(cursorNoLocal):
+				var mousePosition = get_viewport().get_mouse_position()
+				var position = get_global_position()
+				var tamanhoArea = $CollisionShape2D.get_shape().get_extents()
+				position.x -= tamanhoArea.x
+				position.y -= tamanhoArea.y
+				var parte = tamanhoArea.y / 4
+				var local = mousePosition.y - position.y
+				local = local/parte
+				if(local <= tamanho):
+					if(posicao == int(local)):
+						ativaAcaoBtn(lista[posicao+primeiro])
+					else:
+						posicao = int(local)
+					
+		
 		atualizaPosicao()
 	pass
 	
