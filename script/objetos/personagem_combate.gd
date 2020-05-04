@@ -4,8 +4,8 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var inimigoAtacado
-var personagem
+
+#Variavei booleanas
 var moverAtaque=true
 var ataqueFinalizado = false
 var animacaoAtaque = true
@@ -15,12 +15,18 @@ var voltando = false
 var turnoTerminado = false
 var bloqueado = false
 var virado = false
-var golpeDistancia= false
-var golpeMagico = false
+
+
+#caracteristicas personagem
 var speed = 200
+var posicaoInicial
+var personagem
+
+
+#Caracteristicas ataque
 var atacados=[]
 var listaInimigos= []
-var posicaoInicial
+var inimigoAtacado
 var ataquesRealizados=0 # Numero de movimentos para ataque
 var golpesRealizados = 0 
 var golpesPorAtaque=2 #Numero animações de ataque
@@ -29,6 +35,13 @@ var hitsPorGolpeRaiz=1 # efeitos de golpe por animação de ataque
 var hitsPorGolpe=0
 var hitsSecundariosPorGolpe=1 # hits por efeitos de golpe
 var distanciaDeSurgimentoDoGolpe = 5
+
+#Caracteristicas Danos
+
+var golpeDistancia= false
+var golpeMagico = false
+var golpeElemento=0
+var golpeTipoDano=0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -48,22 +61,29 @@ func alteraPosicaoPermanente(posicao):
 	set_position(posicao)
 	posicaoInicial=posicao
 
-func atribuiValoresAtaque(golpesPorAtaque,hitsPorGolpeRaiz,intervaloHits,hitsSecundariosPorGolpe,distanciaDeSurgimentoDoGolpe,distancia,magia):
+func atribuiValoresAtaque(golpesPorAtaque,hitsPorGolpeRaiz,intervaloHits,hitsSecundariosPorGolpe,distanciaDeSurgimentoDoGolpe):
 	self.golpesPorAtaque=golpesPorAtaque 
 	self.hitsPorGolpeRaiz=hitsPorGolpeRaiz
 	self.intervaloHits=intervaloHits
 	self.hitsSecundariosPorGolpe=hitsSecundariosPorGolpe
 	self.distanciaDeSurgimentoDoGolpe = distanciaDeSurgimentoDoGolpe
-	self.golpeDistancia=distancia
-	self.golpeMagico=magia
+	
+
+func atribuiCaracteristicasAtaque(distancia,magico,elemento,tipoDano):
+	
+	golpeDistancia=distancia
+	golpeMagico=magico
+	golpeElemento=elemento
+	golpeTipoDano=tipoDano
 
 func atacar(atacados,tipoAtaque):
 	
 	turnoTerminado=false
 	
 	match tipoAtaque:
-		0:
-			atribuiValoresAtaque(1,1,0.01,1,50,false,false)
+		[Constantes.ATAQUE_BASICO]:
+			atribuiValoresAtaque(1,1,0.01,1,50)
+			atribuiCaracteristicasAtaque(false,false,0,0)
 			
 	
 	moverAtaque=!golpeDistancia
@@ -178,6 +198,9 @@ func criarGolpe():
 	golpe.get_node("AnimationPlayer").play("golpe")
 
 func calculaDano(alvo):
+	
+	var alvoinfo = alvo.personagem
+	
 	
 	pass
 	
