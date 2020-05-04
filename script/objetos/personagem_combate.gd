@@ -4,12 +4,15 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var inimigoAtacado
 var personagem
 var moverAtaque=true
+var ataqueFinalizado = false
 var animacaoAtaque = true
 var controlaAtaque = false
 var controlaHits=false
-var voltando = true
+var voltando = false
+var turnoTerminado = false
 var bloqueado = false
 var virado = false
 var golpeDistancia= false
@@ -56,6 +59,8 @@ func atribuiValoresAtaque(golpesPorAtaque,hitsPorGolpeRaiz,intervaloHits,hitsSec
 
 func atacar(atacados,tipoAtaque):
 	
+	turnoTerminado=false
+	
 	match tipoAtaque:
 		0:
 			atribuiValoresAtaque(1,1,0.01,1,50,false,false)
@@ -65,18 +70,21 @@ func atacar(atacados,tipoAtaque):
 	self.listaInimigos=get_parent().listaInimigosObjeto
 	self.atacados=atacados
 	ataquesRealizados=0
+	ataqueFinalizado = false
 	controlaAtaque=true
 	pass
 
 func bloqueado(area):
-	if(moverAtaque):
+	if(moverAtaque and (area!=inimigoAtacado) and !voltando):
 		if(is_in_group(Constantes.GRUPO_ALIADOS)):
 			if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
 				bloqueado=true
+				voltando = true
 				golpesRealizados=golpesPorAtaque
 		elif(is_in_group(Constantes.GRUPO_INIMIGO)):
 			if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
 				bloqueado=true
+				voltando = true
 				golpesRealizados=golpesPorAtaque
 
 func controlaAtaque(delta):
@@ -85,15 +93,18 @@ func controlaAtaque(delta):
 			moverAtaque(delta)
 			animacaoAtaque(delta)
 			
-			
 		else:
-			animacaoVoltar(delta)
-			if(!voltando):
-				$AnimatedSprite.set_animation("default")
-				$AnimationPlayer.stop()
-				controlaAtaque=false
-				get_parent().terminaTurno()
+			ataqueFinalizado = true
 		
+		if(!voltando and ataqueFinalizado):
+			voltando = true
+		animacaoVoltar(delta)
+		if(!voltando and turnoTerminado):
+			$AnimatedSprite.set_animation("default")
+			$AnimationPlayer.stop()
+			controlaAtaque=false
+			get_parent().terminaTurno()
+	
 		if(bloqueado):
 			animacaoVoltar(delta)
 		
@@ -101,7 +112,7 @@ func moverAtaque(delta):
 	if(moverAtaque and !bloqueado):
 		$AnimatedSprite.set_animation("movendo")
 		$AnimatedSprite.set_flip_h(!virado)
-		var inimigoAtacado = atacados[ataquesRealizados]
+		inimigoAtacado = atacados[ataquesRealizados]
 		var posiAtacado=inimigoAtacado.get_position()
 		var frames =inimigoAtacado.get_node("AnimatedSprite").get_sprite_frames()
 		var anim = inimigoAtacado.get_node("AnimatedSprite").get_animation()
@@ -192,6 +203,9 @@ func animacaoVoltar(delta):
 			voltando=false
 			$AnimatedSprite.set_animation("default")
 			$AnimatedSprite.set_flip_h(virado)
+			
+			if(ataqueFinalizado):
+				turnoTerminado=true
 			
 			if(bloqueado):
 				var tituloAlerta="Bloqueado!"
