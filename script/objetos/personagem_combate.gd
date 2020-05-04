@@ -74,6 +74,7 @@ func atacar(atacados,tipoAtaque):
 	controlaAtaque=true
 	pass
 
+
 func bloqueado(area):
 	if(moverAtaque and (area!=inimigoAtacado) and !voltando):
 		if(is_in_group(Constantes.GRUPO_ALIADOS)):

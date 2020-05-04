@@ -271,34 +271,24 @@ func emSelecao(delta):
 						repetir=true
 		
 		if (Input.is_action_just_pressed("a") and clicavel):
-			if(selecaoIndividual):
-				var novoCursor = pre_cursor.instance()
-				novoCursor.set_position($cursor.get_position())
-				novoCursor.set_sprite_frames($cursor.get_sprite_frames())
-				novoCursor.set_animation($cursor.get_animation())
-				novoCursor.set_frame($cursor.get_frame())
-				novoCursor.set_visible(true)
-				add_child(novoCursor)
-				clicavel=false
-				
-				listaCursoresSobressalentes.append(novoCursor)
-				
-				listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
-				
-			if(numSelecionados<numSelecao):
-				numSelecionados+=1
-				vetorSelecionados.append(matrizPosicao[posicaoXCursor][posicaoYCursor])
-			if(numSelecionados>=numSelecao):
-				if(!clicavel):
-					clicavel=true
-					
-				emSelecao=false
-				$cursor.set_visible(false)
-				chamaAcao(vetorSelecionados) # envias a ação
-				listaSelecionados=[]
-				for i in len(listaCursoresSobressalentes):
-					listaCursoresSobressalentes[i].queue_free()
-				listaCursoresSobressalentes=[]
+			clickaPersonagem()
+		if(Input.is_action_just_pressed("mouse_left")):
+			var mousePosition = get_viewport().get_mouse_position()
+			
+			
+			for x in (xMax-xMin+1):
+				for y in 3:
+					if(matrizPosicao[x+xMin][y]!=null):
+						var lista = matrizPosicao[x+xMin][y].get_overlapping_areas()
+						for i in lista:
+							if(i.is_in_group(Constantes.GRUPO_CURSOR_MOUSE)):
+								if((posicaoXCursor == x) and (posicaoYCursor)==y):
+									clickaPersonagem()
+								else:
+									posicaoXCursor=x+xMin
+									posicaoYCursor=y
+									break
+									
 		var posicaoAntiga = (posicaoXCursor*10) + posicaoYCursor
 		if Input.is_action_just_pressed("ui_right"):
 			
@@ -323,6 +313,35 @@ func emSelecao(delta):
 				posicaoXCursor=int((posicaoAntiga-posicaoYCursor)/10)
 				break
 
+func clickaPersonagem():
+	if(selecaoIndividual):
+		var novoCursor = pre_cursor.instance()
+		novoCursor.set_position($cursor.get_position())
+		novoCursor.set_sprite_frames($cursor.get_sprite_frames())
+		novoCursor.set_animation($cursor.get_animation())
+		novoCursor.set_frame($cursor.get_frame())
+		novoCursor.set_visible(true)
+		add_child(novoCursor)
+		clicavel=false
+		
+		listaCursoresSobressalentes.append(novoCursor)
+		
+		listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
+		
+	if(numSelecionados<numSelecao):
+		numSelecionados+=1
+		vetorSelecionados.append(matrizPosicao[posicaoXCursor][posicaoYCursor])
+	if(numSelecionados>=numSelecao):
+		if(!clicavel):
+			clicavel=true
+			
+		emSelecao=false
+		$cursor.set_visible(false)
+		chamaAcao(vetorSelecionados) # envias a ação
+		listaSelecionados=[]
+		for i in len(listaCursoresSobressalentes):
+			listaCursoresSobressalentes[i].queue_free()
+		listaCursoresSobressalentes=[]
 		
 func desenhaCursorSelecao(delta):
 	
