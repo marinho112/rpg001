@@ -25,27 +25,30 @@ func golpeia(area):
 
 
 func _on_ataque_simples_area_entered(area):
+	
 	if(is_in_group(Constantes.GRUPO_ALIADOS)):
 		if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
-			golpeia(area)
+			if(area.bloqueado<=0):
+				golpeia(area)
 	elif(is_in_group(Constantes.GRUPO_INIMIGO)):
-		if(is_in_group(Constantes.GRUPO_ALIADOS)):
-			golpeia((area))
-	
+		if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
+			if(area.bloqueado<=0):
+				golpeia((area))
+				
 	pass # Replace with function body.
 
 
 func _on_timer_timeout():
 	deleta = true
 	for i in len(lista):
-		if(listaHits[i]<numHits):
-			get_parent().calculaDano(lista[i])
+		if((listaHits[i]<numHits)):
+			get_parent().calculaAcerto(lista[i])
 			listaHits[i]+=1
 			deleta=false
-			#print("HIT!")
+			
 	
 	if(deleta and (!is_visible())):
-		#print(str(self)+": Morri!")
+		
 		queue_free()
 	
 	deleta=false

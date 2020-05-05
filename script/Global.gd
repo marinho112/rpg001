@@ -20,6 +20,7 @@ class personagem:
 	
 	var dano
 	var danoMagico
+	var danoDistancia
 	var defesa
 	var defesamagica
 	var acerto
@@ -40,7 +41,11 @@ class personagem:
 	var habilidadesPassivas=[]
 	
 	
-	func _init(lv=1,classe=0,forca=1,agi=1,des=1,vit=1,inte=1,will=1):
+	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
+		
+		var divisor = 5000.0
+		
+		#Atributos variam de 1 ~100
 		
 		self.lv=lv
 		self.classe=classe
@@ -51,17 +56,20 @@ class personagem:
 		self.inteligencia=inte
 		self.will=will
 		
-		self.dano = self.forca + (self.forca*self.destreza/50)
-		self.danoMagico = self.inteligencia + (self.inteligencia*self.will/50)
-		self.defesa = self.vitalidade + (self.vitalidade*self.agilidade/50)
-		self.defesamagica = self.will + (self.vitalidade*self.will/50)
-		self.acerto=self.destreza + (self.destreza+self.agilidade/50)
-		self.acertoMagico=self.destreza + (self.destreza+self.inteligencia/50)
-		self.esquiva=self.agilidade + (self.destreza+self.agilidade/50)
-		self.esquivaMagica=self.agilidade + (self.inteligencia+self.agilidade/50)
-		self.bloqueio=self.destreza+ (self.destreza + self.forca/50)
-		self.bloqueioMagico=self.destreza+ (self.destreza + self.will/50)
-
+		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
+		
+		self.dano = int((self.forca/10.0) + (self.forca*self.destreza/divisor))
+		self.danoMagico = int((self.inteligencia/10.0) + (self.inteligencia*self.will/divisor))
+		self.danoDistancia = int((self.destreza/10.0) + (self.destreza*self.forca/divisor))
+		self.defesa = int((self.vitalidade/10.0) + (self.vitalidade*self.agilidade/divisor))
+		self.defesamagica = int((self.will/10.0) + (self.vitalidade*self.will/divisor))
+		self.acerto=int((self.destreza/10.0) + (self.destreza+self.agilidade/divisor))
+		self.acertoMagico=int((self.destreza/10.0) + (self.destreza+self.inteligencia/divisor))
+		self.esquiva=int((self.agilidade/10.0) + (self.destreza+self.agilidade/divisor))
+		self.esquivaMagica=int((self.agilidade/10.0) + (self.inteligencia+self.agilidade/divisor))
+		self.bloqueio=int((self.destreza/10.0)+ (self.destreza + self.forca/divisor))
+		self.bloqueioMagico=int((self.destreza/10)+ (self.destreza + self.will/divisor))
+		
 class personagemParty extends personagem:
 	
 	var menu=[]

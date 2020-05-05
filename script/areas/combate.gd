@@ -75,7 +75,7 @@ func _ready():
 	listaInimigos[5].posicaoCombate = 5
 	
 	for i in 3:
-		listaAmigos.remove(randi()%(len(listaAmigos)+1))
+		pass#listaAmigos.remove(randi()%(len(listaAmigos)+1))
 	
 	for i in 3:
 		listaInimigos.remove(randi()%(len(listaInimigos)+1))
@@ -122,7 +122,6 @@ func _process(delta):
 				menu.personagemTurno = daVez
 				controleDeTurno = false
 			else:
-				print("turno do monstro: "+ str(turno))
 				turno+=1
 		if(turno>=len(listaTurnos)):
 			turno=0
@@ -155,6 +154,7 @@ func carregar_personagens():
 	for i in tamanhoAmigo:
 		var item= listaAmigos[i]
 		var personagem = pre_personagem.instance()
+		personagem.virado = false
 		personagem.get_node("AnimatedSprite").set_animation("default")
 		listaAmigosObjeto.append(personagem)
 		add_child(personagem)
@@ -419,7 +419,6 @@ func seleciona(tipoSelecao,numSelecao,tipoAcao,codAcao,fonte):
 func terminaTurno():
 	controleDeTurno = true
 	turno+=1
-	print("ESTAMOS NO TURNO: "+ str(turno))
 		
 
 func alertaCombate(titulo,texto,tempo,pausar):
