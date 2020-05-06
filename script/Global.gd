@@ -43,7 +43,10 @@ class personagem:
 	
 	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
 		
-		#forca = (randi()%1000)
+		forca = (randi()%1000)
+		des = (randi()%1000)
+		agi = (randi()%1000)
+		vit = (randi()%1000)
 		
 		
 		var divisor = 5000.0

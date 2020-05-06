@@ -264,9 +264,6 @@ func calculaDano(alvo):
 	var ved= alvoinfo.esferasDefesa
 	
 	
-	personagem.esferasAtaque = 1
-	alvoinfo.esferasDefesa = 1
-	
 	if(golpeMagico):
 		dano= personagem.danoMagico
 		defesa = alvoinfo.defesaMagica
@@ -300,7 +297,7 @@ func calculaAcerto(alvo):
 	var valoresAlvo = alvo.personagem
 	var acerto = personagem.acerto
 	var esquiva = valoresAlvo.esquiva 
-	var bloqueio = valoresAlvo.bloqueio -100
+	var bloqueio = valoresAlvo.bloqueio 
 		
 	if(golpeMagico):
 		acerto = personagem.acertoMagico
@@ -308,15 +305,24 @@ func calculaAcerto(alvo):
 		bloqueio = valoresAlvo.bloqueioMagico
 	
 	
-		
 	var chanceBloqueio = acertoFormula(acerto,bloqueio)
 	var chanceEsquiva = acertoFormula(acerto,esquiva)
 	
 	
+	var diferencaEsferas = personagem.esferasAcerto - valoresAlvo.esferasEsquiva
+	if (diferencaEsferas<0):
+		diferencaEsferas*=-1
+		chanceBloqueio =chanceBloqueio / (1+(0.5*diferencaEsferas)) 
+		chanceEsquiva = chanceEsquiva / (1+(0.5*diferencaEsferas)) 
+	elif(diferencaEsferas>0):
+		chanceBloqueio += chanceBloqueio * diferencaEsferas * 0.5
+		chanceEsquiva += chanceEsquiva * diferencaEsferas * 0.5
+	
 	if((randi()%1000 <= chanceBloqueio*10) and golpeBloqueavel):
-		
+		print(str(chanceBloqueio))
 		foiBloquado(1,alvo)
 	elif((randi()%1000<=chanceEsquiva*10) and !intangivel and golpeEsquivavel):
+		print(str(chanceEsquiva))
 		criarMsgDano(0)
 	else:
 		alvo.sofreDano(calculaDano(alvo))
