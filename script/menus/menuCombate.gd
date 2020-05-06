@@ -15,8 +15,8 @@ var contaTempo=0
 
 func _ready():
 	linhas = [get_node("linha 1"),get_node("linha 2"),get_node("linha 3"),get_node("linha 4"),get_node("linha 5"),get_node("linha 6"),get_node("linha 7"),get_node("linha 8")]
+	itens.append(Global.elementoMenu.new("Atacar",1))
 	itens.append(Global.elementoMenu.new("Item1",0,itens))
-	itens.append(Global.elementoMenu.new("Item2",1))
 	itens.append(Global.elementoMenu.new("Item3",0,itens2))
 	
 	itens2.append(Global.elementoMenu.new("Item4",0,itens2))
@@ -77,6 +77,7 @@ func _process(delta):
 					
 		
 		atualizaPosicao()
+		desenhaEsferas()
 	pass
 	
 
@@ -109,8 +110,23 @@ func desenhaMenu():
 		linhas[i].set_text(lista[i+primeiro].texto)
 		pass
 	
+	desenhaEsferas()
 	atualizaPosicao()
 
+func desenhaEsferas():
+	if(personagemTurno != null):
+		var EA = personagemTurno.personagem.esferasAtaque
+		var ED = personagemTurno.personagem.esferasDefesa
+		var EAc = personagemTurno.personagem.esferasAcerto
+		var EE = personagemTurno.personagem.esferasEsquiva
+		var EM = personagemTurno.personagem.esferas
+		EM -= EA+ED+EAc+EE
+		
+		$esferas/lbl_esfera_Dano.set_text(str(EA))
+		$esferas/lbl_esfera_Defesa.set_text(str(ED))
+		$esferas/lbl_esfera_Acerto.set_text(str(EAc))
+		$esferas/lbl_esfera_Esquiva.set_text(str(EE))
+		$esferas/lbl_esfera_Morta.set_text(str(EM))
 
 func zerarLinhas():
 	for i in 8:

@@ -224,11 +224,10 @@ func bloqueado(area):
 			if(is_in_group(Constantes.GRUPO_ALIADOS)):
 				if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
 					foiBloquado(2,area)
-					print(str(area.personagem.posicaoCombate))
+
 			elif(is_in_group(Constantes.GRUPO_INIMIGO)):
 				if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
 					foiBloquado(2,area)
-					print(str(area.personagem.posicaoCombate))
 
 func foiBloquado(tipo,bloqueador):
 	bloqueado=tipo
@@ -355,6 +354,7 @@ func criarMsgDano(valor):
 	var lbl = msgDano.get_node("Label")
 	if(valor==0):
 		lbl.set_text("Miss!")
+		var fonte = lbl.get_font("font")
 	else: 
 		lbl.set_text(str(valor))
 		

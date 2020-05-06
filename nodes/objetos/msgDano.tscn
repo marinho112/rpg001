@@ -4,7 +4,7 @@
 [ext_resource path="res://fontes/quicksand/Quicksand-BoldItalic.otf" type="DynamicFontData" id=2]
 
 [sub_resource type="DynamicFont" id=1]
-size = 18
+size = 30
 font_data = ExtResource( 2 )
 
 [node name="msgDano" type="Node2D"]

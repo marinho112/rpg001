@@ -31,10 +31,10 @@ class personagem:
 	var bloqueioMagico
 	
 	
-	var esferasAtaque = 1
-	var esferasDefesa = 1
-	var esferasEsquiva = 1
-	var esferasAcerto = 1
+	var esferasAtaque  = 1
+	var esferasDefesa  = 1
+	var esferasEsquiva  = 1
+	var esferasAcerto  = 1
 	
 	
 	var habilidadesOfensivas=[]
@@ -42,6 +42,9 @@ class personagem:
 	
 	
 	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
+		
+		#forca = (randi()%1000)
+		
 		
 		var divisor = 5000.0
 		
