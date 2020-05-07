@@ -100,7 +100,6 @@ func atacar(atacados,tipoAtaque):
 
 
 func controlaAtaque(delta):
-	
 	match controlaAtaque:
 		
 		0:
@@ -147,7 +146,8 @@ func controlaAtaque(delta):
 			$AnimationPlayer.stop()
 			controlaAtaque=9
 			get_parent().terminaTurno()
-			
+		_:
+			pass
 	
 func moverAtaque(delta):
 
@@ -162,6 +162,8 @@ func moverAtaque(delta):
 		var anim = inimigoAtacado.get_node("AnimatedSprite").get_animation()
 		var frame =inimigoAtacado.get_node("AnimatedSprite").get_frame()
 		var atacadoTamanho=frames.get_frame(anim,frame).get_size()
+		if(atacadoTamanho.x< 50):
+			atacadoTamanho.x += 50 -(atacadoTamanho.x/2)
 		var position= get_position()
 		var distanciaX= (atacadoTamanho.x + posiAtacado.x) - (position.x)
 		var distanciaY= ((posiAtacado.y) - (position.y) )
@@ -299,11 +301,13 @@ func calculaAcerto(alvo):
 	var esquiva = valoresAlvo.esquiva 
 	var bloqueio = valoresAlvo.bloqueio 
 		
+	
 	if(golpeMagico):
 		acerto = personagem.acertoMagico
 		esquiva = valoresAlvo.esquivaMagico
 		bloqueio = valoresAlvo.bloqueioMagico
 	
+
 	
 	var chanceBloqueio = acertoFormula(acerto,bloqueio)
 	var chanceEsquiva = acertoFormula(acerto,esquiva)
@@ -319,10 +323,10 @@ func calculaAcerto(alvo):
 		chanceEsquiva += chanceEsquiva * diferencaEsferas * 0.5
 	
 	if((randi()%1000 <= chanceBloqueio*10) and golpeBloqueavel):
-		print(str(chanceBloqueio))
+		#print(str(chanceBloqueio))
 		foiBloquado(1,alvo)
 	elif((randi()%1000<=chanceEsquiva*10) and !intangivel and golpeEsquivavel):
-		print(str(chanceEsquiva))
+		#print(str(chanceEsquiva))
 		criarMsgDano(0)
 	else:
 		alvo.sofreDano(calculaDano(alvo))

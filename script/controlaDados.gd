@@ -23,7 +23,7 @@ func carregaInfoPersonagemMob(id):
 					var dividido = conteudo.split(",")
 					if(dividido[0] == str(id)):
 						var mob=converteMobInString(dividido)
-						print(mob.nome)
+						return mob
 	else:
 		print("ERRO!!")
 	arquivo.close()
@@ -31,7 +31,7 @@ func carregaInfoPersonagemMob(id):
 func converteMobInString(dividido):
 	
 				var mob = Global.personagemMob.new()
-				for i in 19:
+				for i in 20:
 					mob.ID = int(dividido[0])
 					mob.nome = dividido[1]
 					mob.lv = int(dividido[2])
@@ -49,8 +49,9 @@ func converteMobInString(dividido):
 					mob.raca=int(dividido[14])
 					mob.raca_secundaria=int(dividido[15])
 					mob.propriedade=int(dividido[16])
-					mob.inteligencia=dividido[17]
+					mob.ai=dividido[17]
 					mob.sprite=dividido[18]
+					mob.tamanho=int(dividido[19])
 				return mob
 				
 			

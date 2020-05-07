@@ -48,8 +48,7 @@ var atacante
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	
-	ControlaDados.carregaInfoPersonagemMob(1001)
+	#ControlaDados.carregaInfoPersonagemMob(1001)
 	
 	listaAmigos.append(Global.personagemParty.new())
 	listaAmigos[0].posicaoCombate=5
@@ -64,29 +63,26 @@ func _ready():
 	listaAmigos.append(Global.personagemParty.new())
 	listaAmigos[5].posicaoCombate=1
 	
-	
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[0].posicaoCombate = 0
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[1].posicaoCombate = 1
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[2].posicaoCombate = 2
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[3].posicaoCombate = 3
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[4].posicaoCombate = 4
-	listaInimigos.append(Global.personagemMob.new())
-	listaInimigos[5].posicaoCombate = 5
+	carregaListaInimigos([1001,1001])
 	
 	for i in 3:
 		pass#listaAmigos.remove(randi()%(len(listaAmigos)+1))
 	
-	for i in 3:
-		listaInimigos.remove(randi()%(len(listaInimigos)+1))
-	
 	carregar_personagens()
 	set_process(true)
 	pass # Replace with function body.
+
+func carregaListaInimigos(lista):
+	var listaPosicoes=[0,1,2,3,4,5]
+	listaPosicoes.shuffle()
+	listaInimigos = []
+	
+	for i in len(lista):
+		var objeto = ControlaDados.carregaInfoPersonagemMob(lista[i])
+		if(objeto != null):
+			objeto.calculaAtributos()
+			objeto.posicaoCombate=listaPosicoes[i]
+			listaInimigos.append(objeto)
 
 func desenhaMatrizPosicao():
 	for i in 4:
@@ -179,6 +175,9 @@ func carregar_personagens():
 		var item= listaInimigos[i]
 		var personagem = pre_personagem.instance()
 		personagem.virado = true
+		var raiz= "res://sprites/frames/Combate/"+ item.sprite +".tres"
+		var frame = load(raiz)
+		personagem.get_node("AnimatedSprite").set_sprite_frames(frame)
 		personagem.get_node("AnimatedSprite").set_flip_h(true)
 		personagem.get_node("AnimatedSprite").set_animation("default")
 		personagem.personagem=item
