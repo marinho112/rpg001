@@ -22,11 +22,21 @@ class Ataque:
 	var golpeEsquivavel = true
 	var golpeDistancia= false
 	var golpeMagico = false
-	var golpeElemento=0
-	var golpeTipoDano=0
+	var golpeElemento= Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO
+	var golpeTipoDano= Constantes.TIPO_DE_DANO_CONTUSIVO
+	
+	var skillRatio = 100
+	
+	func _init(personagem=null):
+		
+		if(personagem!=null):
+			if(personagem.equipeDireita != null):
+				golpeTipoDano = personagem.equipeDireita.tipoDano
+				golpeElemento = personagem.equipeDireita.elemento
 	
 class Ataque_Basico_Fisico_Corpo_a_Corpo extends Ataque:
 	
-	func _init():
-		idAtaque=10000
+	func _init(personagem):
+		
+		idAtaque=Constantes.ATAQUE_BASICO_FISICO_CORPO_A_CORPO
 		distanciaDeSurgimentoDoGolpe = 50

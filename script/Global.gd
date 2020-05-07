@@ -27,9 +27,9 @@ class personagem:
 	var inteligenciaBonus
 	var willBonus
 	
-	var raca
-	var raca_secundaria
-	var propriedade
+	var raca = Constantes.RACA_HUMANOIDE
+	var raca_secundaria = Constantes.RACA_SECUNDARIA_HUMANO
+	var propriedade = Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO
 	
 	# Salvar no save
 	var posicaoCombate
@@ -50,7 +50,7 @@ class personagem:
 	var danoMagico
 	var danoDistancia
 	var defesa
-	var defesamagica
+	var defesaMagica
 	var acerto
 	var esquiva
 	var bloqueio
@@ -62,7 +62,7 @@ class personagem:
 	var danoMagicoBonus
 	var danoDistanciaBonus
 	var defesaBonus
-	var defesamagicaBonus
+	var defesaMagicaBonus
 	var acertoBonus
 	var esquivaBonus
 	var bloqueioBonus
@@ -84,7 +84,7 @@ class personagem:
 		danoMagicoBonus=0
 		danoDistanciaBonus=0
 		defesaBonus=0
-		defesamagicaBonus=0
+		defesaMagicaBonus=0
 		acertoBonus=0
 		esquivaBonus=0
 		bloqueioBonus=0
@@ -116,13 +116,18 @@ class personagem:
 		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
 	func calculaAtributos():
 		
+		zerarBonus()
+		
+		for item in habilidadesPassivas:
+			ativaEfeitoPassivoCampo(item)
+		
 		var divisor = 5000.0
 		
 		dano = int(((forca+forcaBonus)/10.0) + ((forca+forcaBonus)*(destreza+destrezaBonus)/divisor))
 		danoMagico = int(((inteligencia+inteligenciaBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(will+willBonus)/divisor))
 		danoDistancia = int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(forca+forcaBonus)/divisor))
 		defesa = int(((vitalidade+vitalidadeBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(agilidade+agilidadeBonus)/divisor))
-		defesamagica = int(((will+willBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(will+willBonus)/divisor))
+		defesaMagica = int(((will+willBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(will+willBonus)/divisor))
 		acerto=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
 		acertoMagico=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(inteligencia+inteligenciaBonus)/divisor))
 		esquiva=int(((agilidade+agilidadeBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
@@ -130,22 +135,45 @@ class personagem:
 		bloqueio=int(((destreza+destrezaBonus)/10.0)+ ((destreza+destrezaBonus) * (forca+forcaBonus)/divisor))
 		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))
 		
-					
+		
+	func ativaEfeitoPassivoCampo(item):
+		if(item!=null):
+			item.efeitoPassivo(self)
+
 class personagemParty extends personagem:
 	
 	var menu=[]
+	var listaItensUtilizaveis=[]
+	var listaItensComuns=[]
+	var listaItensEquipamentos=[]
 	
 	var equipeCabeca
 	var equipeCorpo
+	var equipeMaos
 	var equipeDireita
 	var equipeEsquerda
-	var equipeSapato
+	var equipePes
 	var equipeAcessorio1
 	var equipeAcessorio2
 	var equipeAcessorio3
 	var equipeAcessorio4
 	
 	var SextaEsferaDesbloqueada=false
+	
+	func calculaAtributos():
+		.calculaAtributos()
+		
+		ativaEfeitoPassivoCampo(equipeCabeca)
+		ativaEfeitoPassivoCampo(equipeCorpo)
+		ativaEfeitoPassivoCampo(equipeMaos)
+		ativaEfeitoPassivoCampo(equipeDireita)
+		ativaEfeitoPassivoCampo(equipeEsquerda)
+		ativaEfeitoPassivoCampo(equipePes)
+		ativaEfeitoPassivoCampo(equipeAcessorio1)
+		ativaEfeitoPassivoCampo(equipeAcessorio2)
+		ativaEfeitoPassivoCampo(equipeAcessorio3)
+		ativaEfeitoPassivoCampo(equipeAcessorio4)
+
 	
 class personagemMob extends personagem:
 	

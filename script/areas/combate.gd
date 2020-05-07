@@ -52,6 +52,11 @@ func _ready():
 	
 	listaAmigos.append(Global.personagemParty.new())
 	listaAmigos[0].posicaoCombate=5
+	var arma = Equipamentos.equipamento_arma.new()
+	arma.dano=10
+	arma.defesa= 10
+	listaAmigos[0].equipeDireita= arma
+	listaAmigos[0].calculaAtributos()
 	listaAmigos.append(Global.personagemParty.new())
 	listaAmigos[1].posicaoCombate=4
 	listaAmigos.append(Global.personagemParty.new())

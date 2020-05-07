@@ -44,7 +44,6 @@ func _on_timer_timeout():
 	deleta = true
 	for i in len(lista):
 		
-		print(str(lista[i]))
 		if((listaHits[i]<numHits)):
 			get_parent().calculaAcerto(lista[i])
 			listaHits[i]+=1

@@ -221,19 +221,20 @@ func calculaDano(alvo):
 	
 	var alvoinfo = alvo.personagem
 	
-	var dano = personagem.dano
-	var defesa = alvoinfo.defesa
+	var dano = personagem.dano + personagem.danoBonus
+	var defesa = alvoinfo.defesa + alvoinfo.defesaBonus
 	var rd = (defesa/15.0)
-	
+	var danoPropriedade = calcularBonusPropriedade(ataque,alvoinfo)
+	var danoRaca = calculaBonusRaca(ataque,alvoinfo)
 	var vea= personagem.esferasAtaque
 	var ved= alvoinfo.esferasDefesa
 	
 	
 	if(ataque.golpeMagico):
-		dano= personagem.danoMagico
-		defesa = alvoinfo.defesaMagica
+		dano= personagem.danoMagico + personagem.danoMagicoBonus
+		defesa = alvoinfo.defesaMagica + alvoinfo.defesaMagicaBonus
 	elif(ataque.golpeDistancia):
-		dano= personagem.danoDistancia
+		dano= personagem.danoDistancia + personagem.danoDistanciaBonus
 	
 	dano = (3*dano) + ((dano/8.0)*(dano/8.0)) 
 	
@@ -242,7 +243,13 @@ func calculaDano(alvo):
 	
 	rd *= 1 +(0.25* alvoinfo.esferasDefesa)
 	
+	
 	dano = int(dano + (dano*vea*vea/2.0))
+	
+	#Multiplicadores
+	dano = int(dano*danoRaca/100.0)
+	dano = int(dano*danoPropriedade/100.0)
+	dano = int(dano*ataque.skillRatio/100.0)
 	
 	defesa = int(defesa + (defesa*ved*ved/2.0))
 	
@@ -255,14 +262,74 @@ func calculaDano(alvo):
 	return danoCausado
 	
 
-
-
+func calcularBonusPropriedade(atacante,alvo):
+	var bonus = 100
+	var at = atacante.golpeElemento
+	var al =alvo.propriedade
+	match at:
+		Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO:
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_FANTASMA):
+				bonus -=75
+		Constantes.PROPRIEDADE_DO_ATAQUE_AGUA:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_GELO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_VENTO)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_AGUA)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_RAIO:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_PLANTA)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_AGUA)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_TERRA)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_TERRA:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_AGUA)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_PLANTA)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_TERRA)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_PLANTA:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_TERRA)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_PLANTA)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_FOGO:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_GELO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_PLANTA)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_VENTO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_VENTO:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_TERRA)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_GELO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_VENTO)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_GELO:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_VENTO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO)):
+				bonus += 50
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_GELO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_AGUA)):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_MALIGNO:
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_FANTASMA):
+				bonus += 50
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_MALIGNO):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_SAGRADO:
+			if((al == Constantes.PROPRIEDADE_DO_ATAQUE_MALIGNO)or(al == Constantes.PROPRIEDADE_DO_ATAQUE_FANTASMA)):
+				bonus += 50
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_SAGRADO):
+				bonus -=25
+		Constantes.PROPRIEDADE_DO_ATAQUE_FANTASMA:
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO):
+				bonus += 50
+			if(al == Constantes.PROPRIEDADE_DO_ATAQUE_MALIGNO):
+				bonus -=25
+				
+	return bonus
+	
+	
 func calculaAcerto(alvo):
 	
 	var valoresAlvo = alvo.personagem
-	var acerto = personagem.acerto
-	var esquiva = valoresAlvo.esquiva 
-	var bloqueio = valoresAlvo.bloqueio 
+	var acerto = personagem.acerto + personagem.acertoBonus
+	var esquiva = valoresAlvo.esquiva + valoresAlvo.esquivaBonus
+	var bloqueio = valoresAlvo.bloqueio + valoresAlvo.bloqueioBonus
 		
 	
 	if(ataque.golpeMagico):
@@ -285,15 +352,59 @@ func calculaAcerto(alvo):
 		chanceBloqueio += chanceBloqueio * diferencaEsferas * 0.5
 		chanceEsquiva += chanceEsquiva * diferencaEsferas * 0.5
 	if((randi()%1000 <= chanceBloqueio*10) and ataque.golpeBloqueavel):
-		#print("bloqueio")
+		
 		foiBloquado(1,alvo)
 	elif((randi()%1000<=chanceEsquiva*10) and !intangivel and ataque.golpeEsquivavel):
-		#print("esquiva")
+		
 		criarMsgDano(0)
 	else:
-		#print("acerto")
+		
 		alvo.sofreDano(calculaDano(alvo))
 
+func calculaBonusRaca(atacante,alvo):
+	var bonus = 100
+	var alvoRaca = alvo.raca
+	var propriedade = atacante.golpeElemento
+	var tipoAtaque = atacante.golpeTipoDano
+	
+	match alvoRaca:
+		
+		Constantes.RACA_FERA:
+			if(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO):
+				bonus+=25
+		Constantes.RACA_PEIXE:
+			if(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO):
+				bonus+=25
+		Constantes.RACA_AVE:
+			if(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_TERRA):
+				bonus+=25
+		Constantes.RACA_ELEMENTAL:
+			if(tipoAtaque == Constantes.TIPO_DE_DANO_IMATERIAL):
+				bonus+=50
+			else:
+				bonus-=50
+		Constantes.RACA_DRAGAO:
+			if(tipoAtaque != Constantes.TIPO_DE_DANO_IMATERIAL):
+				bonus-=50
+		Constantes.RACA_MORTO_VIVO:
+			if(tipoAtaque != Constantes.TIPO_DE_DANO_PERFURANTE):
+				bonus-=50
+			if(tipoAtaque != Constantes.TIPO_DE_DANO_CORTANTE):
+				bonus-=25
+		Constantes.RACA_DEMONIO:
+			if(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_SAGRADO):
+				bonus +=25
+		Constantes.RACA_GOLEN:
+			if(tipoAtaque != Constantes.TIPO_DE_DANO_PERFURANTE):
+				bonus-=75
+		Constantes.RACA_PLANTA:
+			if(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_FOGO):
+				bonus+=25
+		Constantes.RACA_MAQUINA:
+			if((propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_AGUA)or(propriedade == Constantes.PROPRIEDADE_DO_ATAQUE_RAIO)):
+				bonus+=50
+	
+	return bonus
 
 func acertoFormula(num1,num2):
 	var dif = 0
