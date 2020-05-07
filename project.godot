@@ -21,8 +21,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://script/Global.gd"
 Constantes="*res://script/Constantes.gd"
+Sprites="*res://script/Sprites.gd"
+Global="*res://script/Global.gd"
+ControlaDados="*res://script/controlaDados.gd"
 
 [display]
 

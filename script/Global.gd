@@ -1,23 +1,44 @@
 extends Node
 
 class personagem:
+	
+	#salvar no DB
+	var ID 
+	var nome
 	var lv =1
 	var classe =0
 	var esferas=5
-	var posicaoCombate
-		
+	var experiencia
+	
 	var hpMaximo
-	var hpAtual
 	var mpMaximo
+	
+	var forca = 10
+	var agilidade =10
+	var destreza =10
+	var vitalidade =10 
+	var inteligencia=10
+	var will=10
+	
+	var raca
+	var raca_secundaria
+	var propriedade
+	
+	# Salvar no save
+	var posicaoCombate
+	var hpAtual
 	var mpAtual
+		
+	var esferasAtaque  = 1
+	var esferasDefesa  = 1
+	var esferasEsquiva  = 1
+	var esferasAcerto  = 1
 	
-	var forca = 1
-	var agilidade =1
-	var destreza =1
-	var vitalidade =1 
-	var inteligencia=1
-	var will=1
+	var status = []
+	var habilidadesOfensivas=[]
+	var habilidadesPassivas=[]
 	
+	#Apenas Calculado
 	var dano
 	var danoMagico
 	var danoDistancia
@@ -30,15 +51,6 @@ class personagem:
 	var esquivaMagica
 	var bloqueioMagico
 	
-	
-	var esferasAtaque  = 1
-	var esferasDefesa  = 1
-	var esferasEsquiva  = 1
-	var esferasAcerto  = 1
-	
-	
-	var habilidadesOfensivas=[]
-	var habilidadesPassivas=[]
 	
 	
 	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
@@ -93,9 +105,13 @@ class personagemParty extends personagem:
 	var SextaEsferaDesbloqueada=false
 	
 class personagemMob extends personagem:
-
-	var Inteligencia
+	
 	var caracteristicas = []
+	
+	#Salvar no DB 
+	var Inteligencia
+	var sprite
+	
 	
 class elementoMenu:
 	var texto

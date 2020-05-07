@@ -47,6 +47,10 @@ var atacante
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	
+	ControlaDados.carregaInfoPersonagemMob(1001)
+	
 	listaAmigos.append(Global.personagemParty.new())
 	listaAmigos[0].posicaoCombate=5
 	listaAmigos.append(Global.personagemParty.new())
