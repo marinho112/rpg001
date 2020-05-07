@@ -25,6 +25,7 @@ Constantes="*res://script/Constantes.gd"
 Sprites="*res://script/Sprites.gd"
 Global="*res://script/Global.gd"
 ControlaDados="*res://script/controlaDados.gd"
+GolpesClasses="*res://script/golpes/golpes_classes.gd"
 
 [display]
 

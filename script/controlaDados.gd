@@ -50,7 +50,7 @@ func converteMobInString(dividido):
 					mob.raca_secundaria=int(dividido[15])
 					mob.propriedade=int(dividido[16])
 					mob.ai=dividido[17]
-					mob.sprite=dividido[18]
+					mob.node=dividido[18]
 					mob.tamanho=int(dividido[19])
 				return mob
 				

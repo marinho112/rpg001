@@ -20,6 +20,13 @@ class personagem:
 	var inteligencia=10
 	var will=10
 	
+	var forcaBonus 
+	var agilidadeBonus 
+	var destrezaBonus 
+	var vitalidadeBonus 
+	var inteligenciaBonus
+	var willBonus
+	
 	var raca
 	var raca_secundaria
 	var propriedade
@@ -51,15 +58,49 @@ class personagem:
 	var esquivaMagica
 	var bloqueioMagico
 	
+	var danoBonus
+	var danoMagicoBonus
+	var danoDistanciaBonus
+	var defesaBonus
+	var defesamagicaBonus
+	var acertoBonus
+	var esquivaBonus
+	var bloqueioBonus
+	var acertoMagicoBonus
+	var esquivaMagicaBonus
+	var bloqueioMagicoBonus
 	
 	
+	func zerarBonus():
+		
+		forcaBonus = 0
+		agilidadeBonus =0
+		destrezaBonus =0
+		vitalidadeBonus =0 
+		inteligenciaBonus=0
+		willBonus=0
+		
+		danoBonus=0
+		danoMagicoBonus=0
+		danoDistanciaBonus=0
+		defesaBonus=0
+		defesamagicaBonus=0
+		acertoBonus=0
+		esquivaBonus=0
+		bloqueioBonus=0
+		acertoMagicoBonus=0
+		esquivaMagicaBonus=0
+		bloqueioMagicoBonus=0
+		
 	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
 		
-		forca = (randi()%100)
-		des = (randi()%100)
-		agi = (randi()%100)
-		vit = (randi()%100)
+		forca += (randi()%100)
+		des += (randi()%100)
+		agi += (randi()%100)
+		vit += (randi()%100)
 		#Atributos variam de 1 ~100
+		
+		zerarBonus()
 		
 		self.lv=lv
 		self.classe=classe
@@ -77,19 +118,19 @@ class personagem:
 		
 		var divisor = 5000.0
 		
-		self.dano = int((self.forca/10.0) + (self.forca*self.destreza/divisor))
-		self.danoMagico = int((self.inteligencia/10.0) + (self.inteligencia*self.will/divisor))
-		self.danoDistancia = int((self.destreza/10.0) + (self.destreza*self.forca/divisor))
-		self.defesa = int((self.vitalidade/10.0) + (self.vitalidade*self.agilidade/divisor))
-		self.defesamagica = int((self.will/10.0) + (self.vitalidade*self.will/divisor))
-		self.acerto=int((self.destreza/10.0) + (self.destreza*self.agilidade/divisor))
-		self.acertoMagico=int((self.destreza/10.0) + (self.destreza*self.inteligencia/divisor))
-		self.esquiva=int((self.agilidade/10.0) + (self.destreza*self.agilidade/divisor))
-		self.esquivaMagica=int((self.agilidade/10.0) + (self.inteligencia*self.agilidade/divisor))
-		self.bloqueio=int((self.destreza/10.0)+ (self.destreza * self.forca/divisor))
-		self.bloqueioMagico=int((self.destreza/10)+ (self.destreza * self.will/divisor))
+		dano = int(((forca+forcaBonus)/10.0) + ((forca+forcaBonus)*(destreza+destrezaBonus)/divisor))
+		danoMagico = int(((inteligencia+inteligenciaBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(will+willBonus)/divisor))
+		danoDistancia = int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(forca+forcaBonus)/divisor))
+		defesa = int(((vitalidade+vitalidadeBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(agilidade+agilidadeBonus)/divisor))
+		defesamagica = int(((will+willBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(will+willBonus)/divisor))
+		acerto=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
+		acertoMagico=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(inteligencia+inteligenciaBonus)/divisor))
+		esquiva=int(((agilidade+agilidadeBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
+		esquivaMagica=int(((agilidade+agilidadeBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(agilidade+agilidadeBonus)/divisor))
+		bloqueio=int(((destreza+destrezaBonus)/10.0)+ ((destreza+destrezaBonus) * (forca+forcaBonus)/divisor))
+		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))
 		
-			
+					
 class personagemParty extends personagem:
 	
 	var menu=[]
@@ -112,7 +153,7 @@ class personagemMob extends personagem:
 	
 	#Salvar no DB 
 	var ai
-	var sprite
+	var node
 	var tamanho 
 	
 	func calculaAtributos():

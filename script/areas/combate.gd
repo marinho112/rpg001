@@ -21,7 +21,7 @@ var tamanhoAmigo
 var tamanhoInimigo
 var numSelecao =1
 var acaoPretendida
-var valorAcaoPretendida
+var AcaoPretendida
 
 
 #Variaveis de Controle
@@ -173,13 +173,13 @@ func carregar_personagens():
 		
 	for i in tamanhoInimigo:
 		var item= listaInimigos[i]
-		var personagem = pre_personagem.instance()
+		
+		#var personagem = pre_personagem.instance()
+		
+		var raiz= "res://nodes/objetos/Mobs/"+ item.node +".tscn"
+		var personagem = load(raiz).instance()
 		personagem.virado = true
-		var raiz= "res://sprites/frames/Combate/"+ item.sprite +".tres"
-		var frame = load(raiz)
-		personagem.get_node("AnimatedSprite").set_sprite_frames(frame)
-		personagem.get_node("AnimatedSprite").set_flip_h(true)
-		personagem.get_node("AnimatedSprite").set_animation("default")
+		personagem.get_node("AnimatedSprite").set_flip_h(personagem.virado)
 		personagem.personagem=item
 		listaInimigosObjeto.append(personagem)
 		add_child(personagem)
@@ -370,12 +370,12 @@ func chamaAcao(alvos):
 	match acaoPretendida:
 		
 		0:
-			atacante.atacar(alvos,valorAcaoPretendida)
+			atacante.atacar(alvos,AcaoPretendida)
 
 func seleciona(tipoSelecao,numSelecao,tipoAcao,codAcao,fonte):
 	
 	acaoPretendida=tipoAcao
-	valorAcaoPretendida=codAcao
+	AcaoPretendida=codAcao
 	atacante=fonte
 	emSelecao=true
 	vetorSelecionados=[]

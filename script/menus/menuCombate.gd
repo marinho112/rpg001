@@ -88,7 +88,7 @@ func ativaAcaoBtn(botao):
 			desenhaMenu()
 		1: 
 			ativado=false
-			get_parent().seleciona(0,1,0,0,personagemTurno)
+			get_parent().seleciona(0,1,0,GolpesClasses.Ataque_Basico_Fisico_Corpo_a_Corpo.new(),personagemTurno)
 		_:
 			print(botao.texto)
 	

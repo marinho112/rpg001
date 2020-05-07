@@ -26,10 +26,12 @@ func golpeia(area):
 
 func _on_ataque_simples_area_entered(area):
 	
+	
 	if(is_in_group(Constantes.GRUPO_ALIADOS)):
 		if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
 			if(area.bloqueado<=0):
 				golpeia(area)
+				
 	elif(is_in_group(Constantes.GRUPO_INIMIGO)):
 		if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
 			if(area.bloqueado<=0):
@@ -41,6 +43,8 @@ func _on_ataque_simples_area_entered(area):
 func _on_timer_timeout():
 	deleta = true
 	for i in len(lista):
+		
+		print(str(lista[i]))
 		if((listaHits[i]<numHits)):
 			get_parent().calculaAcerto(lista[i])
 			listaHits[i]+=1
