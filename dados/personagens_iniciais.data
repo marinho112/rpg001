@@ -1,0 +1,7 @@
+//0-id,1-nome,2-Lv,3-Classe,4-BaseHp,5-BaseMp,6-Forca,7-Agilidade,8-Destreza,9-Vitalidade,10-Inteligencia,11-Will,12-node,13-Raça Secundaria,14-Propriedade,
+//15-Golpes,16-Menu,17-Equipe Cabeça,18-Equipe Corpo,19-Equipe Maos,20-Equipe Direita,21-Equipe Esquerda,22-Equipe Pés,23-Equipe Acessorio1,24-Equipe Acessorio2
+//25-Equipe Acessorio3,26-Equipe Acessorio4
+// Classes: 50-Combatente, 51- Barbaro,52-Ranger,53-Clerigo,54-Guerreiro,55-Monge,56-Mago,57-Druida,58-Samurai,59-Ladino,60-Shaman
+//Raca Secundaria : 10-Humano,11-Goblin,12-Elfo,13-Gnomo,14-Anao,15-Orc,16-Fada,17-Troll,18-Tritao,19-Ent
+
+1001,Ze,1,54,10,10,30,30,30,30,30,30,ze,11,20,0,1001/1007/1006/1005,0,0,0,0,0,0,0,0,0,0

@@ -1,6 +1,6 @@
 extends Node
 
-
+var nome = ""
 class bonus:
 	
 	func efeitoInicioCombate(personagem):

@@ -50,23 +50,13 @@ func _ready():
 	
 	#ControlaDados.carregaInfoPersonagemMob(1001)
 	
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[0].posicaoCombate=5
+	
+	listaAmigos.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
+	#listaAmigos[0]=(Global.personagemGrupo.new())
+	listaAmigos[0].posicaoCombate=0
 	var arma = Equipamentos.equipamento_arma.new()
 	arma.dano=10
 	arma.defesa= 10
-	listaAmigos[0].equipeDireita= arma
-	listaAmigos[0].calculaAtributos()
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[1].posicaoCombate=4
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[2].posicaoCombate=3
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[3].posicaoCombate=0
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[4].posicaoCombate=2
-	listaAmigos.append(Global.personagemParty.new())
-	listaAmigos[5].posicaoCombate=1
 	
 	carregaListaInimigos([1001,1001])
 	
@@ -76,6 +66,7 @@ func _ready():
 	carregar_personagens()
 	set_process(true)
 	pass # Replace with function body.
+
 
 func carregaListaInimigos(lista):
 	var listaPosicoes=[0,1,2,3,4,5]
@@ -125,6 +116,7 @@ func _process(delta):
 				var menu = get_node("menuCombate")
 				menu.ativado = true
 				menu.personagemTurno = daVez
+				menu.trocaPersonagemMenu()
 				controleDeTurno = false
 			else:
 				turno+=1

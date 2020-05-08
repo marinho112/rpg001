@@ -1,0 +1,9 @@
+//0-Id,1-Tipo,2-Texto,3-Proximo,4-Extra
+
+1001,200,Atacar,0,10000 #Golpe Fisico CaC
+1002,200,Atacar,0,10001 #Golpe Fisico Distancia
+1003,200,Atacar,0,10002 #Golpe Magico CaC
+1004,200,Atacar,0,10003 #Golpe Magico Distancia
+1005,202,Iten,0,0 # Abrir Lista Itens
+1006,203,Magias,0,0 #Abrir Lista Magias
+1007,2004,Habilidades,0,0 #Abrir Lista Habilidades

@@ -29,6 +29,7 @@ GolpesClasses="*res://script/golpes/golpes_classes.gd"
 Bonus="*res://script/bonus.gd"
 Equipamentos="*res://script/itens/equipamentos/equipamentos.gd"
 Status="*res://script/status/status.gd"
+Habilidades="*res://script/status/habilidades.gd"
 
 [display]
 

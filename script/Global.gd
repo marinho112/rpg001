@@ -27,6 +27,8 @@ class personagem:
 	var inteligenciaBonus
 	var willBonus
 	
+	
+	var node
 	var raca = Constantes.RACA_HUMANOIDE
 	var raca_secundaria = Constantes.RACA_SECUNDARIA_HUMANO
 	var propriedade = Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO
@@ -44,6 +46,7 @@ class personagem:
 	var status = []
 	var habilidadesOfensivas=[]
 	var habilidadesPassivas=[]
+	var listaItensUtilizaveis=[]
 	
 	#Apenas Calculado
 	var dano
@@ -140,10 +143,12 @@ class personagem:
 		if(item!=null):
 			item.efeitoPassivo(self)
 
-class personagemParty extends personagem:
+class personagemGrupo extends personagem:
+	
+	var baseHp
+	var baseMp
 	
 	var menu=[]
-	var listaItensUtilizaveis=[]
 	var listaItensComuns=[]
 	var listaItensEquipamentos=[]
 	
@@ -159,6 +164,7 @@ class personagemParty extends personagem:
 	var equipeAcessorio4
 	
 	var SextaEsferaDesbloqueada=false
+	
 	
 	func calculaAtributos():
 		.calculaAtributos()
@@ -181,7 +187,6 @@ class personagemMob extends personagem:
 	
 	#Salvar no DB 
 	var ai
-	var node
 	var tamanho 
 	
 	func calculaAtributos():
@@ -191,13 +196,13 @@ class personagemMob extends personagem:
 			esquiva = int(esquiva/(tamanho + 1.0))
 	
 class elementoMenu:
-	var texto
 	var tipo
+	var texto
 	var proximo
 	var extra
 	
 	
-	func _init(texto,tipo,proximo=null,extra=null):
+	func _init(tipo,texto,proximo=null,extra=null):
 		self.texto=texto
 		self.tipo=tipo
 		set_proximo(proximo)

@@ -3,6 +3,8 @@ extends Node
 
 class Ataque:
 	
+	var nome = ""
+	var custoMP = 0
 	#Caracteristicas ataque]
 	var idAtaque
 	var atacados=[]
@@ -26,6 +28,7 @@ class Ataque:
 	var golpeTipoDano= Constantes.TIPO_DE_DANO_CONTUSIVO
 	
 	var skillRatio = 100
+	var sprite
 	
 	func _init(personagem=null):
 		

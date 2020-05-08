@@ -15,13 +15,13 @@ var contaTempo=0
 
 func _ready():
 	linhas = [get_node("linha 1"),get_node("linha 2"),get_node("linha 3"),get_node("linha 4"),get_node("linha 5"),get_node("linha 6"),get_node("linha 7"),get_node("linha 8")]
-	itens.append(Global.elementoMenu.new("Atacar",1))
-	itens.append(Global.elementoMenu.new("Item1",0,itens))
-	itens.append(Global.elementoMenu.new("Item3",0,itens2))
+	itens.append(Global.elementoMenu.new(1,"Atacar"))
+	itens.append(Global.elementoMenu.new(0,"Item1",itens))
+	itens.append(Global.elementoMenu.new(0,"Item3",itens2))
 	
-	itens2.append(Global.elementoMenu.new("Item4",0,itens2))
-	itens2.append(Global.elementoMenu.new("Item5",1))
-	itens2.append(Global.elementoMenu.new("Item6",0,itens))
+	itens2.append(Global.elementoMenu.new(0,"Item4",itens2))
+	itens2.append(Global.elementoMenu.new(0,"Item5"))
+	itens2.append(Global.elementoMenu.new(0,"Item6",itens))
 	
 	lista=itens
 	desenhaMenu()
@@ -29,6 +29,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
+	
 	if(ativado):
 		if (Input.is_action_just_pressed("a")):
 			ativaAcaoBtn(lista[posicao+primeiro])
@@ -83,14 +84,14 @@ func _process(delta):
 
 func ativaAcaoBtn(botao):
 	match botao.tipo:
-		0:
-			lista=botao.proximo
-			desenhaMenu()
-		1: 
+		Constantes.TIPO_ELEMENTO_MENU_ITEM :
+			pass
+		Constantes.TIPO_ELEMENTO_MENU_ATAQUE: 
 			ativado=false
 			get_parent().seleciona(0,1,0,GolpesClasses.Ataque_Basico_Fisico_Corpo_a_Corpo.new(personagemTurno),personagemTurno)
 		_:
-			print(botao.texto)
+			lista=botao.proximo
+			desenhaMenu()
 	
 func atualizaPosicao():
 	var lugar=linhas[posicao].get_position()
@@ -98,8 +99,16 @@ func atualizaPosicao():
 	lugar.y+=10
 	$cursor.set_position(lugar)
 	
+func trocaPersonagemMenu():
+	if(personagemTurno != null):
+		if(personagemTurno.is_in_group(Constantes.GRUPO_ALIADOS)):
+			lista = personagemTurno.personagem.menu
+	
+	desenhaMenu()
+	
 func desenhaMenu():
 	zerarLinhas()
+	
 	
 	if(len(lista)<8):
 		tamanho = len(lista)

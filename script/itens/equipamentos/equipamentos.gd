@@ -3,13 +3,14 @@ extends Node
 
 class equipamento extends Bonus.bonus:
 	
-	var idEquipamento
+	var id
 	var tipoEquipamento
 	var ondeEquipa
 	var subTipoEquipamento
 	var descricao
 	var peso
 	var defesa = 0
+	var sprite
 	
 	func equipar(personagem):
 		var equipado 
@@ -28,7 +29,7 @@ class equipamento extends Bonus.bonus:
 		
 		for i in len(personagem.listaItensEquipamentos):
 			var item = personagem.listaItensEquipamentos[i]
-			if(item.idEquipamento == self.idEquipamento):
+			if(item.id == self.id):
 				personagem.listaItensEquipamentos.remove(i)
 				if(equipado!=null):
 					personagem.listaItensEquipamentos.append(equipado)
@@ -72,7 +73,7 @@ class equipamento_arma extends equipamento:
 		
 		for i in len(personagem.listaItensEquipamentos):
 			var item = personagem.listaItensEquipamentos[i]
-			if(item.idEquipamento == self.idEquipamento):
+			if(item.id == self.id):
 				personagem.listaItensEquipamentos.remove(i)
 				if(equipado!=null):
 					personagem.listaItensEquipamentos.append(equipado)
