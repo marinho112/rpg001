@@ -1,5 +1,8 @@
 extends Node
 
+func _init():
+	randomize()
+
 class personagem:
 	
 	#salvar no DB
@@ -97,10 +100,6 @@ class personagem:
 		
 	func _init(lv=1,classe=0,forca=10,agi=10,des=10,vit=10,inte=10,will=10):
 		
-		forca += (randi()%100)
-		des += (randi()%100)
-		agi += (randi()%100)
-		vit += (randi()%100)
 		#Atributos variam de 1 ~100
 		
 		zerarBonus()
@@ -140,7 +139,7 @@ class personagem:
 		
 		
 	func ativaEfeitoPassivoCampo(item):
-		if(item!=null):
+		if((item!=null)and (item!=0)):
 			item.efeitoPassivo(self)
 
 class personagemGrupo extends personagem:

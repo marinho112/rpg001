@@ -3,12 +3,11 @@ extends Node
 
 class Ataque:
 	
-	var nome = ""
-	var custoMP = 0
 	#Caracteristicas ataque]
 	var idAtaque
-	var atacados=[]
-	var inimigoAtacado
+	var nome = ""
+	var skillRatio = 100
+	var custoMP = 0
 	var ataquesRealizados =0 # Numero de movimentos para ataque
 	var golpesRealizados = 0 
 	var golpesPorAtaque=1 #Numero animações de ataque
@@ -17,6 +16,7 @@ class Ataque:
 	var hitsPorGolpe=0
 	var hitsSecundariosPorGolpe=1 # hits por efeitos de golpe
 	var distanciaDeSurgimentoDoGolpe = 5
+	
 	
 	#Caracteristicas Danos
 	
@@ -27,8 +27,13 @@ class Ataque:
 	var golpeElemento= Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO
 	var golpeTipoDano= Constantes.TIPO_DE_DANO_CONTUSIVO
 	
-	var skillRatio = 100
-	var sprite
+	
+	var animation
+	var nodeAtaque
+	
+	#variaveis controle
+	var atacados=[]
+	var inimigoAtacado
 	
 	func _init(personagem=null):
 		

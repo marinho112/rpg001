@@ -111,6 +111,7 @@ func converteStringInPersonagem(dividido):
 	per.equipeAcessorio3 = int(dividido[25])
 	per.equipeAcessorio4 = int(dividido[26])
 		
+	per.calculaAtributos()
 	return per
 
 func carregaInfoElementoMenu(id):
@@ -148,6 +149,7 @@ func carregaMenuCombate(listaItens,personagem):
 						utilizaveis.append(utilizavel)
 				var voltar = Global.elementoMenu.new(Constantes.TIPO_ELEMENTO_MENU_LISTA,"Voltar",lista,0)
 				utilizaveis.append(voltar)
+				elementoMenu.proximo=utilizaveis
 			elif(elementoMenu.tipo == Constantes.TIPO_ELEMENTO_MENU_LISTA_HABILIDADES):
 				var habilidades=[]
 				for habilidade in personagem.habilidadesOfensivas:
@@ -156,6 +158,7 @@ func carregaMenuCombate(listaItens,personagem):
 						habilidades.append(habilidade)
 				var voltar = Global.elementoMenu.new(Constantes.TIPO_ELEMENTO_MENU_LISTA,"Voltar",lista,0)
 				habilidades.append(voltar)
+				elementoMenu.proximo=habilidades
 			elif(elementoMenu.tipo == Constantes.TIPO_ELEMENTO_MENU_LISTA_MAGIAS):
 				var habilidades=[]
 				for habilidade in personagem.habilidadesOfensivas:
@@ -164,7 +167,7 @@ func carregaMenuCombate(listaItens,personagem):
 						habilidades.append(habilidade)
 				var voltar = Global.elementoMenu.new(Constantes.TIPO_ELEMENTO_MENU_LISTA,"Voltar",lista,0)
 				habilidades.append(voltar)
-			
+				elementoMenu.proximo=habilidades
 			lista.append(elementoMenu)
 	
 	return lista

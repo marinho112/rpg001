@@ -90,6 +90,8 @@ func ativaAcaoBtn(botao):
 			ativado=false
 			get_parent().seleciona(0,1,0,GolpesClasses.Ataque_Basico_Fisico_Corpo_a_Corpo.new(personagemTurno),personagemTurno)
 		_:
+			posicao=0
+			primeiro=0
 			lista=botao.proximo
 			desenhaMenu()
 	
@@ -109,7 +111,7 @@ func trocaPersonagemMenu():
 func desenhaMenu():
 	zerarLinhas()
 	
-	
+	#print(str(lista))
 	if(len(lista)<8):
 		tamanho = len(lista)
 	else:

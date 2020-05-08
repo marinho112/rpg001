@@ -251,6 +251,8 @@ func calculaDano(alvo):
 	dano = int(dano*danoPropriedade/100.0)
 	dano = int(dano*ataque.skillRatio/100.0)
 	
+	dano -= int(dano*rand_range(0,30) / 100)
+	
 	defesa = int(defesa + (defesa*ved*ved/2.0))
 	
 	var danoCausado = int(dano -((dano*rd/100.0) + (defesa/2.0)))

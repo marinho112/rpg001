@@ -60,8 +60,6 @@ func _ready():
 	
 	carregaListaInimigos([1001,1001])
 	
-	for i in 3:
-		pass#listaAmigos.remove(randi()%(len(listaAmigos)+1))
 	
 	carregar_personagens()
 	set_process(true)
