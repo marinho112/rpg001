@@ -23,6 +23,8 @@ class personagem:
 	var inteligencia=10
 	var will=10
 	
+	var defeseRate = 100
+	
 	var forcaBonus 
 	var agilidadeBonus 
 	var destrezaBonus 
@@ -76,6 +78,8 @@ class personagem:
 	var esquivaMagicaBonus
 	var bloqueioMagicoBonus
 	
+	func retornarEquipamentosEquipados():
+		return []
 	
 	func zerarBonus():
 		
@@ -113,17 +117,33 @@ class personagem:
 		self.inteligencia=inte
 		self.will=will
 		
+		
 		calculaAtributos()
 		
 		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
 	func calculaAtributos():
 		
 		zerarBonus()
+		defeseRate = 100
+		var divisor = 5000.0
+		
+		dano = int(((forca)/10.0) + ((forca)*(destreza)/divisor))
+		danoMagico = int(((inteligencia)/10.0) + ((inteligencia)*(will)/divisor))
+		danoDistancia = int(((destreza)/10.0) + ((destreza)*(forca)/divisor))
+		defesa = int(((vitalidade)/10.0) + ((vitalidade)*(agilidade)/divisor))
+		defesaMagica = int(((will)/10.0) + ((vitalidade)*(will)/divisor))
+		acerto=int(((destreza)/10.0) + ((destreza)*(agilidade)/divisor))
+		acertoMagico=int(((destreza)/10.0) + ((destreza)*(inteligencia)/divisor))
+		esquiva=int(((agilidade)/10.0) + ((destreza)*(agilidade)/divisor))
+		esquivaMagica=int(((agilidade)/10.0) + ((inteligencia)*(agilidade)/divisor))
+		bloqueio=int(((destreza)/10.0)+ ((destreza) * (forca)/divisor))
+		bloqueioMagico=int(((destreza)/10)+ ((destreza) * (will)/divisor))
+		
 		
 		for item in habilidadesPassivas:
 			ativaEfeitoPassivoCampo(item)
 		
-		var divisor = 5000.0
+		
 		
 		dano = int(((forca+forcaBonus)/10.0) + ((forca+forcaBonus)*(destreza+destrezaBonus)/divisor))
 		danoMagico = int(((inteligencia+inteligenciaBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(will+willBonus)/divisor))
@@ -137,10 +157,12 @@ class personagem:
 		bloqueio=int(((destreza+destrezaBonus)/10.0)+ ((destreza+destrezaBonus) * (forca+forcaBonus)/divisor))
 		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))
 		
-		
+	
+	
 	func ativaEfeitoPassivoCampo(item):
-		if((item!=null)and (item!=0)):
+		if((item!=null)):
 			item.efeitoPassivo(self)
+			
 
 class personagemGrupo extends personagem:
 	
@@ -164,6 +186,20 @@ class personagemGrupo extends personagem:
 	
 	var SextaEsferaDesbloqueada=false
 	
+	func retornarEquipamentosEquipados():
+		var lista = []
+		lista.append(equipeCabeca)
+		lista.append(equipeCorpo)
+		lista.append(equipeMaos)
+		lista.append(equipeDireita)
+		lista.append(equipeEsquerda)
+		lista.append(equipePes)
+		lista.append(equipeAcessorio1)
+		lista.append(equipeAcessorio2)
+		lista.append(equipeAcessorio3)
+		lista.append(equipeAcessorio4)
+		
+		return lista
 	
 	func calculaAtributos():
 		.calculaAtributos()
@@ -181,8 +217,6 @@ class personagemGrupo extends personagem:
 
 	
 class personagemMob extends personagem:
-	
-	var caracteristicas = []
 	
 	#Salvar no DB 
 	var ai

@@ -100,19 +100,25 @@ func converteStringInPersonagem(dividido):
 	per.habilidadesOfensivas= []
 	var menus = dividido[16].split("/")
 	per.menu= carregaMenuCombate(menus,per)
-	per.equipeCabeca = int(dividido[17])
-	per.equipeCorpo = int(dividido[18])
-	per.equipeMaos = int(dividido[19])
-	per.equipeDireita = int(dividido[20])
-	per.equipeEsquerda = int(dividido[21])
-	per.equipePes = int(dividido[22])
-	per.equipeAcessorio1 = int(dividido[23])
-	per.equipeAcessorio2 = int(dividido[24])
-	per.equipeAcessorio3 = int(dividido[25])
-	per.equipeAcessorio4 = int(dividido[26])
+	per.equipeCabeca = carregaEquipamento(int(dividido[17]))
+	per.equipeCorpo =carregaEquipamento( int(dividido[18]))
+	per.equipeMaos = carregaEquipamento(int(dividido[19]))
+	per.equipeDireita = carregaEquipamento(int(dividido[20]))
+	per.equipeEsquerda = carregaEquipamento(int(dividido[21]))
+	per.equipePes = carregaEquipamento(int(dividido[22]))
+	per.equipeAcessorio1 = carregaEquipamento(int(dividido[23]))
+	per.equipeAcessorio2 = carregaEquipamento(int(dividido[24]))
+	per.equipeAcessorio3 = carregaEquipamento(int(dividido[25]))
+	per.equipeAcessorio4 = carregaEquipamento(int(dividido[26]))
 		
 	per.calculaAtributos()
 	return per
+
+func carregaEquipamento(id):
+	if(id == 0 ):
+		return null
+	else:
+		return id
 
 func carregaInfoElementoMenu(id):
 

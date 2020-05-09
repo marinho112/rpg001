@@ -54,6 +54,7 @@ func atacar(atacados,tipoAtaque):
 	
 	controlaAtaque=0
 	
+	
 	moverAtaque=!ataque.golpeDistancia
 	self.listaInimigos=get_parent().listaInimigosObjeto
 	ataque.atacados=atacados
@@ -74,6 +75,7 @@ func controlaAtaque(delta):
 		1:
 			#verifica pré Movimento
 			if(true):
+				
 				controlaAtaque=2
 		2:
 			if(chegarNoAlvo or (bloqueado>0) or (ataque.ataquesRealizados>=len(ataque.atacados))):
@@ -83,6 +85,8 @@ func controlaAtaque(delta):
 		3:
 			#verifica pre ataque
 			if(true):
+				ativaTodosEfeitosPreAtaque(personagem)
+				ativaTodosEfeitoAoSerAtacado(personagem)
 				controlaAtaque=4
 				
 		4:
@@ -92,6 +96,7 @@ func controlaAtaque(delta):
 				animacaoAtaque(delta)
 		5: #verifica Pós ataque
 			if(true):
+				ativaTodosEfeitosPosAtaque(personagem)
 				controlaAtaque=6
 		
 		6: 
@@ -263,6 +268,41 @@ func calculaDano(alvo):
 	
 	return danoCausado
 	
+
+func ativaTodosEfeitosPreAtaque(personagem):
+	
+	for item in personagem.habilidadesPassivas:
+		ativaEfeitoPreAtaque(item,personagem)
+	for item in personagem.retornarEquipamentosEquipados():
+		ativaEfeitoPreAtaque(item,personagem)
+
+func ativaEfeitoPreAtaque(item,personagem):
+	if((item!=null)):
+		item.efeitoPreAtaque(personagem)
+
+func ativaTodosEfeitosPosAtaque(personagem):
+	
+	for item in personagem.habilidadesPassivas:
+		ativaEfeitoPosAtaque(item,personagem)
+	for item in personagem.retornarEquipamentosEquipados():
+		ativaEfeitoPosAtaque(item,personagem)
+
+func ativaEfeitoPosAtaque(item,personagem):
+	if((item!=null)):
+		item.efeitoPosAtaque(personagem)
+
+
+
+func ativaTodosEfeitoAoSerAtacado(personagem):
+	
+	for item in ataque.inimigoAtacado.personagem.habilidadesPassivas:
+		ativaEfeitoAoSerAtacado(item,personagem)
+	for item in ataque.inimigoAtacado.personagem.retornarEquipamentosEquipados():
+		ativaEfeitoAoSerAtacado(item,personagem)
+
+func ativaEfeitoAoSerAtacado(item,personagem):
+	if((item!=null)):
+		item. efeitoAoSerAtacado(personagem,ataque)
 
 func calcularBonusPropriedade(atacante,alvo):
 	var bonus = 100

@@ -74,6 +74,7 @@ func carregaListaInimigos(lista):
 	for i in len(lista):
 		var objeto = ControlaDados.carregaInfoPersonagemMob(lista[i])
 		if(objeto != null):
+			objeto.habilidadesPassivas = HabilidadesMobs.get_habilidades(objeto)
 			objeto.calculaAtributos()
 			objeto.posicaoCombate=listaPosicoes[i]
 			listaInimigos.append(objeto)
