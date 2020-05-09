@@ -21,7 +21,7 @@ var tamanhoAmigo
 var tamanhoInimigo
 var numSelecao =1
 var acaoPretendida
-var AcaoPretendida
+var selecionavel
 
 
 #Variaveis de Controle
@@ -366,26 +366,26 @@ func chamaAcao(alvos):
 	match acaoPretendida:
 		
 		0:
-			atacante.atacar(alvos,AcaoPretendida)
+			atacante.atacar(alvos,selecionavel)
 
-func seleciona(tipoSelecao,numSelecao,tipoAcao,codAcao,fonte):
+func seleciona(selecionavel,fonte):
 	
-	acaoPretendida=tipoAcao
-	AcaoPretendida=codAcao
+	acaoPretendida=selecionavel.tipoAcao
 	atacante=fonte
+	self.selecionavel=selecionavel
 	emSelecao=true
 	vetorSelecionados=[]
 	numSelecionados=0
 	$cursor.set_visible(true)
-	if((tipoSelecao|62)==(63)):
+	if((selecionavel.tipoSelecao|62)==(63)):
 		selecaoAliados = true
 	else:
 		selecaoAliados = false
-	if((tipoSelecao|61)==(63)):
+	if((selecionavel.tipoSelecao|61)==(63)):
 		mudarLadoSelecao=true
 	else:
 		mudarLadoSelecao=false
-	if((tipoSelecao|59)==(63)):
+	if((selecionavel.tipoSelecao|59)==(63)):
 		selecaoIndividual=true
 	else:
 		selecaoIndividual=false

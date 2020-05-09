@@ -88,7 +88,8 @@ func ativaAcaoBtn(botao):
 			pass
 		Constantes.TIPO_ELEMENTO_MENU_ATAQUE: 
 			ativado=false
-			get_parent().seleciona(0,1,0,GolpesClasses.Ataque_Basico_Fisico_Corpo_a_Corpo.new(personagemTurno),personagemTurno)
+			var ataque = GolpesClasses.getAtaquePorId(botao.extra,personagemTurno)
+			get_parent().seleciona(ataque,personagemTurno)
 		_:
 			posicao=0
 			primeiro=0

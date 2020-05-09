@@ -120,7 +120,7 @@ func carregaEquipamento(id):
 	else:
 		return id
 
-func carregaInfoElementoMenu(id):
+func carregaInfoElementoMenu(id,personagem):
 
 	var arquivo = File.new()
 	#var erro = arquivo.open("res://dados/teste.data",File.WRITE)
@@ -145,7 +145,7 @@ func carregaMenuCombate(listaItens,personagem):
 	var item
 	for i in len(listaItens):
 		item = listaItens[i]
-		var elementoMenu = carregaInfoElementoMenu(item)
+		var elementoMenu = carregaInfoElementoMenu(item,personagem)
 		if(elementoMenu!=null):
 			if(elementoMenu.tipo == Constantes.TIPO_ELEMENTO_MENU_LISTA_ITENS):
 				var utilizaveis=[]

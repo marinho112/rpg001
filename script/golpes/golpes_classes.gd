@@ -1,6 +1,19 @@
 extends Node
 
 
+func getAtaquePorId(id,personagem):
+	
+	match(id):
+		Constantes.ATAQUE_BASICO_FISICO_CORPO_A_CORPO:
+			return Ataque_Basico_Fisico_Corpo_a_Corpo.new(personagem)
+		Constantes.ATAQUE_BASICO_FISICO_DISTANCIA:
+			return Ataque_Basico_Fisico_Distancia.new(personagem)
+		Constantes.ATAQUE_BASICO_MAGICO_CORPO_A_CORPO:
+			return null
+		Constantes.ATAQUE_BASICO_MAGICO_DISTANCIA:
+			return null
+	return null
+
 class Ataque:
 	
 	#Caracteristicas ataque]
@@ -8,7 +21,7 @@ class Ataque:
 	var nome = ""
 	var skillRatio = 100
 	var custoMP = 0
-	var ataquesRealizados =0 # Numero de movimentos para ataque
+	var ataquesRealizados =0 
 	var golpesRealizados = 0 
 	var golpesPorAtaque=1 #Numero animações de ataque
 	var intervaloHits=0.01
@@ -18,6 +31,15 @@ class Ataque:
 	var distanciaDeSurgimentoDoGolpe = 5
 	
 	
+	# 0-1 | Seleciona Inimigo - Seleciona Aliado 
+	# 0-2 | Não pode mudar de lado | Pode mudar de lado
+	# 0-4 | So pode selecionar cada alvo uma vez | Seleção de alvos repetidos
+	var tipoSelecao = 0
+	var numSelecao = 1
+	# 0 == Ataque
+	var tipoAcao = 0
+	
+	var nodeGolpe = "res://nodes/golpes/ataque_simples.tscn"
 	#Caracteristicas Danos
 	
 	var golpeBloqueavel = true
@@ -48,3 +70,10 @@ class Ataque_Basico_Fisico_Corpo_a_Corpo extends Ataque:
 		
 		idAtaque=Constantes.ATAQUE_BASICO_FISICO_CORPO_A_CORPO
 		distanciaDeSurgimentoDoGolpe = 50
+
+class Ataque_Basico_Fisico_Distancia extends Ataque:
+	
+	func _init(personagem):
+		idAtaque=Constantes.ATAQUE_BASICO_FISICO_DISTANCIA
+		distanciaDeSurgimentoDoGolpe = 10
+		golpeDistancia= true

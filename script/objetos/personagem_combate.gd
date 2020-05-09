@@ -47,10 +47,10 @@ func alteraPosicaoPermanente(posicao):
 	posicaoInicial=posicao
 
 
-func atacar(atacados,tipoAtaque):
+func atacar(atacados,Ataque):
 	
 	
-	ataque= tipoAtaque
+	ataque= Ataque
 	
 	controlaAtaque=0
 	
@@ -77,6 +77,7 @@ func controlaAtaque(delta):
 			if(true):
 				
 				controlaAtaque=2
+				ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
 		2:
 			if(chegarNoAlvo or (bloqueado>0) or (ataque.ataquesRealizados>=len(ataque.atacados))):
 				controlaAtaque=3
@@ -123,7 +124,6 @@ func moverAtaque(delta):
 	else:
 		$AnimatedSprite.set_animation("movendo")
 		$AnimatedSprite.set_flip_h(!virado)
-		ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
 		var posiAtacado=ataque.inimigoAtacado.get_position()
 		var frames =ataque.inimigoAtacado.get_node("AnimatedSprite").get_sprite_frames()
 		var anim = ataque.inimigoAtacado.get_node("AnimatedSprite").get_animation()
@@ -169,7 +169,7 @@ func golpesControleHits(delta):
 		
 func criarGolpe():
 	
-	var golpe = preload("res://nodes/golpes/ataque_simples.tscn").instance()
+	var golpe = load(ataque.nodeGolpe).instance()
 	add_child(golpe)
 	var position = get_global_position()
 	var icremento = ataque.distanciaDeSurgimentoDoGolpe
