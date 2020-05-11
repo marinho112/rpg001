@@ -81,7 +81,7 @@ position = Vector2( 15, -3 )
 shape = SubResource( 8 )
 
 [node name="timer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.3
 autostart = true
 [connection signal="area_entered" from="." to="." method="_on_ataque_simples_area_entered"]
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

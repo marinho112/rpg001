@@ -29,6 +29,7 @@ var controleDeTurno = true
 var mudarLadoSelecao=false
 var selecaoAliados=false
 var selecaoIndividual=true
+var selecionaTudo = false
 var emSelecao=false
 var posicaoXCursor = 0
 var posicaoYCursor = 0
@@ -41,6 +42,9 @@ var ocilante= 0
 var ocilantePersonagemPermanete =0
 var numSelecionados =0
 
+var xMax=0
+var xMin=0
+		
 #objetos 
 var atacante
 
@@ -58,7 +62,7 @@ func _ready():
 	arma.dano=10
 	arma.defesa= 10
 	
-	carregaListaInimigos([1001,1001])
+	carregaListaInimigos([1001,1001,1001,1001,1001])
 	
 	
 	carregar_personagens()
@@ -106,10 +110,12 @@ func desenhaMatrizPosicao():
 
 func _process(delta):
 	
-	animaTurno(delta)
-	
-	if(controleDeTurno):
-		if(turno<len(listaTurnos)):
+	if(turno>=len(listaTurnos)):
+		turno=0
+		rodada+=1
+	else:
+		animaTurno(delta)
+		if(controleDeTurno):
 			var daVez= listaTurnos[turno]
 			if (daVez.is_in_group(Constantes.GRUPO_ALIADOS)) :
 				var menu = get_node("menuCombate")
@@ -118,10 +124,11 @@ func _process(delta):
 				menu.trocaPersonagemMenu()
 				controleDeTurno = false
 			else:
-				turno+=1
-		if(turno>=len(listaTurnos)):
-			turno=0
-			rodada+=1
+				if(daVez.personagem.ai == null):
+					pass
+				else:
+					turno+=1
+		
 	
 	emSelecao(delta)
 
@@ -207,8 +214,7 @@ func emSelecao(delta):
 			$cursor.set_frame(1)
 			desenhaCursorSelecao(delta)
 		
-		var xMax=0
-		var xMin=0
+		
 		
 		if(mudarLadoSelecao):
 			xMax=3
@@ -223,7 +229,8 @@ func emSelecao(delta):
 			pass
 		var repetir=true
 		
-		if Input.is_action_just_pressed("ui_up"):
+		
+		if (Input.is_action_just_pressed("ui_up") or (selecionaTudo)):
 			if(!clicavel):
 				clicavel=true
 			while(repetir):
@@ -302,43 +309,60 @@ func emSelecao(delta):
 				if((posicaoXCursor-i>xMin)and(matrizPosicao[posicaoXCursor-(1+i)][posicaoYCursor]!= null)):
 					posicaoXCursor-=1+i
 					break
+		
 		for i in len(listaSelecionados):
 			var posicaoCursor= (posicaoXCursor*10) + posicaoYCursor
 			if(posicaoCursor==listaSelecionados[i]):
 				posicaoYCursor=posicaoAntiga%10
 				posicaoXCursor=int((posicaoAntiga-posicaoYCursor)/10)
 				break
+				
+
 
 func clickaPersonagem():
-	if(selecaoIndividual):
-		var novoCursor = pre_cursor.instance()
-		novoCursor.set_position($cursor.get_position())
-		novoCursor.set_sprite_frames($cursor.get_sprite_frames())
-		novoCursor.set_animation($cursor.get_animation())
-		novoCursor.set_frame($cursor.get_frame())
-		novoCursor.set_visible(true)
-		add_child(novoCursor)
-		clicavel=false
-		
-		listaCursoresSobressalentes.append(novoCursor)
-		
-		listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
-		
-	if(numSelecionados<numSelecao):
-		numSelecionados+=1
-		vetorSelecionados.append(matrizPosicao[posicaoXCursor][posicaoYCursor])
-	if(numSelecionados>=numSelecao):
-		if(!clicavel):
-			clicavel=true
+	if(selecionaTudo):
+		if(mudarLadoSelecao):
+			vetorSelecionados = listaAmigosObjeto + listaInimigosObjeto
+		else:
+			if(selecaoAliados):
+				vetorSelecionados = listaAmigosObjeto
+			else:
+				vetorSelecionados = listaInimigosObjeto
+				
+		terminaSelecao()
+	else:
+		if(selecaoIndividual):
+			var novoCursor = pre_cursor.instance()
+			novoCursor.set_position($cursor.get_position())
+			novoCursor.set_sprite_frames($cursor.get_sprite_frames())
+			novoCursor.set_animation($cursor.get_animation())
+			novoCursor.set_frame($cursor.get_frame())
+			novoCursor.set_visible(true)
+			add_child(novoCursor)
+			clicavel=false
 			
-		emSelecao=false
-		$cursor.set_visible(false)
-		chamaAcao(vetorSelecionados) # envias a ação
-		listaSelecionados=[]
-		for i in len(listaCursoresSobressalentes):
-			listaCursoresSobressalentes[i].queue_free()
-		listaCursoresSobressalentes=[]
+			listaCursoresSobressalentes.append(novoCursor)
+			
+			listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
+			
+		if(numSelecionados<numSelecao):
+			numSelecionados+=1
+			vetorSelecionados.append(matrizPosicao[posicaoXCursor][posicaoYCursor])
+		if(numSelecionados>=numSelecao):
+			terminaSelecao()
 		
+func terminaSelecao():
+	if(!clicavel):
+		clicavel=true
+		
+	emSelecao=false
+	$cursor.set_visible(false)
+	chamaAcao(vetorSelecionados) # envias a ação
+	listaSelecionados=[]
+	for i in len(listaCursoresSobressalentes):
+		listaCursoresSobressalentes[i].queue_free()
+	listaCursoresSobressalentes=[]
+	
 func desenhaCursorSelecao(delta):
 	
 	#var position = $cursor.get_position()
@@ -389,6 +413,10 @@ func seleciona(selecionavel,fonte):
 		selecaoIndividual=true
 	else:
 		selecaoIndividual=false
+	if((selecionavel.tipoSelecao|55)==(63)):
+		selecionaTudo=true
+	else:
+		selecionaTudo=false
 	
 	var x = 1
 	var y = 0

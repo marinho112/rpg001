@@ -34,10 +34,15 @@ class Ataque:
 	# 0-1 | Seleciona Inimigo - Seleciona Aliado 
 	# 0-2 | Não pode mudar de lado | Pode mudar de lado
 	# 0-4 | So pode selecionar cada alvo uma vez | Seleção de alvos repetidos
+	# 8 | Seleciona todos os inimigos
+	# 9 | Seleciona todos os aliados
+	# 10 | Seleciona Todos 
+	
 	var tipoSelecao = 0
 	var numSelecao = 1
 	# 0 == Ataque
 	var tipoAcao = 0
+	var esperarAtaque =false
 	
 	var nodeGolpe = "res://nodes/golpes/ataque_simples.tscn"
 	#Caracteristicas Danos
@@ -74,6 +79,8 @@ class Ataque_Basico_Fisico_Corpo_a_Corpo extends Ataque:
 class Ataque_Basico_Fisico_Distancia extends Ataque:
 	
 	func _init(personagem):
+		esperarAtaque=true
 		idAtaque=Constantes.ATAQUE_BASICO_FISICO_DISTANCIA
+		nodeGolpe="res://nodes/golpes/ataque_simples_Distancia.tscn"
 		distanciaDeSurgimentoDoGolpe = 10
 		golpeDistancia= true

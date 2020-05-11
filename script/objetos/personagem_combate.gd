@@ -19,9 +19,10 @@ var intangivel
 var iniciaCombate = true
 var chegarNoAlvo
 var moverAtaque
+var esperandoAtaque = 0
 
 #caracteristicas personagem
-var speed = 200
+var speed = 300
 var posicaoInicial
 var personagem
 
@@ -68,16 +69,16 @@ func controlaAtaque(delta):
 		0:
 			#verifica inicio do turno
 			if(true):
-				ataque.ataquesRealizados=0
+				#ataque.ataquesRealizados=0
 				ataque.golpesRealizados=0
 				controlaAtaque=1
 				chegarNoAlvo = false
 		1:
 			#verifica pré Movimento
 			if(true):
-				
 				controlaAtaque=2
-				ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
+				if((ataque.ataquesRealizados<len(ataque.atacados))):
+					ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
 		2:
 			if(chegarNoAlvo or (bloqueado>0) or (ataque.ataquesRealizados>=len(ataque.atacados))):
 				controlaAtaque=3
@@ -91,12 +92,15 @@ func controlaAtaque(delta):
 				controlaAtaque=4
 				
 		4:
-			if(ataque.ataquesRealizados>=len(ataque.atacados)):
+			if(ataque.golpesRealizados>=ataque.golpesPorAtaque):
+				ataque.ataquesRealizados+=1
+				voltando = true
 				controlaAtaque=5
 			else:
 				animacaoAtaque(delta)
 		5: #verifica Pós ataque
-			if(true):
+			if(esperandoAtaque<= 0):
+				esperandoAtaque = 0
 				ativaTodosEfeitosPosAtaque(personagem)
 				controlaAtaque=6
 		
@@ -106,13 +110,20 @@ func controlaAtaque(delta):
 			else:
 				animacaoVoltar(delta)
 		7:
-			#finaliza Turno
-			if(true):
+			#Retorna Posicao
+			if(ataque.ataquesRealizados<len(ataque.atacados)):
+				controlaAtaque=1
+				ataque.golpesRealizados=0
+			else:
 				controlaAtaque=8
 		8:
+			#finaliza Turno
+			if(true):
+				controlaAtaque=9
+		9:
 			$AnimatedSprite.set_animation("default")
 			$AnimationPlayer.stop()
-			controlaAtaque=9
+			controlaAtaque=10
 			get_parent().terminaTurno()
 		_:
 			pass
@@ -131,6 +142,8 @@ func moverAtaque(delta):
 		var atacadoTamanho=frames.get_frame(anim,frame).get_size()
 		if(atacadoTamanho.x< 50):
 			atacadoTamanho.x += 50 -(atacadoTamanho.x/2)
+		if(is_in_group(Constantes.GRUPO_INIMIGO)):
+			atacadoTamanho.x *=-1
 		var position= get_position()
 		var distanciaX= (atacadoTamanho.x + posiAtacado.x) - (position.x)
 		var distanciaY= ((posiAtacado.y) - (position.y) )
@@ -144,16 +157,9 @@ func moverAtaque(delta):
 	
 func animacaoAtaque(delta):
 	
-	if(ataque.golpesRealizados>=ataque.golpesPorAtaque):
-		ataque.ataquesRealizados+=1
-		ataque.golpesRealizados=0
-		voltando = true
-	else:
-	
-		$AnimatedSprite.set_animation("batendo")
-		$AnimationPlayer.play("atacando")
-		
-	pass
+	$AnimatedSprite.set_animation("batendo")
+	$AnimationPlayer.play("atacando")
+
 
 func ativaControlaHits():
 	controlaHits=true
@@ -164,11 +170,18 @@ func golpesControleHits(delta):
 		if(ataque.hitsPorGolpe<=0):
 			controlaHits=false
 		else:
-			$timerHit.set_wait_time(ataque.intervaloHits)
-			$timerHit.start()
+			if(ataque.hitsPorGolpe==ataque.hitsPorGolpeRaiz):
+				_on_timerHit_timeout()
+			else:
+				$timerHit.set_wait_time(ataque.intervaloHits)
+				$timerHit.start()
 		
+func diminuiEsperaAtaque():
+	esperandoAtaque -= 1
+
 func criarGolpe():
-	
+	if(ataque.esperarAtaque):
+		esperandoAtaque += 1
 	var golpe = load(ataque.nodeGolpe).instance()
 	add_child(golpe)
 	var position = get_global_position()
@@ -183,8 +196,7 @@ func criarGolpe():
 		golpe.add_to_group(i)
 	golpe.add_to_group(Constantes.GRUPO_ATAQUE)
 	golpe.numHits=ataque.hitsSecundariosPorGolpe
-	golpe.get_node("AnimatedSprite").set_flip_h(!virado)
-	golpe.get_node("AnimationPlayer").play("golpe")
+	golpe.virar(virado)
 
 
 func bloqueado(area):
@@ -394,15 +406,22 @@ func calculaAcerto(alvo):
 		chanceBloqueio += chanceBloqueio * diferencaEsferas * 0.5
 		chanceEsquiva += chanceEsquiva * diferencaEsferas * 0.5
 	if((randi()%1000 <= chanceBloqueio*10) and ataque.golpeBloqueavel):
-		
-		foiBloquado(1,alvo)
+		return 0
 	elif((randi()%1000<=chanceEsquiva*10) and !intangivel and ataque.golpeEsquivavel):
-		
-		criarMsgDano(0)
+		return 1
 	else:
+		return 2
 		
-		alvo.sofreDano(calculaDano(alvo))
 
+func encaminhaAcerto(val,alvo):
+	match val:
+		0:
+			foiBloquado(1,alvo)
+		1:
+			criarMsgDano(0)
+		2:
+			alvo.sofreDano(calculaDano(alvo))
+			
 func calculaBonusRaca(atacante,alvo):
 	var bonus = 100
 	var alvoRaca = alvo.raca
@@ -507,10 +526,7 @@ func animacaoVoltar(delta):
 			voltando=false
 			$AnimatedSprite.set_animation("default")
 			$AnimatedSprite.set_flip_h(virado)
-	
-	
-			if(ataque.golpesRealizados<ataque.golpesPorAtaque):
-				controlaAtaque=2
+			chegarNoAlvo = false
 			
 			if(bloqueado > 0):
 				if(bloqueado>1):

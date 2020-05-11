@@ -21,6 +21,7 @@ class fragilidade extends Habilidades.habilidade:
 	func efeitoPassivo(personagem):
 		
 		personagem.defesaBonus -= int(personagem.defesa/2)
+		personagem.bloqueioBonus -= 20
 		return true
 	
 	func efeitoAoSerAtacado(atacante,ataque):
