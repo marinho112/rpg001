@@ -14,7 +14,7 @@ class item:
 
 class itemConsumivel extends item:
 	
-	var tipo =0
+	var tipo =0 # 1- Cura
 	var emBatalha=true
 	var val1 = 0
 	var val2 = 0
@@ -30,7 +30,7 @@ class itemConsumivel extends item:
 class itemCura extends itemConsumivel:
 	
 	func _init():
-		tipo = 0
+		tipo = 1
 		
 	func utilizarItem(personagem):
 		personagem.cura(val1)

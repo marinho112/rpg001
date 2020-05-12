@@ -78,6 +78,12 @@ class personagem:
 	var esquivaMagicaBonus
 	var bloqueioMagicoBonus
 	
+	func retornaHpRate():
+		return hpAtual*100/hpMaximo
+		
+	func retornaMpRate():
+		return mpAtual*100/mpMaximo
+		
 	func retornarEquipamentosEquipados():
 		return []
 	
@@ -158,12 +164,20 @@ class personagem:
 		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))
 		
 	
-	
 	func ativaEfeitoPassivoCampo(item):
 		if((item!=null)):
 			item.efeitoPassivo(self)
 			
-
+	func cura(val):
+		hpAtual += val
+		if(hpAtual > hpMaximo):
+			hpAtual=hpMaximo
+			
+	func recuperaMp(val):
+		mpAtual += val
+		if(mpAtual > mpMaximo):
+			mpAtual=mpMaximo
+	
 class personagemGrupo extends personagem:
 	
 	var baseHp

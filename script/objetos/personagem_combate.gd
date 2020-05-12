@@ -503,8 +503,9 @@ func criarMsgDano(valor):
 	else: 
 		lbl.set_text(str(valor))
 		
-	if(is_in_group(Constantes.GRUPO_ALIADOS) or ((valor==0) and is_in_group(Constantes.GRUPO_INIMIGO))):
+	if(is_in_group(Constantes.GRUPO_ALIADOS)):
 		lbl.set("custom_colors/font_color",Color(240,0,0))
+	return msgDano
  
 func animacaoApanhar():
 	
@@ -569,6 +570,23 @@ func mover(distanciaX,distanciaY,delta):
 	else:
 		return true
 	return false
+
+
+func cura(val):
+	var msg = criarMsgDano(val)
+	var lbl = msg.get_node(("Label"))
+	lbl.set("custom_colors/font_color",Color(0,240,0))
+	personagem.cura(val)
+	
+func recuperaMp(val):
+	var msg = criarMsgDano(val)
+	var lbl = msg.get_node(("Label"))
+	lbl.set("custom_colors/font_color",Color(0,0,240))
+	personagem.recuperaMp(val)
+
+
+
+
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if(anim_name=="atacando"):

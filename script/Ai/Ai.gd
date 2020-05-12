@@ -5,9 +5,11 @@ func getAiPorTipo(cod):
 	var tipo = (cod - lv)/10
 	match tipo:
 		0:
-			return Ai.new()
+			return AiRaiz.new()
+		1: 
+			return AiBasica.new()
 
-class Ai :
+class AiRaiz :
 	
 	var nivel = 1
 	
@@ -76,3 +78,14 @@ class Ai :
 				return GolpesClasses.Ataque_Basico_Fisico_Distancia.new(personagem.personagem)
 			_: 
 				return GolpesClasses.Ataque_Basico_Fisico_Corpo_a_Corpo.new(personagem.personagem)
+
+
+class AiBasica extends AiRaiz:
+	
+	func decidirAcao(delta,parent,personagem):
+		
+		var infoPer = personagem.personagem 
+		if((infoPer.retornaHpRate() < 40)and(false)):
+			pass
+		else:
+			return .decidirAcao(delta,parent,personagem)
