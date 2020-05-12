@@ -31,6 +31,7 @@ Equipamentos="*res://script/itens/equipamentos/equipamentos.gd"
 Status="*res://script/status/status.gd"
 Habilidades="*res://script/status/habilidades.gd"
 HabilidadesMobs="*res://script/status/habilidades_mobs.gd"
+Ai="*res://script/Ai/Ai.gd"
 
 [display]
 

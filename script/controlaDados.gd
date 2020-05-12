@@ -48,9 +48,10 @@ func converteStringInMob(dividido):
 	mob.raca=int(dividido[14])
 	mob.raca_secundaria=int(dividido[15])
 	mob.propriedade=int(dividido[16])
-	mob.ai=dividido[17]
+	mob.ai= Ai.getAiPorTipo(int(dividido[17]))
 	mob.node=dividido[18]
 	mob.tamanho=int(dividido[19])
+	mob.golpeBasico=int(dividido[20])
 	return mob
 
 func carregaInfoInicialPersonagemGrupo(id):

@@ -221,6 +221,7 @@ class personagemMob extends personagem:
 	#Salvar no DB 
 	var ai
 	var tamanho 
+	var golpeBasico
 	
 	func calculaAtributos():
 		.calculaAtributos()

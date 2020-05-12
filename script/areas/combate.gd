@@ -117,7 +117,9 @@ func _process(delta):
 		animaTurno(delta)
 		if(controleDeTurno):
 			var daVez= listaTurnos[turno]
+			
 			if (daVez.is_in_group(Constantes.GRUPO_ALIADOS)) :
+				
 				var menu = get_node("menuCombate")
 				menu.ativado = true
 				menu.personagemTurno = daVez
@@ -125,10 +127,13 @@ func _process(delta):
 				controleDeTurno = false
 			else:
 				if(daVez.personagem.ai == null):
-					pass
-				else:
 					turno+=1
-		
+				else:
+					controleDeTurno = false
+					vetorSelecionados = daVez.personagem.ai.decidirAcao(delta,self,daVez)
+					selecionavel = daVez.ataque
+					terminaSelecao()
+					
 	
 	emSelecao(delta)
 
@@ -187,7 +192,6 @@ func carregar_personagens():
 		listaInimigosObjeto.append(personagem)
 		add_child(personagem)
 		personagem.add_to_group(Constantes.GRUPO_INIMIGO)
-		
 		var x=400
 		var y= item.posicaoCombate * 130
 		if(item.posicaoCombate>2):
@@ -204,7 +208,8 @@ func carregar_personagens():
 	
 func ordenaTurno():
 	listaTurnos = listaAmigosObjeto + listaInimigosObjeto
-
+	
+	
 func emSelecao(delta):
 	if(emSelecao):
 		if(posicaoXCursor>1):
@@ -316,7 +321,6 @@ func emSelecao(delta):
 				posicaoYCursor=posicaoAntiga%10
 				posicaoXCursor=int((posicaoAntiga-posicaoYCursor)/10)
 				break
-				
 
 
 func clickaPersonagem():
@@ -352,16 +356,18 @@ func clickaPersonagem():
 			terminaSelecao()
 		
 func terminaSelecao():
+	
 	if(!clicavel):
 		clicavel=true
-		
-	emSelecao=false
-	$cursor.set_visible(false)
-	chamaAcao(vetorSelecionados) # envias a ação
-	listaSelecionados=[]
-	for i in len(listaCursoresSobressalentes):
-		listaCursoresSobressalentes[i].queue_free()
-	listaCursoresSobressalentes=[]
+	
+	if(vetorSelecionados != null):
+		emSelecao=false
+		$cursor.set_visible(false)
+		chamaAcao(vetorSelecionados) # envias a ação
+		listaSelecionados=[]
+		for i in len(listaCursoresSobressalentes):
+			listaCursoresSobressalentes[i].queue_free()
+		listaCursoresSobressalentes=[]
 	
 func desenhaCursorSelecao(delta):
 	
@@ -386,7 +392,6 @@ func desenhaCursorSelecao(delta):
 func chamaAcao(alvos):
 	# Atacar : 0
 	# Usar Item : 1
-
 	match acaoPretendida:
 		
 		0:
@@ -439,7 +444,7 @@ func seleciona(selecionavel,fonte):
 	if ((len(listaInimigos) < numSelecao) and selecaoIndividual):
 		self.numSelecao<=len(listaInimigos)
 	else:
-		self.numSelecao=numSelecao
+		self.numSelecao=selecionavel.numSelecao
 	pass
 	
 	
