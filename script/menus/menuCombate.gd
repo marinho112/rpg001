@@ -78,10 +78,14 @@ func _process(delta):
 	desenhaEsferas()
 	if(Input.is_action_just_pressed("mouse_left")):
 		if(Global.verificaCursorNoLocal($AreaEsferas)):
-			if(ativadoEsferas):
-				ativado = !ativado
-				$menuEsferasCombate.habilitado=!ativado
-	
+			ativaDesativaEsferas()
+	elif(Input.is_action_just_pressed("E_BUTTON")):
+		ativaDesativaEsferas()
+
+func ativaDesativaEsferas():
+	if(ativadoEsferas):
+		ativado = !ativado
+		$menuEsferasCombate.habilitado=!ativado
 
 func ativaAcaoBtn(botao):
 	match botao.tipo:

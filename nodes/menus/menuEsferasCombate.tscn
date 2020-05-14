@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://fontes/quicksand/Quicksand-BoldItalic.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://script/menus/menuEsferasCombate.gd" type="Script" id=2]
 [ext_resource path="res://fontes/quicksand/Quicksand-Bold.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://sprites/menus/menuCombate/fundoMenuEsferas.png" type="Texture" id=4]
+[ext_resource path="res://sprites/menus/menuCombate/selecao-esferas.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -12,7 +13,7 @@ font_data = ExtResource( 1 )
 font_data = ExtResource( 3 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 17.2757, 74.5154 )
+extents = Vector2( 17.729, 74.5153 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 32.3251, 10.1666 )
@@ -127,3 +128,8 @@ shape = SubResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaNome"]
 position = Vector2( -16.2858, -81.8261 )
 shape = SubResource( 4 )
+
+[node name="cursor" type="Sprite" parent="."]
+position = Vector2( 0, -1.986 )
+scale = Vector2( 1.65296, 1.5 )
+texture = ExtResource( 5 )

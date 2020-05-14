@@ -1,6 +1,7 @@
 extends Node2D
 
 var habilitado = false
+var positionCursor = 0
 
 func _ready():
 	set_process(true)
@@ -10,6 +11,8 @@ func _process(delta):
 	
 	set_visible(habilitado)
 	atualizaLabels()
+	desenhaCursor()
+	
 
 	
 	if(habilitado):
@@ -27,12 +30,39 @@ func _process(delta):
 			
 		verificaMovimentoCursor()
 		verificaEditaValorEsferas()
-		
+
+func desenhaCursor():
+	var position = $cursor.get_position()
+	var valorY
+	match positionCursor:
+		0:
+			valorY= $ValEsfDano.get_position().y
+		1:
+			valorY= $ValEsfDefesa.get_position().y
+		2:
+			valorY= $ValEsfAcerto.get_position().y
+		3:
+			valorY= $ValEsfEsquiva.get_position().y
+			
+	position.y = valorY + 10
+	$cursor.set_position(position)
+
 func verificaMovimentoCursor():
-	pass
+	if Input.is_action_just_pressed("ui_down"):
+		
+		if(positionCursor < 3):
+			positionCursor +=1
+	elif Input.is_action_just_pressed("ui_up"):
+		if(positionCursor > 0):
+			positionCursor -=1
 	
 func verificaEditaValorEsferas():
-	pass
+	
+	if Input.is_action_just_pressed("ui_left"):
+		mudarEsfera(positionCursor,-1)
+		
+	if Input.is_action_just_pressed("ui_right"):
+		mudarEsfera(positionCursor,1)
 	
 func atualizaLabels():
 	var personagem = get_parent().personagemTurno.personagem
