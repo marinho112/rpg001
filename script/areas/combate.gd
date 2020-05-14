@@ -122,6 +122,7 @@ func _process(delta):
 				
 				var menu = get_node("menuCombate")
 				menu.ativado = true
+				menu.ativadoEsferas = true
 				menu.personagemTurno = daVez
 				menu.trocaPersonagemMenu()
 				controleDeTurno = false

@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://fontes/quicksand/Quicksand-BoldItalic.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://script/menus/menuEsferasCombate.gd" type="Script" id=2]
+[ext_resource path="res://fontes/quicksand/Quicksand-Bold.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://sprites/menus/menuCombate/fundoMenuEsferas.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 17.2757, 74.5154 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 32.3251, 10.1666 )
+
+[node name="menuEsferasCombate" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="fundo" type="Sprite" parent="."]
+texture = ExtResource( 4 )
+
+[node name="titulo" type="Label" parent="."]
+margin_left = -47.2685
+margin_top = -94.1398
+margin_right = 10.7315
+margin_bottom = -74.1398
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Esferas"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValEsfMorta" type="Label" parent="."]
+margin_left = 25.3972
+margin_top = -93.7944
+margin_right = 37.3972
+margin_bottom = -73.7944
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.952941, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValEsfDano" type="Label" parent="."]
+margin_left = -7.57156
+margin_top = -55.6619
+margin_right = 4.42844
+margin_bottom = -35.6619
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.952941, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValEsfDefesa" type="Label" parent="."]
+margin_left = -8.36599
+margin_top = -11.9683
+margin_right = 3.63401
+margin_bottom = 8.03171
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.952941, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValEsfAcerto" type="Label" parent="."]
+margin_left = -8.36599
+margin_top = 26.1643
+margin_right = 3.63401
+margin_bottom = 46.1643
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.952941, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValEsfEsquiva" type="Label" parent="."]
+margin_left = -7.57156
+margin_top = 66.2829
+margin_right = 4.42844
+margin_bottom = 86.2829
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.952941, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AreaDireita" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="AreaDireita"]
+position = Vector2( 25.4217, 15.8886 )
+shape = SubResource( 3 )
+
+[node name="AreaEsquerda" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="AreaEsquerda"]
+position = Vector2( -33.7632, 16.2858 )
+shape = SubResource( 3 )
+
+[node name="AreaNome" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaNome"]
+position = Vector2( -16.2858, -81.8261 )
+shape = SubResource( 4 )

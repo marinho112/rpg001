@@ -8,6 +8,7 @@ var tamanho=0
 var lista = []
 var linhas = []
 var ativado = true
+var ativadoEsferas = true
 var personagemTurno
 
 var contaTempo=0
@@ -56,12 +57,8 @@ func _process(delta):
 			contaTempo=0
 		
 		if(Input.is_action_just_pressed("mouse_left")):
-			var areas = get_overlapping_areas()
-			var cursorNoLocal = false 
-			for i in areas:
-				if(i.is_in_group(Constantes.GRUPO_CURSOR_MOUSE)):
-					cursorNoLocal=true
-			if(cursorNoLocal):
+			
+			if(Global.verificaCursorNoLocal(self)):
 				var mousePosition = get_viewport().get_mouse_position()
 				var position = get_global_position()
 				var tamanhoArea = $CollisionShape2D.get_shape().get_extents()
@@ -75,11 +72,15 @@ func _process(delta):
 						ativaAcaoBtn(lista[posicao+primeiro])
 					else:
 						posicao = int(local)
+				
 					
-		
 		atualizaPosicao()
-		desenhaEsferas()
-	pass
+	desenhaEsferas()
+	if(Input.is_action_just_pressed("mouse_left")):
+		if(Global.verificaCursorNoLocal($AreaEsferas)):
+			if(ativadoEsferas):
+				ativado = !ativado
+				$menuEsferasCombate.habilitado=!ativado
 	
 
 func ativaAcaoBtn(botao):
@@ -88,6 +89,7 @@ func ativaAcaoBtn(botao):
 			pass
 		Constantes.TIPO_ELEMENTO_MENU_ATAQUE: 
 			ativado=false
+			ativadoEsferas = false
 			var ataque = GolpesClasses.getAtaquePorId(botao.extra,personagemTurno)
 			get_parent().seleciona(ataque,personagemTurno)
 		_:
@@ -134,11 +136,11 @@ func desenhaEsferas():
 		var EM = personagemTurno.personagem.esferas
 		EM -= EA+ED+EAc+EE
 		
-		$esferas/lbl_esfera_Dano.set_text(str(EA))
-		$esferas/lbl_esfera_Defesa.set_text(str(ED))
-		$esferas/lbl_esfera_Acerto.set_text(str(EAc))
-		$esferas/lbl_esfera_Esquiva.set_text(str(EE))
-		$esferas/lbl_esfera_Morta.set_text(str(EM))
+		$AreaEsferas/esferas/lbl_esfera_Dano.set_text(str(EA))
+		$AreaEsferas/esferas/lbl_esfera_Defesa.set_text(str(ED))
+		$AreaEsferas/esferas/lbl_esfera_Acerto.set_text(str(EAc))
+		$AreaEsferas/esferas/lbl_esfera_Esquiva.set_text(str(EE))
+		$AreaEsferas/esferas/lbl_esfera_Morta.set_text(str(EM))
 
 func zerarLinhas():
 	for i in 8:

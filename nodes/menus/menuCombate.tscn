@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://sprites/menus/menuCombate/fundoMenu.png" type="Texture" id=1]
 [ext_resource path="res://script/menus/menuCombate.gd" type="Script" id=2]
 [ext_resource path="res://nodes/objetos/cursorMenuCombate.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/menus/menuCombate/btnEsferas.png" type="Texture" id=4]
 [ext_resource path="res://fontes/quicksand/Quicksand-Bold.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://nodes/menus/menuEsferasCombate.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://fontes/quicksand/Quicksand-Bold.otf"
@@ -140,17 +141,19 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
 
-[node name="CollisionEsferas" type="CollisionShape2D" parent="."]
+[node name="AreaEsferas" type="Area2D" parent="."]
+
+[node name="CollisionEsferas" type="CollisionShape2D" parent="AreaEsferas"]
 position = Vector2( 0, -110 )
 rotation = 1.5708
 shape = SubResource( 4 )
 
-[node name="esferas" type="Sprite" parent="."]
+[node name="esferas" type="Sprite" parent="AreaEsferas"]
 position = Vector2( 0, -110 )
 scale = Vector2( 0.25, 0.2 )
 texture = ExtResource( 4 )
 
-[node name="lbl_esfera_Dano" type="Label" parent="esferas"]
+[node name="lbl_esfera_Dano" type="Label" parent="AreaEsferas/esferas"]
 margin_left = -265.295
 margin_top = -34.1372
 margin_right = -225.295
@@ -164,7 +167,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_esfera_Defesa" type="Label" parent="esferas"]
+[node name="lbl_esfera_Defesa" type="Label" parent="AreaEsferas/esferas"]
 margin_left = -142.401
 margin_top = -34.1372
 margin_right = -102.401
@@ -178,7 +181,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_esfera_Acerto" type="Label" parent="esferas"]
+[node name="lbl_esfera_Acerto" type="Label" parent="AreaEsferas/esferas"]
 margin_left = -17.5564
 margin_top = -34.1372
 margin_right = 22.4436
@@ -192,7 +195,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_esfera_Esquiva" type="Label" parent="esferas"]
+[node name="lbl_esfera_Esquiva" type="Label" parent="AreaEsferas/esferas"]
 margin_left = 107.288
 margin_top = -31.6989
 margin_right = 147.288
@@ -206,7 +209,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_esfera_Morta" type="Label" parent="esferas"]
+[node name="lbl_esfera_Morta" type="Label" parent="AreaEsferas/esferas"]
 margin_left = 224.33
 margin_top = -34.1372
 margin_right = 264.33
@@ -219,3 +222,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="menuEsferasCombate" parent="." instance=ExtResource( 6 )]
+position = Vector2( -140, 0 )

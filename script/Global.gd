@@ -11,6 +11,7 @@ class personagem:
 	var lv =1
 	var classe =0
 	var esferas=5
+	var maxValorEsferas = 3
 	var experiencia
 	
 	var hpMaximo
@@ -77,6 +78,11 @@ class personagem:
 	var acertoMagicoBonus
 	var esquivaMagicaBonus
 	var bloqueioMagicoBonus
+	
+	var esferasAtaqueBonus
+	var esferasDefesaBonus
+	var esferasEsquivaBonus
+	var esferasAcertoBonus
 	
 	func retornaHpRate():
 		return hpAtual*100/hpMaximo
@@ -261,4 +267,10 @@ class elementoMenu:
 	func set_extra(extra):
 		self.extra=extra
 
-
+func verificaCursorNoLocal(area):
+	var areas = area.get_overlapping_areas()
+	var cursorNoLocal = false 
+	for i in areas:
+		if(i.is_in_group(Constantes.GRUPO_CURSOR_MOUSE)):
+			cursorNoLocal=true
+	return cursorNoLocal
