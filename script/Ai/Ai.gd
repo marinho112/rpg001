@@ -31,16 +31,34 @@ class AiRaiz :
 		var lista = []
 		var listaTemp = []
 		var num_alvos = numAlvos
+		var alvos_validos = []
+		var alvos_secundarios = []
+		var contadorAdicao=0
+		# Recece alvos da linha de frente
+		for alvo in inimigos:
+			if(alvo.personagem.posicaoCombate<3):
+				alvos_validos.append(alvo)
+			else:
+				alvos_secundarios.append(alvo)
+		# se não ouver alvos na linha de frente recebe todos alvos
+		if(len(alvos_validos)==0):
+			alvos_validos = inimigos
+		# verifica se o numero de alvos é maior que o numero de oponentes
 		if(len(inimigos)<num_alvos):
 			num_alvos = len(inimigos)
 			
-		for i in len(inimigos):
+		# cria uma lista numeria do tamanho de alvos_validos
+		for i in len(alvos_validos):
 			listaTemp.append(i)
-			
+		#randomiza a lista
 		listaTemp.shuffle()
+		
+		#adiciona alvos a lista final
 		for i in num_alvos:
-			#n esta entrnado
-			lista.append(inimigos[listaTemp[i]])
+			if(i < len(alvos_validos)):
+				lista.append(alvos_validos[listaTemp[i]])
+			else:
+				lista.append(alvos_secundarios[i-len(alvos_validos)])
 		return lista
 		
 		

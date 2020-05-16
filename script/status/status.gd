@@ -23,6 +23,6 @@ class status extends Bonus.bonus:
 		if(someAoMorrer):
 			removeStatus(personagem)
 			
-	func efeitoTerminoCombate(personagem):
+	func efeitoTerminoCombate(personagem,combate):
 		if(someFimCombate):
 			removeStatus(personagem)

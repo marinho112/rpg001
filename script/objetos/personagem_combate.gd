@@ -43,9 +43,10 @@ func _process(delta):
 		golpesControleHits(delta)
 	
 
-func alteraPosicaoPermanente(posicao):
+func alteraPosicaoPermanente(posicao,inteiro):
 	set_position(posicao)
 	posicaoInicial=posicao
+	personagem.posicaoCombate = inteiro
 
 
 func atacar(atacados,Ataque):
@@ -65,7 +66,7 @@ func atacar(atacados,Ataque):
 
 func controlaAtaque(delta):
 	match controlaAtaque:
-		
+
 		0:
 			#verifica inicio do turno
 			if(true):
@@ -73,6 +74,7 @@ func controlaAtaque(delta):
 				ataque.golpesRealizados=0
 				controlaAtaque=1
 				chegarNoAlvo = false
+				personagemAtivaInicioTurno(personagem)
 		1:
 			#verifica pré Movimento
 			if(true):
@@ -119,6 +121,8 @@ func controlaAtaque(delta):
 		8:
 			#finaliza Turno
 			if(true):
+				personagemAtivaFinalTurno(personagem)
+
 				controlaAtaque=9
 		9:
 			$AnimatedSprite.set_animation("default")
@@ -571,6 +575,29 @@ func mover(distanciaX,distanciaY,delta):
 		return true
 	return false
 
+func personagemAtivaInicioTurno(personagem):
+	
+	for equipamento in personagem.retornarEquipamentosEquipados() :
+		if equipamento != null:
+			equipamento.efeitoInicioTurno(personagem)
+	
+	for habilidade in personagem.habilidadesPassivas :
+		habilidade.efeitoInicioTurno(personagem)
+	
+	for status in personagem.status:
+		status.efeitoInicioTurno(personagem)
+		
+func personagemAtivaFinalTurno(personagem):
+	
+	for equipamento in personagem.retornarEquipamentosEquipados() :
+		if equipamento != null:
+			equipamento.efeitoFinalTurno(personagem)
+	
+	for habilidade in personagem.habilidadesPassivas :
+		habilidade.efeitoFinalTurno(personagem)
+	
+	for status in personagem.status:
+		status.efeitoFinalTurno(personagem)
 
 func cura(val):
 	var msg = criarMsgDano(val)

@@ -15,6 +15,7 @@ var matrizPosicao=[]
 #Preloads
 var pre_personagem = preload("res://nodes/objetos/personagem_combate.tscn")
 var pre_cursor = preload("res://nodes/objetos/cursor.tscn")
+var pre_indicador = preload("res://nodes/objetos/SetaNumSelecao.tscn")
 
 #Variaveis Inteiras
 var tamanhoAmigo
@@ -56,19 +57,75 @@ func _ready():
 	
 	
 	listaAmigos.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
+	listaAmigos.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
+	listaAmigos.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	#listaAmigos[0]=(Global.personagemGrupo.new())
-	listaAmigos[0].posicaoCombate=0
+	listaAmigos[0].posicaoCombate=5
+	listaAmigos[1].posicaoCombate=1
+	listaAmigos[2].posicaoCombate=2
 	var arma = Equipamentos.equipamento_arma.new()
 	arma.dano=10
 	arma.defesa= 10
-	
 	carregaListaInimigos([1001,1001,1001,1001,1001])
 	
 	
 	carregar_personagens()
+	
+	ativaEfeitosInicioCombate()
 	set_process(true)
 	pass # Replace with function body.
 
+func ativaEfeitosInicioRodada():
+	for personagem in listaTurnos:
+		personagemAtivaInicioRodada(personagem.personagem)
+
+func personagemAtivaInicioRodada(personagem):
+	
+	for equipamento in personagem.retornarEquipamentosEquipados() :
+		if equipamento != null:
+			equipamento.efeitoInicioRodada(personagem,self)
+	
+	for habilidade in personagem.habilidadesPassivas :
+		habilidade.efeitoInicioRodada(personagem,self)
+	
+	for status in personagem.status:
+		status.efeitoInicioRodada(personagem,self)
+		
+func ativaEfeitosFinalRodada():
+	for personagem in listaTurnos:
+		personagemAtivaFinalRodada(personagem.personagem)
+
+func personagemAtivaFinalRodada(personagem):
+	
+	for equipamento in personagem.retornarEquipamentosEquipados() :
+		if equipamento != null:
+			equipamento.efeitoFinalRodada(personagem,self)
+	
+	for habilidade in personagem.habilidadesPassivas :
+		habilidade.efeitoFinalRodada(personagem,self)
+	
+	for status in personagem.status:
+		status.efeitoFinalRodada(personagem,self)
+		
+func ativaEfeitosInicioCombate():
+	for personagem in listaTurnos:
+		personagemAtivaInicioCombate(personagem.personagem)
+	
+	ativaEfeitosInicioRodada()
+
+
+func personagemAtivaInicioCombate(personagem):
+	
+	for equipamento in personagem.retornarEquipamentosEquipados() :
+		if equipamento != null:
+			equipamento.efeitoInicioCombate(personagem,self)
+	
+	for habilidade in personagem.habilidadesPassivas :
+		habilidade.efeitoInicioCombate(personagem,self)
+	
+	for status in personagem.status:
+		status.efeitoInicioCombate(personagem,self)
+		
 
 func carregaListaInimigos(lista):
 	var listaPosicoes=[0,1,2,3,4,5]
@@ -111,8 +168,10 @@ func desenhaMatrizPosicao():
 func _process(delta):
 	
 	if(turno>=len(listaTurnos)):
+		ativaEfeitosFinalRodada()
 		turno=0
 		rodada+=1
+		ativaEfeitosInicioRodada()
 	else:
 		animaTurno(delta)
 		if(controleDeTurno):
@@ -178,7 +237,7 @@ func carregar_personagens():
 		else:
 			y+= 180
 			
-		personagem.alteraPosicaoPermanente(Vector2(x,y))
+		personagem.alteraPosicaoPermanente(Vector2(x,y),personagem.personagem.posicaoCombate)
 		
 	for i in tamanhoInimigo:
 		var item= listaInimigos[i]
@@ -201,7 +260,7 @@ func carregar_personagens():
 		else:
 			y+= 180
 			
-		personagem.alteraPosicaoPermanente(Vector2(x,y))
+		personagem.alteraPosicaoPermanente(Vector2(x,y),personagem.personagem.posicaoCombate)
 	
 	ordenaTurno()
 	desenhaMatrizPosicao()
@@ -349,6 +408,29 @@ func clickaPersonagem():
 			listaCursoresSobressalentes.append(novoCursor)
 			
 			listaSelecionados.append((posicaoXCursor*10)+posicaoYCursor)
+		else:
+			var perso = matrizPosicao[posicaoXCursor][posicaoYCursor]
+	
+			var naLista = false
+			for cursor in listaCursoresSobressalentes:
+				if(cursor.personagem == perso):
+					naLista = true
+					var texto = int(cursor.getTexto())
+					cursor.setTexto(str(texto +1))
+			if !naLista :
+				var novoCursor = pre_indicador.instance()
+				var positionElemento = perso.get_position()
+				var frames =perso.get_node("AnimatedSprite").get_sprite_frames()
+				var anim = perso.get_node("AnimatedSprite").get_animation()
+				var frame =perso.get_node("AnimatedSprite").get_frame()
+				var tamanhoElemento = frames.get_frame(anim,frame).get_size()
+				var alturaImagem =  novoCursor.get_node("Sprite").get_texture().get_size().y
+				alturaImagem = alturaImagem * novoCursor.get_scale().y
+				positionElemento.y -= (tamanhoElemento.y + alturaImagem)/2
+				novoCursor.personagem = perso
+				listaCursoresSobressalentes.append(novoCursor)
+				novoCursor.set_global_position(positionElemento)
+				add_child(novoCursor)
 			
 		if(numSelecionados<numSelecao):
 			numSelecionados+=1

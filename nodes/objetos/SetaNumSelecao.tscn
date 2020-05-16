@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fontes/quicksand/Quicksand-Bold.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://sprites/ferramentas/setaAzul.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+var personagem 
+var ocilacao = 0
+var subindo = true
+var positionRaiz
+var velocidade = 80
+var variacaoPosicao = 7
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	positionRaiz = get_global_position()
+	set_process(true)
+	pass # Replace with function body.
+
+func _process(delta):
+	
+	
+	var position = positionRaiz
+	position.y += ocilacao
+	
+	if (ocilacao < -variacaoPosicao):
+		subindo = false
+	elif (ocilacao >variacaoPosicao):
+		subindo= true
+	
+	
+	
+	if(subindo):
+		ocilacao-=delta * velocidade
+	else:
+		ocilacao+=delta * velocidade
+	
+	set_global_position(position)
+
+
+func setTexto(texto):
+	$texto.set_text(texto)
+
+func getTexto():
+	return $texto.get_text()
+"
+
+[sub_resource type="DynamicFont" id=1]
+size = 90
+font_data = ExtResource( 1 )
+
+[node name="SetaNumSelecao" type="Node2D"]
+scale = Vector2( 0.25, 0.25 )
+script = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 2 )
+
+[node name="texto" type="Label" parent="."]
+margin_left = -30.8321
+margin_top = -62.6563
+margin_right = 33.1679
+margin_bottom = 43.3437
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
