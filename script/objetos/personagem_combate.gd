@@ -281,7 +281,6 @@ func calculaDano(alvo):
 	if(danoCausado <= 0):
 		danoCausado = 1
 	
-	
 	return danoCausado
 	
 
@@ -489,11 +488,13 @@ func acertoFormula(num1,num2):
 
 func sofreDano(valor):
 	
-	criarMsgDano(valor)
-	animacaoApanhar()
+	if(valor >= 0):
+		personagem.recebeDano(valor)
+		criarMsgDano(valor)
+		animacaoApanhar()
+	else:
+		cura(-valor)
 	
-	
-	pass
 	
 func criarMsgDano(valor):
 	

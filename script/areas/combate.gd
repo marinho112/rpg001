@@ -226,6 +226,7 @@ func carregar_personagens():
 		personagem.get_node("AnimatedSprite").set_animation("default")
 		listaAmigosObjeto.append(personagem)
 		add_child(personagem)
+		item.recuperaTudo(2)
 		personagem.personagem=item
 		personagem.add_to_group(Constantes.GRUPO_ALIADOS)
 		
@@ -248,9 +249,11 @@ func carregar_personagens():
 		var personagem = load(raiz).instance()
 		personagem.virado = true
 		personagem.get_node("AnimatedSprite").set_flip_h(personagem.virado)
+		item.recuperaTudo(2)
 		personagem.personagem=item
 		listaInimigosObjeto.append(personagem)
 		add_child(personagem)
+		
 		personagem.add_to_group(Constantes.GRUPO_INIMIGO)
 		var x=400
 		var y= item.posicaoCombate * 130

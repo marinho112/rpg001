@@ -130,7 +130,7 @@ class personagem:
 		self.will=will
 		
 		
-		calculaAtributos()
+		#calculaAtributos()
 		
 		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
 	func calculaAtributos():
@@ -155,8 +155,7 @@ class personagem:
 		for item in habilidadesPassivas:
 			ativaEfeitoPassivoCampo(item)
 		
-		
-		
+
 		dano = int(((forca+forcaBonus)/10.0) + ((forca+forcaBonus)*(destreza+destrezaBonus)/divisor))
 		danoMagico = int(((inteligencia+inteligenciaBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(will+willBonus)/divisor))
 		danoDistancia = int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(forca+forcaBonus)/divisor))
@@ -174,6 +173,11 @@ class personagem:
 		if((item!=null)):
 			item.efeitoPassivo(self)
 			
+	func recebeDano(val):
+		hpAtual -= val
+		if(hpAtual < 0):
+			hpAtual=0
+			
 	func cura(val):
 		hpAtual += val
 		if(hpAtual > hpMaximo):
@@ -184,10 +188,20 @@ class personagem:
 		if(mpAtual > mpMaximo):
 			mpAtual=mpMaximo
 	
+	func recuperaTudo(num):
+		match num:
+			0:
+				hpAtual=hpMaximo
+			1:
+				mpAtual=mpMaximo
+			_: 
+				hpAtual=hpMaximo
+				mpAtual=mpMaximo
+			
 class personagemGrupo extends personagem:
 	
-	var baseHp
-	var baseMp
+	var baseHp =1
+	var baseMp = 1
 	
 	var menu=[]
 	var listaItensComuns=[]
@@ -222,7 +236,12 @@ class personagemGrupo extends personagem:
 		return lista
 	
 	func calculaAtributos():
+		hpMaximo = baseHp * (lv+5) /2
+		hpMaximo += hpMaximo * vitalidade / 10
+		mpMaximo = baseMp * (lv+5) / 2
+		mpMaximo += mpMaximo * will /10 
 		.calculaAtributos()
+		
 		
 		ativaEfeitoPassivoCampo(equipeCabeca)
 		ativaEfeitoPassivoCampo(equipeCorpo)
