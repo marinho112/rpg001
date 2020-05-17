@@ -178,13 +178,15 @@ func _process(delta):
 			var daVez= listaTurnos[turno]
 			
 			if (daVez.is_in_group(Constantes.GRUPO_ALIADOS)) :
-				
 				var menu = get_node("menuCombate")
-				menu.ativado = true
-				menu.ativadoEsferas = true
 				menu.personagemTurno = daVez
 				menu.trocaPersonagemMenu()
-				controleDeTurno = false
+				if(daVez.taMorto):
+					terminaTurno()
+				else:
+					menu.ativado = true
+					controleDeTurno = false
+					menu.ativadoEsferas = true
 			else:
 				if(daVez.personagem.ai == null):
 					turno+=1
@@ -457,6 +459,8 @@ func terminaSelecao():
 	
 func desenhaCursorSelecao(delta):
 	
+	var personagemNome = matrizPosicao[posicaoXCursor][posicaoYCursor].personagem.nome
+	alertaCombate(personagemNome,null,0.2,false)
 	#var position = $cursor.get_position()
 	var perso = matrizPosicao[posicaoXCursor][posicaoYCursor]
 	var positionElemento = perso.get_position()
@@ -540,13 +544,18 @@ func terminaTurno():
 		
 
 func alertaCombate(titulo,texto,tempo,pausar):
-	$alertaTelaCombate/fundo/titulo.set_text(titulo)
-	$alertaTelaCombate/fundo/texto.set_text(texto)
+	$alertaTelaCombate/titulo.set_text(titulo)
 	$timerAlerta.set_wait_time(tempo)
 	$alertaTelaCombate.set_visible(true)
 	$timerAlerta.start()
 	get_tree().paused=pausar
-	
+	if(texto != null):
+		$alertaTelaCombate/fundo/texto.set_text(texto)
+		$alertaTelaCombate/fundo.set_visible(true)
+		$alertaTelaCombate/fundoTitulo.set_visible(false)
+	else:
+		$alertaTelaCombate/fundoTitulo.set_visible(true)
+		$alertaTelaCombate/fundo.set_visible(false)
 	pass
 
 

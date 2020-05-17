@@ -41,12 +41,12 @@ func _on_ataque_simples_area_entered(area):
 	
 	if(is_in_group(Constantes.GRUPO_ALIADOS)and !(area.is_in_group(Constantes.GRUPO_ATAQUE))):
 		if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
-			if((area.bloqueado<=0)and (!get_parent().voltando)):
+			if((area.bloqueado<=0)and (!get_parent().voltando)and (!area.taMorto)):
 				golpeia(area)
 				
 	elif(is_in_group(Constantes.GRUPO_INIMIGO)and !(area.is_in_group(Constantes.GRUPO_ATAQUE))):
 		if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
-			if((area.bloqueado<=0)and (!get_parent().voltando)):
+			if((area.bloqueado<=0)and (!get_parent().voltando)and (!area.taMorto)):
 				golpeia((area))
 				
 	pass # Replace with function body.

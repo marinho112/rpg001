@@ -30,22 +30,26 @@ class AiRaiz :
 	func escolherAlvoOfensivo(inimigos,aliados,numAlvos):
 		var lista = []
 		var listaTemp = []
+		var inimigosVivos = []
 		var num_alvos = numAlvos
 		var alvos_validos = []
 		var alvos_secundarios = []
 		var contadorAdicao=0
 		# Recece alvos da linha de frente
 		for alvo in inimigos:
+			if(!alvo.taMorto):
+				inimigosVivos.append(alvo)
+		for alvo in inimigosVivos:
 			if(alvo.personagem.posicaoCombate<3):
 				alvos_validos.append(alvo)
 			else:
 				alvos_secundarios.append(alvo)
 		# se não ouver alvos na linha de frente recebe todos alvos
 		if(len(alvos_validos)==0):
-			alvos_validos = inimigos
+			alvos_validos = inimigosVivos
 		# verifica se o numero de alvos é maior que o numero de oponentes
-		if(len(inimigos)<num_alvos):
-			num_alvos = len(inimigos)
+		if(len(inimigosVivos)<num_alvos):
+			num_alvos = len(inimigosVivos)
 			
 		# cria uma lista numeria do tamanho de alvos_validos
 		for i in len(alvos_validos):

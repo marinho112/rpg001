@@ -198,6 +198,7 @@ class personagem:
 				hpAtual=hpMaximo
 				mpAtual=mpMaximo
 			
+	
 class personagemGrupo extends personagem:
 	
 	var baseHp =1

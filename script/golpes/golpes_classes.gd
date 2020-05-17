@@ -75,7 +75,6 @@ class Ataque_Basico_Fisico_Corpo_a_Corpo extends Ataque:
 		
 		idAtaque=Constantes.ATAQUE_BASICO_FISICO_CORPO_A_CORPO
 		distanciaDeSurgimentoDoGolpe = 50
-		numSelecao = 3
 
 class Ataque_Basico_Fisico_Distancia extends Ataque:
 	

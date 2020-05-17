@@ -10,6 +10,9 @@ var alvo
 var rotacionar = true 
 var speed = 1000
 var EsbarraFrente = true
+var setado = false
+ 
+var variacao = Vector2(0,0)
 
 func _ready():
 	set_process(true)
@@ -17,38 +20,37 @@ func _ready():
 
 func _process(delta):
 	if(alvo != null):
-		var alvo_position=alvo.get_global_position()
-		var self_position= get_global_position()
-		var angulo = Vector2(0,0)
-		var catetoX = alvo_position.x - self_position.x
-		var catetoY = alvo_position.y - self_position.y
-		var hipotenusa = (catetoX*catetoX) + (catetoY+catetoY)
-		hipotenusa = sqrt(hipotenusa) 
-		var s = catetoY / hipotenusa
-		var c = catetoX / hipotenusa
-		if(rotacionar):
-			if(get_parent().is_in_group(Constantes.GRUPO_INIMIGO)):
-				set_rotation(s)
+		if(!setado):
+			var alvo_position=alvo.get_global_position()
+			var self_position= get_global_position()
+			var angulo = Vector2(0,0)
+			var catetoX = alvo_position.x - self_position.x
+			var catetoY = alvo_position.y - self_position.y
+			var hipotenusa = (catetoX*catetoX) + (catetoY+catetoY)
+			hipotenusa = sqrt(hipotenusa) 
+			var s = catetoY / hipotenusa
+			var c = catetoX / hipotenusa
+			if(rotacionar):
+				if(get_parent().is_in_group(Constantes.GRUPO_INIMIGO)):
+					set_rotation(s)
+				else:
+					set_rotation(-s)
+				rotacionar=false
+			if(self_position.x > alvo_position.x):
+				variacao.x = -(delta * -c)
 			else:
-				set_rotation(-s)
-			
-			
-			rotacionar=false
-		
-		
-		if(self_position.x > alvo_position.x):
-			self_position.x -= (delta* speed * -c)
-		else:
-			self_position.x += (delta* speed * c)
-			
-		if(self_position.y > alvo_position.y):
-			self_position.y -= (delta* speed * -s)
-		else:
-			self_position.y += (delta* speed * s)
-		
-		set_global_position(self_position)
+				variacao.x= (delta * c)
+				
+			if(self_position.y > alvo_position.y):
+				variacao.y= -(delta * -s)
+			else:
+				variacao.y= (delta * s)
+			setado = true
+		set_global_position(get_global_position()+ (variacao*speed))
 	else:
 		alvo= get_parent().ataque.inimigoAtacado
+	if((get_global_position().x < -100)):
+		set_visible(false)
 		
 func golpeia(area):
 	estaNaLista=false
@@ -58,8 +60,12 @@ func golpeia(area):
 	if(!estaNaLista):
 		lista.append(area)
 		listaHits.append(0)
-		listaAcerto.append(get_parent().calculaAcerto(area))
-		
+		var acerto = get_parent().calculaAcerto(area)
+		listaAcerto.append(acerto)
+		if(acerto != 1):
+			set_visible(false)
+			speed=0
+		#fazer sumir quando chegar no alvo
 		#$timerHit.play()
 		
 
@@ -71,19 +77,16 @@ func _on_ataque_simples_area_entered(area):
 	
 	if(is_in_group(Constantes.GRUPO_ALIADOS) and !(area.is_in_group(Constantes.GRUPO_ATAQUE))):
 		if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
-			if(EsbarraFrente or (area == alvo)):
+			if((EsbarraFrente or (area == alvo))and (!area.taMorto)):
 				if(area.bloqueado<=0):
 					golpeia(area)
-					set_visible(false)
-					speed=0
+					
 				
 	elif(is_in_group(Constantes.GRUPO_INIMIGO)and !(area.is_in_group(Constantes.GRUPO_ATAQUE))):
 		if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
-			if(EsbarraFrente or (area == alvo)):
+			if((EsbarraFrente or (area == alvo))and (!area.taMorto)):
 				if(area.bloqueado<=0):
 					golpeia((area))
-					set_visible(false)
-					speed=0
 	pass # Replace with function body.
 
 

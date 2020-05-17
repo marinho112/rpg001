@@ -1,4 +1,4 @@
-extends Node2D
+extends KinematicBody2D
 
 var posicaoX= 1
 var posicaoY= 1
@@ -6,20 +6,18 @@ var posicaoXOld=1
 var posicaoYOld=1
 var andando=false
 var contador=0
-
-var velocidade= 80.0
+var velocidadeAngularX 
+var velocidadeAngularY
+	
+var velocidade= 200.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_process(true)
-	pass # Replace with function body.
-
-func _process(delta):
-	contador+=delta
 	
-	if(contador>=0.1):
-		contador=0
-		controlarAndar(delta)
+func _process(delta):
+	
+	controlarAndar(delta)
 	
 	desenhaPosicao(delta)
 	
@@ -28,16 +26,29 @@ func controlarAndar(delsta):
 	posicaoYOld=posicaoY
 	posicaoX= 1
 	posicaoY= 1
+	velocidadeAngularX = 0
+	velocidadeAngularY=0
 	
 	
 	if Input.is_action_pressed("ui_down"):
 		posicaoY=2
+		velocidadeAngularY = 0.5
 	if Input.is_action_pressed("ui_up"):
 		posicaoY=0
+		velocidadeAngularY = 0.5
 	if Input.is_action_pressed("ui_left"):
 		posicaoX=0
+		velocidadeAngularX = 0.5
 	if Input.is_action_pressed("ui_right"):
 		posicaoX=2
+		velocidadeAngularX = 0.5
+		
+	
+	var controle = velocidadeAngularX
+	velocidadeAngularX = velocidadeAngularX + (0.25-velocidadeAngularY/2.0)
+	velocidadeAngularY = velocidadeAngularY + (0.25-controle/2.0)
+	
+	
 	
 func desenhaPosicao(delta):
 	if ((posicaoX != 1) or (posicaoY != 1)):
@@ -73,13 +84,12 @@ func desenhaPosicao(delta):
 						
 		$AnimationPlayer.play("andar")
 		var position =get_position()
-		set_position(Vector2(position.x+((posicaoX-1)*velocidade*delta),position.y+((posicaoY-1)*velocidade*delta)))
+		move_and_slide(Vector2(((posicaoX-1)*velocidade*velocidadeAngularX),((posicaoY-1)*velocidade*velocidadeAngularY)))
 	elif(andando):
 		andando=false
 		$AnimatedSprite.set_flip_h(false)
 		$AnimationPlayer.stop()
 		$AnimatedSprite.set_animation("parado")
-		print(posicaoYOld)
 		match posicaoYOld:
 			0:
 				match posicaoXOld :
@@ -109,6 +119,9 @@ func desenhaPosicao(delta):
 						$AnimatedSprite.set_flip_h(true)
 
 		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
+
+		
+	
+	
+	

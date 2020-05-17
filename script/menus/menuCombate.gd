@@ -94,7 +94,7 @@ func ativaAcaoBtn(botao):
 		Constantes.TIPO_ELEMENTO_MENU_ATAQUE: 
 			ativado=false
 			ativadoEsferas = false
-			var ataque = GolpesClasses.getAtaquePorId(botao.extra,personagemTurno)
+			var ataque = GolpesClasses.getAtaquePorId(botao.extra,personagemTurno.personagem)
 			get_parent().seleciona(ataque,personagemTurno)
 		_:
 			posicao=0

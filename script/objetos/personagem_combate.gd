@@ -20,6 +20,7 @@ var iniciaCombate = true
 var chegarNoAlvo
 var moverAtaque
 var esperandoAtaque = 0
+var taMorto = false
 
 #caracteristicas personagem
 var speed = 300
@@ -65,72 +66,78 @@ func atacar(atacados,Ataque):
 
 
 func controlaAtaque(delta):
-	match controlaAtaque:
-
-		0:
-			#verifica inicio do turno
-			if(true):
-				#ataque.ataquesRealizados=0
-				ataque.golpesRealizados=0
-				controlaAtaque=1
-				chegarNoAlvo = false
-				personagemAtivaInicioTurno(personagem)
-		1:
-			#verifica pré Movimento
-			if(true):
-				controlaAtaque=2
-				if((ataque.ataquesRealizados<len(ataque.atacados))):
-					ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
-		2:
-			if(chegarNoAlvo or (bloqueado>0) or (ataque.ataquesRealizados>=len(ataque.atacados))):
-				controlaAtaque=3
-			else:
-				moverAtaque(delta)
-		3:
-			#verifica pre ataque
-			if(true):
-				ativaTodosEfeitosPreAtaque(personagem)
-				ativaTodosEfeitoAoSerAtacado(personagem)
-				controlaAtaque=4
-				
-		4:
-			if(ataque.golpesRealizados>=ataque.golpesPorAtaque):
-				ataque.ataquesRealizados+=1
-				voltando = true
-				controlaAtaque=5
-			else:
-				animacaoAtaque(delta)
-		5: #verifica Pós ataque
-			if(esperandoAtaque<= 0):
-				esperandoAtaque = 0
-				ativaTodosEfeitosPosAtaque(personagem)
-				controlaAtaque=6
-		
-		6: 
-			if(!voltando):
-				controlaAtaque = 7
-			else:
-				animacaoVoltar(delta)
-		7:
-			#Retorna Posicao
-			if(ataque.ataquesRealizados<len(ataque.atacados)):
-				controlaAtaque=1
-				ataque.golpesRealizados=0
-			else:
-				controlaAtaque=8
-		8:
-			#finaliza Turno
-			if(true):
-				personagemAtivaFinalTurno(personagem)
-
-				controlaAtaque=9
-		9:
-			$AnimatedSprite.set_animation("default")
-			$AnimationPlayer.stop()
-			controlaAtaque=10
-			get_parent().terminaTurno()
-		_:
-			pass
+		match controlaAtaque:
+	
+			0:
+				if(taMorto):
+					controlaAtaque=10	
+					get_parent().terminaTurno()
+					
+				#verifica inicio do turno
+				elif(true):
+					#ataque.ataquesRealizados=0
+					ataque.golpesRealizados=0
+					controlaAtaque=1
+					chegarNoAlvo = false
+					personagemAtivaInicioTurno(personagem)
+			1:
+				#verifica pré Movimento
+				if(true):
+					controlaAtaque=2
+					if((ataque.ataquesRealizados<len(ataque.atacados))):
+						ataque.inimigoAtacado = ataque.atacados[ataque.ataquesRealizados]
+			2:
+				if(chegarNoAlvo or (bloqueado>0) or (ataque.ataquesRealizados>=len(ataque.atacados))):
+					controlaAtaque=3
+				else:
+					moverAtaque(delta)
+			3:
+				#verifica pre ataque
+				if(true):
+					ativaTodosEfeitosPreAtaque(personagem)
+					ativaTodosEfeitoAoSerAtacado(personagem)
+					controlaAtaque=4
+					
+			4:
+				if(ataque.golpesRealizados>=ataque.golpesPorAtaque):
+					ataque.ataquesRealizados+=1
+					voltando = true
+					controlaAtaque=5
+				else:
+					animacaoAtaque(delta)
+			5: #verifica Pós ataque
+				if(esperandoAtaque<= 0):
+					esperandoAtaque = 0
+					ativaTodosEfeitosPosAtaque(personagem)
+					controlaAtaque=6
+			
+			6: 
+				if(!voltando):
+					controlaAtaque = 7
+				else:
+					animacaoVoltar(delta)
+			7:
+				#Retorna Posicao
+				if(ataque.ataquesRealizados<len(ataque.atacados)):
+					controlaAtaque=1
+					ataque.golpesRealizados=0
+				else:
+					controlaAtaque=8
+			8:
+				#finaliza Turno
+				if(true):
+					verificaMorte()
+					personagemAtivaFinalTurno(personagem)
+	
+					controlaAtaque=9
+			9:
+				$AnimatedSprite.set_animation("default")
+				$AnimationPlayer.stop()
+				controlaAtaque=10
+				get_parent().terminaTurno()
+			_:
+				pass
+	
 	
 func moverAtaque(delta):
 
@@ -208,11 +215,11 @@ func bloqueado(area):
 		if((area!=ataque.inimigoAtacado) and !voltando and (controlaAtaque<7)):
 			if(!area.is_in_group(Constantes.GRUPO_ATAQUE)):
 				if(is_in_group(Constantes.GRUPO_ALIADOS)):
-					if(area.is_in_group(Constantes.GRUPO_INIMIGO)):
+					if((area.is_in_group(Constantes.GRUPO_INIMIGO))and (!area.taMorto)):
 						foiBloquado(2,area)
 	
 				elif(is_in_group(Constantes.GRUPO_INIMIGO)):
-					if(area.is_in_group(Constantes.GRUPO_ALIADOS)):
+					if((area.is_in_group(Constantes.GRUPO_ALIADOS))and (!area.taMorto)):
 						foiBloquado(2,area)
 
 func foiBloquado(tipo,bloqueador):
@@ -424,7 +431,7 @@ func encaminhaAcerto(val,alvo):
 			criarMsgDano(0)
 		2:
 			alvo.sofreDano(calculaDano(alvo))
-			
+	
 func calculaBonusRaca(atacante,alvo):
 	var bonus = 100
 	var alvoRaca = alvo.raca
@@ -612,8 +619,39 @@ func recuperaMp(val):
 	lbl.set("custom_colors/font_color",Color(0,0,240))
 	personagem.recuperaMp(val)
 
+func morrer():
+	if(is_in_group(Constantes.GRUPO_INIMIGO)):
+		var papai = get_parent()
+		papai.listaAmigosObjeto.erase(self)
+		papai.listaInimigosObjeto.erase(self)
+		papai.listaTurnos.erase(self) 
+		for lista in papai.matrizPosicao:
+			for i in 3:
+				if(lista[i]==self):
+					lista[i]=null
+		queue_free()
+	else:
+		print("MORRI!")
+		taMorto = true
+		$AnimatedSprite.set_animation("morto")
+	
+	
+func verificaMorte():
+	
+	for personagem in get_parent().listaTurnos:
+		if(personagem.personagem.hpAtual <= 0):
+			personagem.morrer()
 
-
+func verificaFimDoCombate():
+	var papai = get_parent()
+	var geralMorreu = true
+	if(len(papai.listaInimigosObjeto)<=0):
+		print("Aliado Venceu")
+	for personagem in papai.listaAmigosObjeto:
+		if(!personagem.taMorto):
+			geralMorreu = false
+	if(geralMorreu):
+		print("aliado Perdeu")
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
