@@ -36,3 +36,4 @@ anims/andar = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 24 )
 shape = SubResource( 2 )
+[connection signal="input_event" from="." to="." method="_on_personagem_input_event"]

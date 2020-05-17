@@ -21,6 +21,13 @@ func _process(delta):
 	
 	desenhaPosicao(delta)
 	
+	
+	
+	
+func controlaInteracao():
+	if(is_on_wall()):
+		print(str(3))
+	
 func controlarAndar(delsta):
 	posicaoXOld=posicaoX
 	posicaoYOld=posicaoY
@@ -118,10 +125,6 @@ func desenhaPosicao(delta):
 						$AnimatedSprite.set_frame(1)
 						$AnimatedSprite.set_flip_h(true)
 
-		
 
+	
 
-		
-	
-	
-	
