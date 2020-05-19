@@ -1,7 +1,22 @@
+##Menu Principal##
+PERSONAGENS
+ITENS
+Bestiario
+OPÇOES
+AJUDA
+SAIR
+
+##Sub Menu Personagem##
 STATUS
 EQUIPAMENTOS
 HABILIDADES
-ITENS
-OPÇOES
-Bestiario
-AJUDA
+ESFERAS
+
+##Abas Itens##
+Utilizavel
+Equipamento
+Outros
+
+##Abas Habilidades##
+Ofensivas (Fisicas / Magicas)
+Passivas (Fisicas / Magicas)
