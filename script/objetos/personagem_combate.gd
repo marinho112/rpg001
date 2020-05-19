@@ -40,9 +40,9 @@ func _ready():
 
 func _process(delta):
 	
-		controlaAtaque(delta)
-		golpesControleHits(delta)
-	
+	controlaAtaque(delta)
+	golpesControleHits(delta)
+
 
 func alteraPosicaoPermanente(posicao,inteiro):
 	set_position(posicao)
@@ -543,8 +543,8 @@ func animacaoVoltar(delta):
 			
 			if(bloqueado > 0):
 				if(bloqueado>1):
-					var tituloAlerta="Bloqueado!"
-					var textoAlerta= "Seu golpe foi bloqueado pelo oponente que estava \nno caminho. Tente atacar um oponente que não \nesteja protegido."
+					var tituloAlerta=ControlaDados.receberTexto("combate",1)
+					var textoAlerta= ControlaDados.receberTexto("combate",2)
 					get_parent().alertaCombate(tituloAlerta,textoAlerta,3,true)
 				
 				bloqueado=0

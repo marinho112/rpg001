@@ -63,9 +63,7 @@ func _ready():
 	listaAmigos[0].posicaoCombate=5
 	listaAmigos[1].posicaoCombate=1
 	listaAmigos[2].posicaoCombate=2
-	var arma = Equipamentos.equipamento_arma.new()
-	arma.dano=10
-	arma.defesa= 10
+	
 	carregaListaInimigos([1001,1001,1001,1001,1001])
 	
 	

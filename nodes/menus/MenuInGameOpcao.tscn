@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 126.001, 13.9993 )
+
+[node name="OpcaoPersonagem" type="Area2D"]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="texto" type="Label" parent="."]
+margin_left = -118.0
+margin_top = -12.0
+margin_right = 8.99966
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Opcões"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

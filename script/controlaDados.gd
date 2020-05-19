@@ -32,7 +32,7 @@ func converteStringInMob(dividido):
 	
 	var mob = Global.personagemMob.new()
 	mob.ID = int(dividido[0])
-	mob.nome = dividido[1]
+	mob.nome = receberTexto("mobs",int(dividido[1]))
 	mob.lv = int(dividido[2])
 	mob.classe = int(dividido[3])
 	mob.esferas=int(dividido[4])
@@ -84,7 +84,7 @@ func converteStringInPersonagem(dividido):
 	per.habilidadesPassivas = []
 	
 	per.ID = int(dividido[0])
-	per.nome = dividido[1]
+	per.nome = receberTexto("personagens",int(dividido[1]))
 	per.lv = int(dividido[2])
 	per.classe = int(dividido[3])
 	per.baseHp = int(dividido[4])
@@ -131,11 +131,11 @@ func carregaInfoElementoMenu(id,personagem):
 	if not erro:
 		while(!arquivo.eof_reached()):
 			conteudo = arquivo.get_line()
-			if(conteudo.length( ) >2):
+			if(conteudo.length() >2):
 				if((conteudo[0]!="/")and(conteudo[1]!="/")):
 					var dividido = conteudo.split(",")
 					if(dividido[0] == str(id)):
-						var elementoMenu = Global.elementoMenu.new(int(dividido[1]),dividido[2],int(dividido[3]),int(dividido[4]))
+						var elementoMenu = Global.elementoMenu.new(int(dividido[1]),receberTexto("menus",int(dividido[2])),int(dividido[3]),int(dividido[4]))
 						return elementoMenu
 	else:
 		print("ERRO!!")
@@ -178,3 +178,29 @@ func carregaMenuCombate(listaItens,personagem):
 			lista.append(elementoMenu)
 	
 	return lista
+
+func receberTexto(arqui,num):
+	var arquivo = File.new()
+	#var erro = arquivo.open("res://dados/teste.data",File.WRITE)
+	var local = "res://Textos/" + VariaveisGlobais.idioma +"/"+arqui+".data"
+	var erro = arquivo.open(local,File.READ)
+	
+	if not erro:
+		var conteudo = arquivo.get_as_text()
+		var cortado = conteudo.split("¶")
+		var valor = 2
+		if(num>9):
+			valor+=1
+		if(num>99):
+			valor+=1
+		if(num>999):
+			valor+=1
+		var texto = removeInicioInvalido(cortado[num])
+		return removeInicioInvalido(texto.right(valor))
+	
+	return ""
+	
+func removeInicioInvalido(string):
+	while((string!="")and((string[0]==" ") or (string[0]=="	") or (string[0]=="\n"))):
+		string = string.right(1)
+	return string

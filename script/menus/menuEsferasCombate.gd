@@ -3,8 +3,11 @@ extends Node2D
 var habilitado = false
 var positionCursor = 0
 
+var textoEsferas= ControlaDados.receberTexto("menus",2)
+
 func _ready():
 	set_process(true)
+	$titulo.set_text(textoEsferas)
 	pass # Replace with function body.
 
 func _process(delta):

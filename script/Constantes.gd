@@ -1,5 +1,6 @@
 extends Node
 
+const IDIOMA_PORTUGUES_BR = "portugues-br"
 
 #GRUPOS
 const GRUPO_INIMIGO = "000000"

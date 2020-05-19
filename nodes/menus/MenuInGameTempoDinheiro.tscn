@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=1]
+
+[sub_resource type="GDScript" id=1]
+resource_name = "MenuTempoDInheiro"
+script/source = "extends Node2D
+
+var textoTempo = ControlaDados.receberTexto(\"menus\",0)+\" \"
+var textoOuro = ControlaDados.receberTexto(\"menus\",1)+\" \"
+
+func _ready():
+	
+	set_process(true)
+	
+	
+func _process(delta):
+	var tempo = textoTempo
+	var dinheiro = textoOuro
+	
+	tempo +=formataTempo(VariaveisGlobais.dias)+\":\"
+	tempo +=formataTempo(VariaveisGlobais.horas)+\":\"
+	tempo +=formataTempo(VariaveisGlobais.minutos)+\":\"
+	tempo +=formataTempo(VariaveisGlobais.segundos)
+	
+	dinheiro+=str(VariaveisGlobais.dinheiro)+\"g\"
+	
+	$Tempo.set_text(tempo)
+	$Dinheiro.set_text(dinheiro)
+
+func formataTempo(inteiro):
+	if(inteiro<10):
+		return \"0\"+str(inteiro)
+	else:
+		return str(inteiro)
+"
+
+[node name="MenuInGameTempoDinheiro" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Tempo" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.898039, 1, 0.00784314, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Tempo: 00:00:00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dinheiro" type="Label" parent="."]
+margin_left = 1.54758
+margin_top = 34.0464
+margin_right = 41.5476
+margin_bottom = 48.0464
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.898039, 1, 0.00784314, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Gold: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -3,5 +3,5 @@
 // Raças: 100-Humanoide,101-Fera,102-Peixe,103-Ave,104-Elemental,105-Dragão,106-Morto Vivo,107-Demonio,108-Golen,109-Planta
 // Propriedades:20-Neutro,21-Agua,22-Raio,23-Terra,24-Planta,25-Fogo,26-Vento,27-Gelo,28-Maligno,29-Sagrado,30-Fantasma
 // Tamanho:0-Pequeno, 1-Médio,2-Grande,3-Gigante
-1001,Coelho,1,0,4,10,37,1,20,40,30,20,10,10,101,0,20,1,mobCoelho,0,0
+1001,0,1,0,4,10,37,1,20,40,30,20,10,10,101,0,20,1,mobCoelho,0,0
 //coisas 4

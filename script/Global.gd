@@ -3,6 +3,9 @@ extends Node
 func _init():
 	randomize()
 
+func xpNecessariaLv(lv):
+	return (30*lv) + (5*lv*lv)
+
 class personagem:
 	
 	#salvar no DB
@@ -12,7 +15,7 @@ class personagem:
 	var classe =0
 	var esferas=5
 	var maxValorEsferas = 3
-	var experiencia
+	var experiencia = 0
 	
 	var hpMaximo
 	var mpMaximo
@@ -235,6 +238,9 @@ class personagemGrupo extends personagem:
 		lista.append(equipeAcessorio4)
 		
 		return lista
+	
+	func calculaXpProximoLv():
+		return Global.xpNecessariaLv(lv)
 	
 	func calculaAtributos():
 		hpMaximo = baseHp * (lv+5) /2
