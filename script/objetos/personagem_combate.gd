@@ -251,11 +251,10 @@ func calculaDano(alvo):
 	
 	var dano = personagem.dano + personagem.danoBonus
 	var defesa = alvoinfo.defesa + alvoinfo.defesaBonus
-	var rd = (defesa/15.0)
 	var danoPropriedade = calcularBonusPropriedade(ataque,alvoinfo)
 	var danoRaca = calculaBonusRaca(ataque,alvoinfo)
-	var vea= personagem.esferasAtaque
-	var ved= alvoinfo.esferasDefesa
+	var vea= personagem.esferasAtaque + ataque.bonusEsferaAtaque
+	var ved= alvoinfo.esferasDefesa - ataque.penalEsferaDefesa
 	
 	
 	if(ataque.golpeMagico):
@@ -264,15 +263,21 @@ func calculaDano(alvo):
 	elif(ataque.golpeDistancia):
 		dano= personagem.danoDistancia + personagem.danoDistanciaBonus
 	
+	
+	dano += ataque.bonusDanoAtaque 
+	defesa -= ataque.penalDefesaAtaque 
+	
+	defesa -= (ataque.penalDefRatio * defesa) /100
+	
 	dano = (3*dano) + ((dano/8.0)*(dano/8.0)) 
 	
 	#defesa = defesa + ((defesa/10)*(defesa/10)) 
 	
+	var rd = (defesa/12.5)
+	rd *= 1 +(0.25* ved)
 	
-	rd *= 1 +(0.25* alvoinfo.esferasDefesa)
 	
-	
-	dano = int(dano + (dano*vea*vea/2.0))
+	dano = int(dano + (dano*vea*vea))
 	
 	#Multiplicadores
 	dano = int(dano*danoRaca/100.0)
@@ -281,9 +286,9 @@ func calculaDano(alvo):
 	
 	dano -= int(dano*rand_range(0,30) / 100)
 	
-	defesa = int(defesa + (defesa*ved*ved/2.0))
+	defesa = int(defesa + (defesa*ved))
 	
-	var danoCausado = int(dano -((dano*rd/100.0) + (defesa/2.0)))
+	var danoCausado = int(dano -((dano*rd/100.0) + (defesa)))
 	
 	if(danoCausado <= 0):
 		danoCausado = 1
@@ -394,30 +399,32 @@ func calculaAcerto(alvo):
 	var acerto = personagem.acerto + personagem.acertoBonus
 	var esquiva = valoresAlvo.esquiva + valoresAlvo.esquivaBonus
 	var bloqueio = valoresAlvo.bloqueio + valoresAlvo.bloqueioBonus
-		
+	
+	
 	
 	if(ataque.golpeMagico):
 		acerto = personagem.acertoMagico
 		esquiva = valoresAlvo.esquivaMagico
 		bloqueio = valoresAlvo.bloqueioMagico
 	
+	
+	acerto+=  ataque.bonusAcertoAtaque 
+	esquiva-= ataque.penalEsquivaAtaque
+	bloqueio-=  ataque.penalBloqueioAtaque
 
 	
-	var chanceBloqueio = acertoFormula(acerto,bloqueio)
-	var chanceEsquiva = acertoFormula(acerto,esquiva)
+	acerto+= (personagem.esferasAcerto + ataque.bonusEsferaAcerto) * acerto
+	esquiva+= (valoresAlvo.esferasEsquiva - ataque.penalEsferaEsquiva) * esquiva
+	bloqueio+= (valoresAlvo.esferasEsquiva - ataque.penalEsferaEsquiva) * bloqueio
+
+	var chanceAcerto = randi()%acerto
+	var chanceBloqueio = randi()%bloqueio
+	var chanceEsquiva = randi()%esquiva
 	
 	
-	var diferencaEsferas = personagem.esferasAcerto - valoresAlvo.esferasEsquiva
-	if (diferencaEsferas<0):
-		diferencaEsferas*=-1
-		chanceBloqueio =chanceBloqueio / (1+(0.5*diferencaEsferas)) 
-		chanceEsquiva = chanceEsquiva / (1+(0.5*diferencaEsferas)) 
-	elif(diferencaEsferas>0):
-		chanceBloqueio += chanceBloqueio * diferencaEsferas * 0.5
-		chanceEsquiva += chanceEsquiva * diferencaEsferas * 0.5
-	if((randi()%1000 <= chanceBloqueio*10) and ataque.golpeBloqueavel):
+	if((chanceAcerto < chanceBloqueio) and ataque.golpeBloqueavel):
 		return 0
-	elif((randi()%1000<=chanceEsquiva*10) and !intangivel and ataque.golpeEsquivavel):
+	elif((chanceAcerto < chanceEsquiva) and !intangivel and ataque.golpeEsquivavel):
 		return 1
 	else:
 		return 2
@@ -476,21 +483,6 @@ func calculaBonusRaca(atacante,alvo):
 				bonus+=50
 	
 	return bonus
-
-func acertoFormula(num1,num2):
-	var dif = 0
-	var valor = 30
-	
-	if(num1>=num2):
-		dif= num1 - num2
-		for i in dif:
-			valor *= 0.95
-		return valor
-	else:
-		dif=num2 - num1
-		for i in dif:
-			valor *= 0.975
-		return 30 + (30 - valor)
 
 
 func sofreDano(valor):

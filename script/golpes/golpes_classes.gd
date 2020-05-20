@@ -19,7 +19,6 @@ class Ataque:
 	#Caracteristicas ataque]
 	var idAtaque
 	var nome = ""
-	var skillRatio = 100
 	var custoMP = 0
 	var ataquesRealizados =0 
 	var golpesRealizados = 0 
@@ -54,9 +53,27 @@ class Ataque:
 	var golpeElemento= Constantes.PROPRIEDADE_DO_ATAQUE_NEUTRO
 	var golpeTipoDano= Constantes.TIPO_DE_DANO_CONTUSIVO
 	
+	#Bonus
+	var skillRatio = 100
+	var bonusDanoAtaque = 0
+	var bonusAcertoAtaque = 0
+	var bonusEsferaAcerto = 0
+	
+	
+	#Penalidade
+	var penalDefRatio = 0
+	var penalDefesaAtaque = 0
+	var penalEsquivaAtaque = 0
+	var penalBloqueioAtaque = 0
+	var penalEsferaDefesa = 0
+	var penalEsferaEsquiva = 0
+	
 	
 	var animation
 	var nodeAtaque
+	
+	var listaStatus=[]
+	var listaChanceStatus = []
 	
 	#variaveis controle
 	var atacados=[]
