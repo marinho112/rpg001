@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=1]
+
+[sub_resource type="GDScript" id=2]
+resource_name = "MenuInGameItem"
+script/source = "extends Area2D
+
+var item
+var pesoTexto = \"\"
+func _ready():
+	pesoTexto = ControlaDados.receberTexto(\"menus\",18)
+
+func defItem(item):
+	self.item = item
+	atualizaItem()
+	
+func atualizaItem():
+	$Nome.set_text(item.nome+\" x\"+ str(item.quantidade))
+	$Peso.set_text(pesoTexto+\": \"+str(item.quantidade*item.peso))
+"
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 235, 20 )
+
+[node name="Item" type="Area2D"]
+script = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Nome" type="Label" parent="."]
+margin_left = -230.0
+margin_top = -12.0
+margin_right = -28.0
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Nome do Item x000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Peso" type="Label" parent="."]
+margin_left = 81.247
+margin_top = -12.0
+margin_right = 224.247
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Peso: "
+__meta__ = {
+"_edit_use_anchors_": false
+}

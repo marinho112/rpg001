@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=1]
+[ext_resource path="res://sprites/menus/menuInGame/fundoTelaRolagem.png" type="Texture" id=2]
+[ext_resource path="res://sprites/menus/menuInGame/fundoTelaMaior.png" type="Texture" id=3]
+[ext_resource path="res://sprites/menus/menuInGame/barraDeRolagem.png" type="Texture" id=4]
+[ext_resource path="res://sprites/menus/menuCombate/selecao.png" type="Texture" id=5]
+[ext_resource path="res://script/menus/MenuInGameItens.gd" type="Script" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 184 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 12 )
+
+[node name="MenuInGameItens" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="fundo" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="bordasLista" type="Sprite" parent="fundo"]
+texture = ExtResource( 2 )
+
+[node name="barraRolagem" type="Sprite" parent="fundo"]
+position = Vector2( 231.274, -151.059 )
+scale = Vector2( 0.7, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="AreaRolagem" type="Area2D" parent="fundo"]
+position = Vector2( 231, 18 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagem"]
+shape = SubResource( 1 )
+
+[node name="AreaRolagemBntCima" type="Area2D" parent="fundo"]
+position = Vector2( 231, -183 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntCima"]
+shape = SubResource( 2 )
+
+[node name="AreaRolagemBntBaixo" type="Area2D" parent="fundo"]
+position = Vector2( 231, 215 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntBaixo"]
+shape = SubResource( 2 )
+
+[node name="AbaConsumiveis" type="Label" parent="."]
+margin_left = -240.0
+margin_top = -240.0
+margin_right = -114.0
+margin_bottom = -216.0
+rect_scale = Vector2( 1, 1.5 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Consumiveis"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbaEquipamentos" type="Label" parent="."]
+margin_left = -90.0
+margin_top = -240.0
+margin_right = 52.0
+margin_bottom = -216.0
+rect_scale = Vector2( 1, 1.5 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Equipamentos"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbaOutros" type="Label" parent="."]
+margin_left = 80.0
+margin_top = -240.0
+margin_right = 149.0
+margin_bottom = -216.0
+rect_scale = Vector2( 1, 1.5 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Outros"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cursor" type="Sprite" parent="."]
+position = Vector2( -18, -163 )
+scale = Vector2( 1.51, 1 )
+texture = ExtResource( 5 )

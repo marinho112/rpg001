@@ -6,10 +6,14 @@ var preInfoPersonagem = preload("res://nodes/menus/MenuInGameInfoPersonagem.tscn
 func _ready():
 	atualizaPersonagens()
 
-func atualizaPersonagens():
-	
+func limparPersonagens():
 	for item in listaInfoPersonagem:
 		item.queue_free()
+		listaInfoPersonagem= []
+		
+func atualizaPersonagens():
+	
+	limparPersonagens()
 	
 	for i in len(VariaveisGlobais.listaPersonagens):
 		var item = VariaveisGlobais.listaPersonagens[i]

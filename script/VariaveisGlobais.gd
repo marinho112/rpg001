@@ -2,7 +2,7 @@ extends Node
 
 var idioma = Constantes.IDIOMA_PORTUGUES_BR
 var listaPersonagens = []
-
+var listaItens=[]
 var dinheiro = 0
 
 var microTempo = 0
@@ -18,6 +18,12 @@ func _ready():
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
+	
+	for i in 15:
+		var item = Itens.item.new()
+		listaItens.append(item)
+		item.nome = "Item numero "+str(i)
+		
 	set_process(true)
 	
 func _process(delta):

@@ -4,10 +4,10 @@ extends Node
 class item:
 	
 	var id
-	var nome
-	var peso
-	var quantidade
-	var preco
+	var nome = ""
+	var peso = 0
+	var quantidade = 1
+	var preco = 0
 	var sprite
 	var descricao
 	var utilizavel = false
