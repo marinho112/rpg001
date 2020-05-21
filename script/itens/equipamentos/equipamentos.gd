@@ -7,10 +7,9 @@ class equipamento extends Bonus.bonus:
 	var tipoEquipamento
 	var ondeEquipa
 	var subTipoEquipamento
-	var descricao
-	var peso
 	var defesa = 0
 	var sprite
+	var itemEquipamento
 	
 	func equipar(personagem):
 		var equipado 
