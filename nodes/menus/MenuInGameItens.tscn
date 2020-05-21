@@ -23,9 +23,11 @@ texture = ExtResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="barraRolagem" type="Sprite" parent="fundo"]
-position = Vector2( 231.274, -151.059 )
-scale = Vector2( 0.7, 0.5 )
+position = Vector2( 231.274, 18 )
+scale = Vector2( 0.7, 11.7 )
 texture = ExtResource( 4 )
+
+[node name="detalheBarraRolagem" type="Sprite" parent="fundo/barraRolagem"]
 
 [node name="AreaRolagem" type="Area2D" parent="fundo"]
 position = Vector2( 231, 18 )

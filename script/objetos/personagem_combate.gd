@@ -417,7 +417,7 @@ func calculaAcerto(alvo):
 	esquiva+= (valoresAlvo.esferasEsquiva - ataque.penalEsferaEsquiva) * esquiva
 	bloqueio+= (valoresAlvo.esferasEsquiva - ataque.penalEsferaEsquiva) * bloqueio
 
-	var chanceAcerto = randi()%acerto
+	var chanceAcerto = randi()% (acerto + 50)
 	var chanceBloqueio = randi()%bloqueio
 	var chanceEsquiva = randi()%esquiva
 	

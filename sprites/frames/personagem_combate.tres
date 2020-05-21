@@ -24,11 +24,6 @@ animations = [ {
 "name": "morto",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "apanhando",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "movendo",
@@ -37,5 +32,10 @@ animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "batendo",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "apanhando",
 "speed": 5.0
 } ]

@@ -19,7 +19,7 @@ func _ready():
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	
-	for i in 15:
+	for i in 20:
 		var item = Itens.item.new()
 		listaItens.append(item)
 		item.nome = "Item numero "+str(i)
