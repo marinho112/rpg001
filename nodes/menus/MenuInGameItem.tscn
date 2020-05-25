@@ -8,8 +8,20 @@ script/source = "extends Area2D
 
 var item
 var pesoTexto = \"\"
+var posicao
+
 func _ready():
 	pesoTexto = ControlaDados.receberTexto(\"menus\",18)
+	set_process(true)
+
+func _process(delta):
+	if Input.is_action_just_pressed(\"mouse_left\"):
+		if(Funcoes.na_area(self,$Collision)):
+			if(posicao != get_parent().posicao):
+				get_parent().posicao=posicao
+				get_parent().desenharLista()
+			else:
+				acionaItem()
 
 func defItem(item):
 	self.item = item
@@ -18,6 +30,9 @@ func defItem(item):
 func atualizaItem():
 	$Nome.set_text(item.nome+\" x\"+ str(item.quantidade))
 	$Peso.set_text(pesoTexto+\": \"+str(item.quantidade*item.peso))
+
+func acionaItem():
+	print(str(item.descricao))
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -26,7 +41,7 @@ extents = Vector2( 235, 20 )
 [node name="Item" type="Area2D"]
 script = SubResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
 
 [node name="Nome" type="Label" parent="."]

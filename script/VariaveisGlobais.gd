@@ -21,6 +21,7 @@ func _ready():
 	
 	for i in 20:
 		var item = Itens.item.new()
+		item.descricao = str(randi())
 		listaItens.append(item)
 		item.nome = "Item numero "+str(i)
 		

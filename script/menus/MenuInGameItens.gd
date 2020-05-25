@@ -44,6 +44,7 @@ func mudarPosicaoTipoItem():
 	vetor.x+= 65
 	vetor.y+= 23
 	$fundo/bordasLista/caixaSelecaoTipo.set_global_position(vetor)
+	
 	carregaLista()
 	desenharLista()
 			
@@ -54,16 +55,18 @@ func _process(delta):
 			descerLista()
 		elif Input.is_action_just_pressed("ui_up"):
 			subirLista()
+		elif Input.is_action_just_pressed("a"):
+			listaItensObjeto[posicao].acionaItem()
 		if Input.is_action_just_pressed("mouse_left"):
-			if na_area($fundo/AreaRolagemBntCima) :
+			if Funcoes.na_area($fundo/AreaRolagemBntCima,$fundo/AreaRolagemBntCima/Collision) :
 				subirLista()
-			elif na_area($fundo/AreaRolagemBntBaixo) :
+			elif Funcoes.na_area($fundo/AreaRolagemBntBaixo,$fundo/AreaRolagemBntBaixo/Collision) :
 				descerLista()
 				
 			controlaTipoLista()
 			
 		if Input.is_action_pressed("mouse_left"):
-			if na_area($fundo/AreaRolagem) :
+			if Funcoes.na_area($fundo/AreaRolagem,$fundo/AreaRolagem/Collision) :
 				var posicaoMouse = posicaoDoCursorNaArea($fundo/AreaRolagem,len(listaItens)).y
 				while(posicaoMouse < (posicao+primeiro)):
 					subirLista()
@@ -82,14 +85,6 @@ func posicaoDoCursorNaArea(area,separacao):
 	return Vector2(int(mousePosition.x/partes.x),int(mousePosition.y/partes.y))
 	
 	
-func na_area(objeto):
-	var posicao = objeto.get_global_position()
-	var tamanho = objeto.get_node("Collision").get_shape().get_extents()
-	var mousePosicao = get_global_mouse_position()
-	var retorno =((mousePosicao.x < (posicao.x+tamanho.x))and(mousePosicao.x > (posicao.x-tamanho.x)))
-	retorno = (retorno and ((mousePosicao.y < (posicao.y+tamanho.y)) and (mousePosicao.y > (posicao.y-tamanho.y))))
-	return retorno
-	
 func desenhaCursor():
 	var posicaoX = $cursor.get_position().x
 	var posicaoY = listaItensObjeto[posicao].get_position().y
@@ -97,7 +92,7 @@ func desenhaCursor():
 
 func controlaTipoLista():
 	var area = $fundo/bordasLista/AreaSelecionaTipoItem
-	if(na_area(area)):
+	if(Funcoes.na_area(area,area.get_node("Collision"))):
 		var posicaoCursor = posicaoDoCursorNaArea(area,3)
 		match int(posicaoCursor.x):
 			0:
@@ -112,6 +107,8 @@ func controlaTipoLista():
 func carregaLista():
 	listaItens=[]
 	limpaLista()
+	primeiro = 0
+	posicao = 0
 	for item in VariaveisGlobais.listaItens:
 		if(item.tipo == tipoItemListado):
 			listaItens.append(item)
@@ -124,6 +121,7 @@ func carregaLista():
 	for i in ultimo:
 		var objeto = preItem.instance()
 		objeto.set_position(Vector2(-20,-178 +(i*30)))
+		objeto.posicao=i
 		add_child(objeto)
 		listaItensObjeto.append(objeto)
 	
@@ -165,10 +163,11 @@ func descerLista():
 func subirLista():
 	if(posicao > 0):
 		posicao-=1
-	elif(ultimo > 12):
+	elif(primeiro > 0):
 		ultimo-=1
 		primeiro-=1
 	desenharLista()
+
 
 func limpaLista():
 	for item in listaItensObjeto:

@@ -8,13 +8,13 @@
 [ext_resource path="res://sprites/menus/menuInGame/selecaoTipoItem.png" type="Texture" id=6]
 [ext_resource path="res://script/menus/MenuInGameItens.gd" type="Script" id=7]
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 235.768, 39.8567 )
-
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 184 )
+extents = Vector2( 235.768, 30 )
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 184 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 10, 12 )
 
 [node name="MenuInGameItens" type="Node2D"]
@@ -27,11 +27,11 @@ texture = ExtResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="AreaSelecionaTipoItem" type="Area2D" parent="fundo/bordasLista"]
-position = Vector2( -25, -217 )
+position = Vector2( -25, -225 )
 scale = Vector2( 1, 0.6 )
 
 [node name="Collision" type="CollisionShape2D" parent="fundo/bordasLista/AreaSelecionaTipoItem"]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="caixaSelecaoTipo" type="Sprite" parent="fundo/bordasLista"]
 position = Vector2( -175, -217 )
@@ -49,19 +49,19 @@ texture = ExtResource( 4 )
 position = Vector2( 231, 18 )
 
 [node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagem"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="AreaRolagemBntCima" type="Area2D" parent="fundo"]
 position = Vector2( 231, -183 )
 
 [node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntCima"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="AreaRolagemBntBaixo" type="Area2D" parent="fundo"]
 position = Vector2( 231, 215 )
 
 [node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntBaixo"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="AbaConsumiveis" type="Label" parent="."]
 margin_left = -240.0
