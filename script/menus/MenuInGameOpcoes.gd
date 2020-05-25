@@ -6,6 +6,7 @@ var ativado = true
 var listaMenu = []
 
 var preItem = preload("res://nodes/menus/MenuInGameItens.tscn")
+var preDescricaoItem = preload("res://nodes/menus/janelaDescricao.tscn")
 
 func _ready():
 	listaMenu.append($OpcaoStatus)
@@ -69,8 +70,11 @@ func selecionaOpcaoMenu():
 	print(str(posicao))
 	match posicao:
 		3:
-			get_parent().limparPersonagens()
+			var menu2 = preDescricaoItem.instance()
+			get_parent().get_parent().atualizaAreaSecundaria(menu2)
 			var menu = preItem.instance()
-			get_parent().add_child(menu)
-			menu.mudarPosicao(Vector2(-165,0))
-			cursorAtivado = false
+			get_parent().get_parent().atualizaAreaPrincipal(menu)
+		
+		7:
+			VariaveisGlobais.menuAberto = false
+			get_parent().get_parent().set_visible(false)

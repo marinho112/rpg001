@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=1]
 [ext_resource path="res://sprites/menus/menuInGame/fundoTelaRolagem.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://sprites/menus/menuCombate/selecao.png" type="Texture" id=5]
 [ext_resource path="res://sprites/menus/menuInGame/selecaoTipoItem.png" type="Texture" id=6]
 [ext_resource path="res://script/menus/MenuInGameItens.gd" type="Script" id=7]
-[ext_resource path="res://nodes/menus/janelaDescricao.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 235.768, 30 )
@@ -107,7 +106,3 @@ __meta__ = {
 position = Vector2( -18, -163 )
 scale = Vector2( 1.51, 1 )
 texture = ExtResource( 5 )
-
-[node name="janelaDescricao" parent="." instance=ExtResource( 8 )]
-visible = false
-position = Vector2( -18.3723, -30.2602 )

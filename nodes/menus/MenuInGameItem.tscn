@@ -23,7 +23,7 @@ func _process(delta):
 					get_parent().desenharLista()
 					
 				else:
-					acionaItem()
+					pass
 			
 		
 func defItem(item):
@@ -34,12 +34,7 @@ func atualizaItem():
 	$Nome.set_text(item.nome+\" x\"+ str(item.quantidade))
 	$Peso.set_text(pesoTexto+\": \"+str(item.quantidade*item.peso))
 
-func acionaItem():
-	var janela =get_parent().get_node(\"janelaDescricao\")
-	janela.ativado = true
-	janela.set_visible(true)
-	janela.atualizaItem(item)
-	
+
 "
 
 [sub_resource type="RectangleShape2D" id=2]

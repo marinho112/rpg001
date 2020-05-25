@@ -1,32 +1,53 @@
 extends Node2D
 
-var ativado = false
 var item
+
 
 func _ready():
 	set_process(true)
-	$btnSair.get_node("texto").set_text("Sair(S)")
+	$btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",19))
 	
 func _process(delta):
-	if(ativado):
+
+	if(VariaveisGlobais.menuAberto):
 		if Input.is_action_just_pressed("mouse_left"):
-			if Funcoes.na_area($btnSair,$btnSair/CollisionShape2D):
-				ativado = false
-				set_visible(false)
-			elif Funcoes.na_area($btnOk,$btnSair/CollisionShape2D):
+			
+			if Funcoes.na_area($btnOk,$btnOk/CollisionShape2D):
 				item.ativar(null)
+			elif Funcoes.na_area($btnVoltar,$btnVoltar/CollisionShape2D):
+				voltar()
+		
+		if Input.is_action_just_pressed("s"):
+			voltar()
+
+func voltar():
+	var novoNode = get_parent().get_parent().preOpcoes.instance()
+	get_parent().get_parent().atualizaAreaSecundaria(novoNode)
+	get_parent().get_parent().atualizaPersonagens()
 
 func atualizaItem(item):
-	self.item=item
-	$btnOk.set_visible(true)
 	var textoItem = ""
-	if(item.tipo == Constantes.ITEM_TIPO_OUTROS):
+	
+	if(item == null):
 		$btnOk.set_visible(false)
-	elif(Constantes.ITEM_TIPO_UTILIZAVEL):
-		textoItem = "Usar"
-	elif(Constantes.ITEM_TIPO_EQUIPAMENTO):
-		textoItem="Equipar"
+		$btnVoltar.set_position(Vector2(0,$btnVoltar.get_position().y))
+		$titulo.set_text("")
+		$texto.set_text("")
+	else:
+		self.item=item
+		$btnOk.set_visible(true)
+		$btnVoltar.set_position(Vector2(70,$btnVoltar.get_position().y))
 		
+		if(item.tipo == Constantes.ITEM_TIPO_OUTROS):
+			$btnOk.set_visible(false)
+			$btnVoltar.set_position(Vector2(0,$btnVoltar.get_position().y))
+		elif(Constantes.ITEM_TIPO_UTILIZAVEL):
+			textoItem = $btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",20))
+		elif(Constantes.ITEM_TIPO_EQUIPAMENTO):
+			textoItem=$btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",21))
+		
+		$titulo.set_text(item.nome)
+		$texto.set_text(item.descricao)
+
 	$btnOk.get_node("texto").set_text(textoItem)
-	$titulo.set_text(item.nome)
-	$texto.set_text(item.descricao)
+		

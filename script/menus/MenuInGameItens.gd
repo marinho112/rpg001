@@ -60,8 +60,12 @@ func _process(delta):
 			descerLista()
 		elif Input.is_action_just_pressed("ui_up"):
 			subirLista()
+		elif Input.is_action_just_pressed("ui_left"):
+			tipoEsquerda()
+		elif Input.is_action_just_pressed("ui_right"):
+			tipoDireita()
 		elif Input.is_action_just_pressed("a"):
-			listaItensObjeto[posicao].acionaItem()
+			pass
 		if Input.is_action_just_pressed("mouse_left"):
 			if Funcoes.na_area($fundo/AreaRolagemBntCima,$fundo/AreaRolagemBntCima/Collision) :
 				subirLista()
@@ -153,15 +157,36 @@ func desenharLista():
 		
 		$fundo/barraRolagem.set_global_position(novoPosicaoCursorBarra)
 		$fundo/barraRolagem.set_scale(novoTamanhoCursorBarra)
+		
+		var descri = get_parent().get_parent().areaSecundaria
+		if((descri != null) and (len(listaItensObjeto)>0)):
+			descri.atualizaItem(listaItens[posicao+primeiro])
+		else:
+			print("fois")
+			descri.atualizaItem(null)
+		
 		desenhaCursor()
 	else:
 		$cursor.set_visible(false)
 	
-	apagarJanelaDescricao()
 
-func apagarJanelaDescricao():
-	$janelaDescricao.set_visible(false)
-	$janelaDescricao.ativado=false
+func tipoDireita():
+	if (tipoItemListado == Constantes.ITEM_TIPO_OUTROS):
+		tipoItemListado = Constantes.ITEM_TIPO_UTILIZAVEL
+	elif (tipoItemListado == Constantes.ITEM_TIPO_UTILIZAVEL):
+		tipoItemListado = Constantes.ITEM_TIPO_EQUIPAMENTO
+	elif (tipoItemListado == Constantes.ITEM_TIPO_EQUIPAMENTO):
+		tipoItemListado = Constantes.ITEM_TIPO_OUTROS
+	mudarPosicaoTipoItem()
+
+func tipoEsquerda():
+	if (tipoItemListado == Constantes.ITEM_TIPO_UTILIZAVEL):
+		tipoItemListado = Constantes.ITEM_TIPO_OUTROS
+	elif (tipoItemListado == Constantes.ITEM_TIPO_OUTROS):
+		tipoItemListado = Constantes.ITEM_TIPO_EQUIPAMENTO
+	elif (tipoItemListado == Constantes.ITEM_TIPO_EQUIPAMENTO):
+		tipoItemListado = Constantes.ITEM_TIPO_UTILIZAVEL
+	mudarPosicaoTipoItem()
 
 func descerLista():
 	if(posicao < 13):

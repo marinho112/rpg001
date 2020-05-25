@@ -15,5 +15,10 @@ texture = ExtResource( 1 )
 [node name="MenuInGameTempoDinheiro" parent="." instance=ExtResource( 2 )]
 position = Vector2( 192.755, 175.566 )
 
-[node name="MenuInGameOpcoes" parent="." instance=ExtResource( 3 )]
+[node name="AreaPrincipal" type="Node2D" parent="."]
+position = Vector2( -165, 0 )
+
+[node name="AreaSecundaria" type="Node2D" parent="."]
 position = Vector2( 306, -66 )
+
+[node name="MenuInGameOpcoes" parent="AreaSecundaria" instance=ExtResource( 3 )]
