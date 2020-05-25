@@ -31,6 +31,11 @@ func _ready():
 	
 	set_process(true)
 
+func mudarPosicao(posicao):
+	set_position(posicao)
+	posicaoCursorBarra.x = $fundo/barraRolagem.get_global_position().x
+	
+
 func mudarPosicaoTipoItem():
 	var vetor = Vector2(0,0)
 	match tipoItemListado:
@@ -50,7 +55,7 @@ func mudarPosicaoTipoItem():
 			
 func _process(delta):
 	
-	if(ativado):
+	if(ativado and VariaveisGlobais.menuAberto):
 		if Input.is_action_just_pressed("ui_down"):
 			descerLista()
 		elif Input.is_action_just_pressed("ui_up"):
@@ -151,6 +156,12 @@ func desenharLista():
 		desenhaCursor()
 	else:
 		$cursor.set_visible(false)
+	
+	apagarJanelaDescricao()
+
+func apagarJanelaDescricao():
+	$janelaDescricao.set_visible(false)
+	$janelaDescricao.ativado=false
 
 func descerLista():
 	if(posicao < 13):

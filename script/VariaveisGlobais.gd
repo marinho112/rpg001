@@ -4,6 +4,7 @@ var idioma = Constantes.IDIOMA_PORTUGUES_BR
 var listaPersonagens = []
 var listaItens=[]
 var dinheiro = 0
+var menuAberto = false
 
 var microTempo = 0
 var segundos = 0

@@ -12,10 +12,16 @@ class item:
 	var sprite
 	var descricao
 	var consumivel = false
+	
+	func ativar(personagem):
+		pass
 
 class itemEquipamento extends item:
 	
 	var equipamento
+	
+	func ativar(personagem):
+		equipamento.equipar(personagem)
 	
 	func _init():
 		tipo = Constantes.ITEM_TIPO_EQUIPAMENTO
@@ -27,6 +33,9 @@ class itemUtilizavel extends item:
 	var val1 = 0
 	var val2 = 0
 	var val3 = 0
+	
+	func ativar(personagem):
+		utilizarItem(personagem)
 	
 	func _init():
 		consumivel = true

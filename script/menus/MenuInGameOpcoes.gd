@@ -1,8 +1,11 @@
 extends Node2D
 
 var posicao = 0
+var cursorAtivado = true
 var ativado = true
 var listaMenu = []
+
+var preItem = preload("res://nodes/menus/MenuInGameItens.tscn")
 
 func _ready():
 	listaMenu.append($OpcaoStatus)
@@ -25,11 +28,12 @@ func _ready():
 	set_process(true)
 	
 func _process(delta):
-	
-	desenhaCursor()
-	controlaPosicaoCursor()
-	
-	
+	if(ativado and VariaveisGlobais.menuAberto):
+		if(cursorAtivado):
+			controlaPosicaoCursor()
+		desenhaCursor()
+		controlaPosicaoCursorMouse()
+		
 func desenhaCursor():
 	var posicao2 = listaMenu[posicao].get_global_position()
 	posicao2.y += 2
@@ -46,7 +50,8 @@ func controlaPosicaoCursor():
 	
 	if Input.is_action_just_pressed("a"):
 		selecionaOpcaoMenu()
-	
+
+func controlaPosicaoCursorMouse():
 	if Input.is_action_just_pressed("mouse_left"):
 		var posicaoCursor=get_global_mouse_position()
 		
@@ -62,3 +67,10 @@ func controlaPosicaoCursor():
 
 func selecionaOpcaoMenu():
 	print(str(posicao))
+	match posicao:
+		3:
+			get_parent().limparPersonagens()
+			var menu = preItem.instance()
+			get_parent().add_child(menu)
+			menu.mudarPosicao(Vector2(-165,0))
+			cursorAtivado = false

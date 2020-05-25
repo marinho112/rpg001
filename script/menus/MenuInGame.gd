@@ -25,3 +25,4 @@ func atualizaPersonagens():
 		novo.set_global_position(novoPosicao)
 		add_child(novo)
 		listaInfoPersonagem.append(novo)
+

@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id=1]
 resource_name = "MenuInGameItem"
 script/source = "extends Area2D
-
+	
 var item
 var pesoTexto = \"\"
 var posicao
@@ -15,14 +15,17 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
-	if Input.is_action_just_pressed(\"mouse_left\"):
-		if(Funcoes.na_area(self,$Collision)):
-			if(posicao != get_parent().posicao):
-				get_parent().posicao=posicao
-				get_parent().desenharLista()
-			else:
-				acionaItem()
-
+	if(VariaveisGlobais.menuAberto):
+		if Input.is_action_just_pressed(\"mouse_left\"):
+			if(Funcoes.na_area(self,$Collision)):
+				if(posicao != get_parent().posicao):
+					get_parent().posicao=posicao
+					get_parent().desenharLista()
+					
+				else:
+					acionaItem()
+			
+		
 func defItem(item):
 	self.item = item
 	atualizaItem()
@@ -32,7 +35,11 @@ func atualizaItem():
 	$Peso.set_text(pesoTexto+\": \"+str(item.quantidade*item.peso))
 
 func acionaItem():
-	print(str(item.descricao))
+	var janela =get_parent().get_node(\"janelaDescricao\")
+	janela.ativado = true
+	janela.set_visible(true)
+	janela.atualizaItem(item)
+	
 "
 
 [sub_resource type="RectangleShape2D" id=2]
