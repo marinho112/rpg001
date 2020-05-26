@@ -1,0 +1,268 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sprites/menus/menuInGame/fundoTelaMaior.png" type="Texture" id=1]
+[ext_resource path="res://sprites/personagem/grupo/rosto-ze.png" type="Texture" id=2]
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=3]
+
+[node name="MenuInGameStatus" type="Node2D"]
+
+[node name="fundo" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="imagemPersonagem" type="Sprite" parent="."]
+position = Vector2( -195, -179 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 2 )
+
+[node name="Nome" type="Label" parent="."]
+margin_left = -134.0
+margin_top = -220.0
+margin_right = 56.0
+margin_bottom = -196.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Nome Personagem"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Esferas" type="Label" parent="."]
+margin_left = -235.0
+margin_top = -121.0
+margin_right = -85.0
+margin_bottom = -97.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Esferas: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Experiencia" type="Label" parent="."]
+margin_left = 57.0
+margin_top = -248.0
+margin_right = 256.0
+margin_bottom = -224.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Exp: 99999 / 99999"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hp" type="Label" parent="."]
+margin_left = -134.0
+margin_top = -190.0
+margin_right = 65.0
+margin_bottom = -166.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "HP: 0/0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mp" type="Label" parent="."]
+margin_left = -138.0
+margin_top = -160.0
+margin_right = 61.0
+margin_bottom = -136.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "MP: 0/0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Forca" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -180.0
+margin_right = 240.0
+margin_bottom = -156.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Força: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Destreza" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -150.0
+margin_right = 240.0
+margin_bottom = -126.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Destreza: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Agilidade" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -120.0
+margin_right = 240.0
+margin_bottom = -96.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Agilidade: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Vitalidade" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -90.0
+margin_right = 247.0
+margin_bottom = -66.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Vitalidade: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inteligencia" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -60.0
+margin_right = 260.0
+margin_bottom = -36.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Inteligência: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Vontade" type="Label" parent="."]
+margin_left = 95.0
+margin_top = -30.0
+margin_right = 240.0
+margin_bottom = -6.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Vontade: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ataque" type="Label" parent="."]
+margin_left = -250.0
+margin_top = 20.0
+margin_right = -105.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Ataque: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Defesa" type="Label" parent="."]
+margin_left = -250.0
+margin_top = 50.0
+margin_right = -105.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Defesa: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AtaqueMagico" type="Label" parent="."]
+margin_left = -250.0
+margin_top = 80.0
+margin_right = -104.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Ataque Magico: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DefesaMagica" type="Label" parent="."]
+margin_left = -250.0
+margin_top = 110.0
+margin_right = -104.0
+margin_bottom = 134.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Defesa Magica: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Acerto" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 165.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Acerto: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Esquiva" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 50.0
+margin_right = 165.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Esquiva: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bloqueio" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 80.0
+margin_right = 165.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Bloquio: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcertoMagico" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 110.0
+margin_right = 189.0
+margin_bottom = 134.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Acerto Magico: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EsquivaMagica" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 140.0
+margin_right = 225.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Esquiva Magica: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bloqueio Magico" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 170.0
+margin_right = 225.0
+margin_bottom = 194.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Bloquio Magico: 999"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -67,6 +67,7 @@ margin_bottom = -20.521
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Exp: 99999/99999"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
