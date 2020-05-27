@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://sprites/menus/menuInGame/fundoTelaMaior.png" type="Texture" id=1]
 [ext_resource path="res://sprites/personagem/grupo/rosto-ze.png" type="Texture" id=2]
 [ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=3]
+[ext_resource path="res://script/menus/MenuInGameStatus.gd" type="Script" id=4]
 
 [node name="MenuInGameStatus" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="fundo" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -28,12 +30,24 @@ __meta__ = {
 
 [node name="Esferas" type="Label" parent="."]
 margin_left = -235.0
-margin_top = -121.0
+margin_top = -120.0
 margin_right = -85.0
-margin_bottom = -97.0
+margin_bottom = -96.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Esferas: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pontos" type="Label" parent="."]
+margin_left = -255.0
+margin_top = -35.0
+margin_right = -105.0
+margin_bottom = -11.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Pts: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,10 +90,10 @@ __meta__ = {
 }
 
 [node name="Forca" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -180.0
-margin_right = 240.0
-margin_bottom = -156.0
+margin_left = -250.0
+margin_top = 20.0
+margin_right = -105.0
+margin_bottom = 44.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Força: 999"
@@ -88,10 +102,10 @@ __meta__ = {
 }
 
 [node name="Destreza" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -150.0
-margin_right = 240.0
-margin_bottom = -126.0
+margin_left = -250.0
+margin_top = 50.0
+margin_right = -105.0
+margin_bottom = 74.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Destreza: 999"
@@ -100,10 +114,10 @@ __meta__ = {
 }
 
 [node name="Agilidade" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -120.0
-margin_right = 240.0
-margin_bottom = -96.0
+margin_left = -250.0
+margin_top = 80.0
+margin_right = -105.0
+margin_bottom = 104.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Agilidade: 999"
@@ -112,10 +126,10 @@ __meta__ = {
 }
 
 [node name="Vitalidade" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -90.0
-margin_right = 247.0
-margin_bottom = -66.0
+margin_left = -250.0
+margin_top = 110.0
+margin_right = -98.0
+margin_bottom = 134.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Vitalidade: 999"
@@ -124,10 +138,10 @@ __meta__ = {
 }
 
 [node name="Inteligencia" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -60.0
-margin_right = 260.0
-margin_bottom = -36.0
+margin_left = -250.0
+margin_top = 140.0
+margin_right = -85.0
+margin_bottom = 164.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Inteligência: 999"
@@ -136,10 +150,10 @@ __meta__ = {
 }
 
 [node name="Vontade" type="Label" parent="."]
-margin_left = 95.0
-margin_top = -30.0
-margin_right = 240.0
-margin_bottom = -6.0
+margin_left = -250.0
+margin_top = 170.0
+margin_right = -105.0
+margin_bottom = 194.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Vontade: 999"
@@ -148,10 +162,10 @@ __meta__ = {
 }
 
 [node name="Ataque" type="Label" parent="."]
-margin_left = -250.0
-margin_top = 20.0
-margin_right = -105.0
-margin_bottom = 44.0
+margin_left = 50.0
+margin_top = -100.0
+margin_right = 195.0
+margin_bottom = -76.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Ataque: 999"
@@ -160,10 +174,10 @@ __meta__ = {
 }
 
 [node name="Defesa" type="Label" parent="."]
-margin_left = -250.0
-margin_top = 50.0
-margin_right = -105.0
-margin_bottom = 74.0
+margin_left = 50.0
+margin_top = -70.0
+margin_right = 195.0
+margin_bottom = -46.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Defesa: 999"
@@ -172,10 +186,10 @@ __meta__ = {
 }
 
 [node name="AtaqueMagico" type="Label" parent="."]
-margin_left = -250.0
-margin_top = 80.0
-margin_right = -104.0
-margin_bottom = 104.0
+margin_left = 50.0
+margin_top = -40.0
+margin_right = 248.0
+margin_bottom = -16.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Ataque Magico: 999"
@@ -184,10 +198,10 @@ __meta__ = {
 }
 
 [node name="DefesaMagica" type="Label" parent="."]
-margin_left = -250.0
-margin_top = 110.0
-margin_right = -104.0
-margin_bottom = 134.0
+margin_left = 50.0
+margin_top = -10.0
+margin_right = 244.0
+margin_bottom = 14.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Defesa Magica: 999"
@@ -196,9 +210,9 @@ __meta__ = {
 }
 
 [node name="Acerto" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 20.0
-margin_right = 165.0
+margin_right = 195.0
 margin_bottom = 44.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -208,9 +222,9 @@ __meta__ = {
 }
 
 [node name="Esquiva" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 50.0
-margin_right = 165.0
+margin_right = 195.0
 margin_bottom = 74.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -220,9 +234,9 @@ __meta__ = {
 }
 
 [node name="Bloqueio" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 80.0
-margin_right = 165.0
+margin_right = 195.0
 margin_bottom = 104.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -232,9 +246,9 @@ __meta__ = {
 }
 
 [node name="AcertoMagico" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 110.0
-margin_right = 189.0
+margin_right = 244.0
 margin_bottom = 134.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -244,9 +258,9 @@ __meta__ = {
 }
 
 [node name="EsquivaMagica" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 140.0
-margin_right = 225.0
+margin_right = 255.0
 margin_bottom = 164.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -256,9 +270,9 @@ __meta__ = {
 }
 
 [node name="Bloqueio Magico" type="Label" parent="."]
-margin_left = 20.0
+margin_left = 50.0
 margin_top = 170.0
-margin_right = 225.0
+margin_right = 255.0
 margin_bottom = 194.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
