@@ -22,6 +22,7 @@ func _process(delta):
 
 func voltar():
 	var novoNode = get_parent().get_parent().preOpcoes.instance()
+	get_parent().get_parent().selecionaPersonagem=false
 	get_parent().get_parent().atualizaAreaSecundaria(novoNode)
 	get_parent().get_parent().atualizaPersonagens()
 

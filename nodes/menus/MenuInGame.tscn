@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://sprites/menus/menuInGame/fundo.png" type="Texture" id=1]
 [ext_resource path="res://nodes/menus/MenuInGameTempoDinheiro.tscn" type="PackedScene" id=2]
-[ext_resource path="res://nodes/menus/MenuInGameOpcoes.tscn" type="PackedScene" id=3]
 [ext_resource path="res://script/menus/MenuInGame.gd" type="Script" id=4]
 [ext_resource path="res://sprites/ferramentas/cursor.png" type="Texture" id=5]
 
@@ -27,5 +26,3 @@ position = Vector2( -165, 0 )
 
 [node name="AreaSecundaria" type="Node2D" parent="."]
 position = Vector2( 306, -66 )
-
-[node name="MenuInGameOpcoes" parent="AreaSecundaria" instance=ExtResource( 3 )]

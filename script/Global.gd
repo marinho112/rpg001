@@ -206,6 +206,7 @@ class personagemGrupo extends personagem:
 	
 	var baseHp =1
 	var baseMp = 1
+	var pontos = 0
 	
 	var menu=[]
 	var listaItensComuns=[]

@@ -70,6 +70,7 @@ func controlaPosicaoCursorMouse():
 func selecionaOpcaoMenu():
 	print(str(posicao))
 	cursorAtivado=false
+	get_parent().get_parent().selecionaPersonagem = false
 	match posicao:
 		0:
 			get_parent().get_parent().selecionaPersonagem(preStatus.instance())

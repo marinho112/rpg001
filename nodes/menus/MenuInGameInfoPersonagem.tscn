@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://sprites/menus/menuInGame/fundoOpcoes.png" type="Texture" id=1]
 [ext_resource path="res://sprites/personagem/grupo/rosto-ze.png" type="Texture" id=2]
@@ -6,17 +6,31 @@
 
 [sub_resource type="GDScript" id=1]
 resource_name = "MenuInGameInfoPErsonagem"
-script/source = "extends Node2D
+script/source = "extends Area2D
 
 
 var personagem
 var posicao
 
+var paiReal
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	paiReal = get_parent().get_parent() 
 	set_process(true)
 
 func _process(delta):
+	if(paiReal.selecionaPersonagem):
+		if Input.is_action_just_pressed(\"mouse_left\"):
+			if Funcoes.na_area(self,$CollisionShape2D):
+				if(paiReal.posicao == posicao):
+					paiReal.selecionaCursor()
+				else:
+					paiReal.posicao = posicao
+	
+func definePersonagem(parametro):
+	
+	personagem = parametro
 	
 	$Nome.set_text(personagem.nome)
 	
@@ -33,7 +47,10 @@ func _process(delta):
 	$Mp.set_text(textoMp)
 "
 
-[node name="MenuInGameInfoPersonagem" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 255.509, 38.1309 )
+
+[node name="MenuInGameInfoPersonagem" type="Area2D"]
 script = SubResource( 1 )
 
 [node name="fundo" type="Sprite" parent="."]
@@ -60,14 +77,12 @@ __meta__ = {
 }
 
 [node name="Exp" type="Label" parent="."]
-margin_left = 60.0
 margin_top = -30.0
 margin_right = -79.3698
 margin_bottom = -20.521
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Exp: 99999/99999"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -92,3 +107,6 @@ text = "MP: 10/10"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )

@@ -13,6 +13,7 @@ var adicaoCursor = 70
 
 func _ready():
 	atualizaPersonagens()
+	atualizaAreaSecundaria(preOpcoes.instance())
 	set_process(true)
 
 func _process(delta):
@@ -52,7 +53,8 @@ func atualizaPersonagens():
 		var novo = preInfoPersonagem.instance()
 		#ROMOVER linha com recuperaTudo 
 		item.recuperaTudo(2)
-		novo.personagem=item
+		novo.definePersonagem(item)
+		novo.posicao = i
 		var novoPosicao = Vector2(0,-190 + (i*80))
 		novo.set_global_position(novoPosicao)
 		$AreaPrincipal.add_child(novo)
@@ -87,14 +89,18 @@ func selecaoPersonagem():
 		subirCursor()
 	elif Input.is_action_just_pressed("a"):
 		selecionaCursor()
-	
+	elif Input.is_action_just_pressed("s"):
+		selecionaPersonagem = false
+		areaSecundaria.cursorAtivado = true
 
 func desenhaCursor(delta):
 	if(len(listaInfoPersonagem)>0):
 		var posicaoLocal = listaInfoPersonagem[posicao].get_position()
 		posicaoLocal.x += 130 + vibracaoCursor
-		if((vibracaoCursor > 10) or (vibracaoCursor< -10)):
-			adicaoCursor *= -1
+		if(vibracaoCursor > 10):
+			adicaoCursor = -70
+		elif(vibracaoCursor< -10):
+			adicaoCursor = 70
 		vibracaoCursor+= adicaoCursor * delta
 		$cursor.set_position(posicaoLocal)
 

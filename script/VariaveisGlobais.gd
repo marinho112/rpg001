@@ -20,6 +20,8 @@ func _ready():
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	listaPersonagens.append(ControlaDados.carregaInfoInicialPersonagemGrupo(1001))
 	
+	listaPersonagens[0].pontos = 10
+	
 	for i in 20:
 		var item = Itens.item.new()
 		item.descricao = str(randi())
