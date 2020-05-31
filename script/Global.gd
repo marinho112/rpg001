@@ -135,42 +135,40 @@ class personagem:
 		
 		#calculaAtributos()
 		
-		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
-	func calculaAtributos():
-		
-		zerarBonus()
-		defeseRate = 100
+	func calculoDosAtributos():
 		var divisor = 5000.0
 		
-		dano = int(((forca)/10.0) + ((forca)*(destreza)/divisor))
-		danoMagico = int(((inteligencia)/10.0) + ((inteligencia)*(will)/divisor))
-		danoDistancia = int(((destreza)/10.0) + ((destreza)*(forca)/divisor))
-		defesa = int(((vitalidade)/10.0) + ((vitalidade)*(agilidade)/divisor))
-		defesaMagica = int(((will)/10.0) + ((vitalidade)*(will)/divisor))
-		acerto=int(((destreza)/10.0) + ((destreza)*(agilidade)/divisor))
-		acertoMagico=int(((destreza)/10.0) + ((destreza)*(inteligencia)/divisor))
-		esquiva=int(((agilidade)/10.0) + ((destreza)*(agilidade)/divisor))
-		esquivaMagica=int(((agilidade)/10.0) + ((inteligencia)*(agilidade)/divisor))
-		bloqueio=int(((destreza)/10.0)+ ((destreza) * (forca)/divisor))
-		bloqueioMagico=int(((destreza)/10)+ ((destreza) * (will)/divisor))
-		
-		
-		for item in habilidadesPassivas:
-			ativaEfeitoPassivoCampo(item)
-		
-
 		dano = int(((forca+forcaBonus)/10.0) + ((forca+forcaBonus)*(destreza+destrezaBonus)/divisor))
 		danoMagico = int(((inteligencia+inteligenciaBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(will+willBonus)/divisor))
-		danoDistancia = int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(forca+forcaBonus)/divisor))
+		danoDistancia = int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(inteligencia+inteligenciaBonus)/divisor))
 		defesa = int(((vitalidade+vitalidadeBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(agilidade+agilidadeBonus)/divisor))
 		defesaMagica = int(((will+willBonus)/10.0) + ((vitalidade+vitalidadeBonus)*(will+willBonus)/divisor))
 		acerto=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
 		acertoMagico=int(((destreza+destrezaBonus)/10.0) + ((destreza+destrezaBonus)*(inteligencia+inteligenciaBonus)/divisor))
 		esquiva=int(((agilidade+agilidadeBonus)/10.0) + ((destreza+destrezaBonus)*(agilidade+agilidadeBonus)/divisor))
 		esquivaMagica=int(((agilidade+agilidadeBonus)/10.0) + ((inteligencia+inteligenciaBonus)*(agilidade+agilidadeBonus)/divisor))
-		bloqueio=int(((destreza+destrezaBonus)/10.0)+ ((destreza+destrezaBonus) * (forca+forcaBonus)/divisor))
-		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))
+		bloqueio=int(((destreza+destrezaBonus)/10.0)+ ((destreza+destrezaBonus) * (forca+forcaBonus)/divisor))/3
+		bloqueioMagico=int(((destreza+destrezaBonus)/10)+ ((destreza+destrezaBonus) * (will+willBonus)/divisor))/3	
+	
+		#Atributos secundarios variam de 1~300 + 0~200 nos itens 
+	func calculaAtributos():
 		
+		zerarBonus()
+		defeseRate = 100
+		
+		calculoDosAtributos()
+		
+		for item in habilidadesPassivas:
+			ativaEfeitoPassivoCampo(item)
+		
+		calculoDosAtributos()
+		
+		
+		zerarBonus()
+		defeseRate = 100
+		
+		for item in habilidadesPassivas:
+			ativaEfeitoPassivoCampo(item)
 	
 	func ativaEfeitoPassivoCampo(item):
 		if((item!=null)):
@@ -211,6 +209,7 @@ class personagemGrupo extends personagem:
 	var menu=[]
 	var listaItensComuns=[]
 	var listaItensEquipamentos=[]
+	var equipaveis = []
 	
 	var equipeCabeca
 	var equipeCorpo

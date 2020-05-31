@@ -7,11 +7,9 @@ resource_name = "MenuInGameItem"
 script/source = "extends Area2D
 	
 var item
-var pesoTexto = \"\"
 var posicao
 
 func _ready():
-	pesoTexto = ControlaDados.receberTexto(\"menus\",18)
 	set_process(true)
 
 func _process(delta):
@@ -31,14 +29,13 @@ func defItem(item):
 	atualizaItem()
 	
 func atualizaItem():
-	$Nome.set_text(item.nome+\" x\"+ str(item.quantidade))
-	$Peso.set_text(pesoTexto+\": \"+str(item.quantidade*item.peso))
+	$Nome.set_text(item.nome)
 
 
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 238.006, 19.3664 )
+extents = Vector2( 166.679, 12.8821 )
 
 [node name="Item" type="Area2D"]
 script = SubResource( 1 )
@@ -47,25 +44,13 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Nome" type="Label" parent="."]
-margin_left = -225.0
+margin_left = -160.0
 margin_top = -12.0
-margin_right = -23.0
+margin_right = 42.0
 margin_bottom = 12.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Nome do Item x000"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Peso" type="Label" parent="."]
-margin_left = 90.0
-margin_top = -12.0
-margin_right = 233.0
-margin_bottom = 12.0
-custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Peso: "
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -42,13 +42,13 @@ func atualizaItem(item):
 		if(item.tipo == Constantes.ITEM_TIPO_OUTROS):
 			$btnOk.set_visible(false)
 			$btnVoltar.set_position(Vector2(0,$btnVoltar.get_position().y))
-		elif(Constantes.ITEM_TIPO_UTILIZAVEL):
-			textoItem = $btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",20))
-		elif(Constantes.ITEM_TIPO_EQUIPAMENTO):
-			textoItem=$btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",21))
+		elif(item.tipo == Constantes.ITEM_TIPO_UTILIZAVEL):
+			textoItem = ControlaDados.receberTexto("menus",20)
+		elif(item.tipo == Constantes.ITEM_TIPO_EQUIPAMENTO):
+			textoItem=ControlaDados.receberTexto("menus",21)
 		
 		$titulo.set_text(item.nome)
 		$texto.set_text(item.descricao)
 
-	$btnOk.get_node("texto").set_text(textoItem)
+	$btnOk/texto.set_text(textoItem)
 		

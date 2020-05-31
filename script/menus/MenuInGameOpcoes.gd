@@ -8,6 +8,7 @@ var listaMenu = []
 var preItem = preload("res://nodes/menus/MenuInGameItens.tscn")
 var preDescricaoItem = preload("res://nodes/menus/janelaDescricao.tscn")
 var preStatus = preload("res://nodes/menus/MenuInGameStatus.tscn")
+var preEquipamentos = preload("res://nodes/menus/MenuInGameEquipamentos.tscn")
 
 func _ready():
 	listaMenu.append($OpcaoStatus)
@@ -74,6 +75,8 @@ func selecionaOpcaoMenu():
 	match posicao:
 		0:
 			get_parent().get_parent().selecionaPersonagem(preStatus.instance())
+		1:
+			get_parent().get_parent().selecionaPersonagem(preEquipamentos.instance())
 		3:
 			var menu2 = preDescricaoItem.instance()
 			get_parent().get_parent().atualizaAreaSecundaria(menu2)

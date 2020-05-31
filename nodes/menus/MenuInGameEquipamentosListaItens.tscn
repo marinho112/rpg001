@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://script/menus/MenuInGameEquipamentosListaItens.gd" type="Script" id=1]
+[ext_resource path="res://sprites/menus/menuInGame/fundoTelaRolagem.png" type="Texture" id=2]
+[ext_resource path="res://sprites/menus/menuInGame/barraDeRolagem.png" type="Texture" id=4]
+[ext_resource path="res://sprites/menus/menuCombate/selecao.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 184 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 12 )
+
+[node name="MenuInGameEquipamentosListaItens" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="fundo" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.82 )
+texture = ExtResource( 2 )
+
+[node name="barraRolagem" type="Sprite" parent="fundo"]
+position = Vector2( 231.274, 18 )
+scale = Vector2( 0.7, 11.7 )
+texture = ExtResource( 4 )
+
+[node name="detalheBarraRolagem" type="Sprite" parent="fundo/barraRolagem"]
+
+[node name="AreaRolagem" type="Area2D" parent="fundo"]
+position = Vector2( 231, 18 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagem"]
+shape = SubResource( 1 )
+
+[node name="AreaRolagemBntCima" type="Area2D" parent="fundo"]
+position = Vector2( 231, -183 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntCima"]
+shape = SubResource( 2 )
+
+[node name="AreaRolagemBntBaixo" type="Area2D" parent="fundo"]
+position = Vector2( 231, 215 )
+
+[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntBaixo"]
+shape = SubResource( 2 )
+
+[node name="cursor" type="Sprite" parent="."]
+position = Vector2( -9.35428, -132.74 )
+scale = Vector2( 0.735, 1 )
+texture = ExtResource( 5 )

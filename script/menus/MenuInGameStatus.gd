@@ -1,8 +1,6 @@
-extends Node2D
+extends "res://script/abstratos/MenuInGameSubItemAreaPrincipal.gd"
 
 
-var selecionado
-var ativado = true
 var listaAreas = []
 var listaValoresAreas = []
 var posicao = 0
@@ -109,8 +107,12 @@ func ativaCursor():
 		5:
 			selecionado.will += (gastoProvisorio *10)
 	
-	selecionado.pontos -= gastoProvisorio
-	zerarValorAtributo()
+	if(gastoProvisorio > 0):
+		selecionado.pontos -= gastoProvisorio
+		zerarValorAtributo()
+		selecionado.calculaAtributos()
+		atualizaValores()
+		
 
 func desenhaCursor(delta):
 	

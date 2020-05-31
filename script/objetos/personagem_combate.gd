@@ -276,8 +276,10 @@ func calculaDano(alvo):
 	var rd = (defesa/12.5)
 	rd *= 1 +(0.25* ved)
 	
+	for i in vea:
+		dano = (dano*2)
+		
 	
-	dano = int(dano + (dano*vea*vea))
 	
 	#Multiplicadores
 	dano = int(dano*danoRaca/100.0)
