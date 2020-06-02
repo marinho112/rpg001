@@ -1,15 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://script/menus/MenuInGameEquipamentosListaItens.gd" type="Script" id=1]
 [ext_resource path="res://sprites/menus/menuInGame/fundoTelaRolagem.png" type="Texture" id=2]
+[ext_resource path="res://fontes/FontesSalvas/fonteMenuInGame.tres" type="DynamicFont" id=3]
 [ext_resource path="res://sprites/menus/menuInGame/barraDeRolagem.png" type="Texture" id=4]
 [ext_resource path="res://sprites/menus/menuCombate/selecao.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 184 )
+extents = Vector2( 5, 147.6 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 12 )
+extents = Vector2( 5, 9.84 )
 
 [node name="MenuInGameEquipamentosListaItens" type="Node2D"]
 script = ExtResource( 1 )
@@ -18,32 +19,48 @@ script = ExtResource( 1 )
 scale = Vector2( 0.5, 0.82 )
 texture = ExtResource( 2 )
 
-[node name="barraRolagem" type="Sprite" parent="fundo"]
-position = Vector2( 231.274, 18 )
-scale = Vector2( 0.7, 11.7 )
-texture = ExtResource( 4 )
+[node name="AreaRolagem" type="Area2D" parent="."]
+position = Vector2( 115.5, 14.76 )
 
-[node name="detalheBarraRolagem" type="Sprite" parent="fundo/barraRolagem"]
-
-[node name="AreaRolagem" type="Area2D" parent="fundo"]
-position = Vector2( 231, 18 )
-
-[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagem"]
+[node name="Collision" type="CollisionShape2D" parent="AreaRolagem"]
 shape = SubResource( 1 )
 
-[node name="AreaRolagemBntCima" type="Area2D" parent="fundo"]
-position = Vector2( 231, -183 )
+[node name="AreaRolagemBntCima" type="Area2D" parent="."]
+position = Vector2( 115.5, -150.06 )
 
-[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntCima"]
+[node name="Collision" type="CollisionShape2D" parent="AreaRolagemBntCima"]
 shape = SubResource( 2 )
 
-[node name="AreaRolagemBntBaixo" type="Area2D" parent="fundo"]
-position = Vector2( 231, 215 )
+[node name="AreaRolagemBntBaixo" type="Area2D" parent="."]
+position = Vector2( 115.5, 176.3 )
 
-[node name="Collision" type="CollisionShape2D" parent="fundo/AreaRolagemBntBaixo"]
+[node name="Collision" type="CollisionShape2D" parent="AreaRolagemBntBaixo"]
 shape = SubResource( 2 )
 
 [node name="cursor" type="Sprite" parent="."]
+visible = false
 position = Vector2( -9.35428, -132.74 )
 scale = Vector2( 0.735, 1 )
 texture = ExtResource( 5 )
+
+[node name="barraRolagem" type="Sprite" parent="."]
+position = Vector2( 115.637, 14.76 )
+scale = Vector2( 0.35, 9.594 )
+texture = ExtResource( 4 )
+
+[node name="detalheBarraRolagem" type="Sprite" parent="barraRolagem"]
+
+[node name="listaVazia" type="Label" parent="."]
+visible = false
+margin_left = -91.3833
+margin_top = -121.203
+margin_right = 80.6167
+margin_bottom = -70.2031
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.952941, 0.0431373, 0.0431373, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Você não possui 
+esse tipo de item"
+__meta__ = {
+"_edit_use_anchors_": false
+}

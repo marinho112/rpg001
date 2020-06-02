@@ -35,7 +35,7 @@ func atualizaItem():
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 166.679, 12.8821 )
+extents = Vector2( 110, 12 )
 
 [node name="Item" type="Area2D"]
 script = SubResource( 1 )
@@ -44,10 +44,11 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Nome" type="Label" parent="."]
-margin_left = -160.0
+margin_left = -110.0
 margin_top = -12.0
-margin_right = 42.0
+margin_right = 92.0
 margin_bottom = 12.0
+rect_scale = Vector2( 0.8, 0.9 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Nome do Item x000"

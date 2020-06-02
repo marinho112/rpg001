@@ -51,6 +51,7 @@ func desenharCursor():
 	var tamanhoCampo = listaCampos[posicao].get_size()
 	var vetor = Vector2(posicaoCampo.x+tamanhoCampo.x - 5,posicaoCampo.y+(tamanhoCampo.y/2.0))
 	$cursor.set_position(vetor)
+	$MenuInGameEquipamentosListaItens/listaVazia.set_visible(false)
 	
 func subirCursor():
 	if(posicao > 0):
@@ -67,7 +68,6 @@ func descerCursor():
 	desenharCursor()
 	
 func ativaCursor():
-	print(str(posicao))
 	var listaItens = []
 	var tipo 
 	match posicao:
@@ -89,7 +89,6 @@ func ativaCursor():
 	for item in VariaveisGlobais.listaItens:
 		var vai = false
 		if(item.tipo == Constantes.ITEM_TIPO_EQUIPAMENTO):
-			print(str(item))
 			if(item.equipamento.tipoEquipamento == tipo):
 				if (tipo == Constantes.EQUIPAMENTO_TIPO_ACESSORIO):
 					vai = true
@@ -101,13 +100,23 @@ func ativaCursor():
 					listaItens.append(item)
 	
 	if(len(listaItens)>0):
-		get_parent().get_parent().atualizaAreaSecundaria(preDescricaoEquipamento.instance())
+		var secundario = preDescricaoEquipamento.instance()
+		secundario.tipoVoltar = 1
+		get_parent().get_parent().atualizaAreaSecundaria(secundario)
 		
 		$MenuInGameEquipamentosListaItens.listaItens = listaItens
 		$MenuInGameEquipamentosListaItens.carregaLista()
 		$MenuInGameEquipamentosListaItens.ativado = true
 		ativado = false
+	else:
+		$MenuInGameEquipamentosListaItens.limpaLista()
+		$MenuInGameEquipamentosListaItens/listaVazia.set_visible(true)
 		
 		
 func defineSelecionado(para):
 	selecionado = para
+
+func reaverFoco():
+	ativado = true
+	$MenuInGameEquipamentosListaItens.ativado = false
+	$MenuInGameEquipamentosListaItens.limpaLista()

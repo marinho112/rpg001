@@ -41,6 +41,7 @@ func desenhaCursor():
 	var posicao2 = listaMenu[posicao].get_global_position()
 	posicao2.y += 2
 	$cursor.set_global_position(posicao2)
+	$cursor.set_visible(true)
 
 func controlaPosicaoCursor():
 	

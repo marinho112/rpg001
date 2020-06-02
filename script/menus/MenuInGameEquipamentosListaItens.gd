@@ -17,15 +17,15 @@ var ultimo
 
 func _ready():
 	
-	tamanhoCursorBarra = $fundo/barraRolagem.get_scale()
-	posicaoCursorBarra = $fundo/barraRolagem.get_global_position()
+	tamanhoCursorBarra = $barraRolagem.get_scale()
+	posicaoCursorBarra = $barraRolagem.get_position()
 	
 	
 	set_process(true)
 
 func mudarPosicao(posicao):
 	set_position(posicao)
-	posicaoCursorBarra.x = $fundo/barraRolagem.get_global_position().x
+	posicaoCursorBarra.x = $barraRolagem.get_position().x
 	
 
 func _process(delta):
@@ -38,15 +38,15 @@ func _process(delta):
 		elif Input.is_action_just_pressed("a"):
 			pass
 		if Input.is_action_just_pressed("mouse_left"):
-			if Funcoes.na_area($fundo/AreaRolagemBntCima,$fundo/AreaRolagemBntCima/Collision) :
+			if Funcoes.na_area($AreaRolagemBntCima,$AreaRolagemBntCima/Collision) :
 				subirLista()
-			elif Funcoes.na_area($fundo/AreaRolagemBntBaixo,$fundo/AreaRolagemBntBaixo/Collision) :
+			elif Funcoes.na_area($AreaRolagemBntBaixo,$AreaRolagemBntBaixo/Collision) :
 				descerLista()
 				
 			
 		if Input.is_action_pressed("mouse_left"):
-			if Funcoes.na_area($fundo/AreaRolagem,$fundo/AreaRolagem/Collision) :
-				var posicaoMouse = posicaoDoCursorNaArea($fundo/AreaRolagem,len(listaItens)).y
+			if Funcoes.na_area($AreaRolagem,$AreaRolagem/Collision) :
+				var posicaoMouse = posicaoDoCursorNaArea($AreaRolagem,len(listaItens)).y
 				while(posicaoMouse < (posicao+primeiro)):
 					subirLista()
 				while(posicaoMouse > (posicao+primeiro)):
@@ -54,11 +54,11 @@ func _process(delta):
 				desenharLista()
 
 func posicaoDoCursorNaArea(area,separacao):
+	
 	var tamanhoBarra = area.get_node("Collision").get_shape().get_extents()
 	var posicaoBarra = area.get_global_position()
 	var partes = tamanhoBarra / separacao
 	var mousePosition = get_global_mouse_position()
-	
 	mousePosition -= posicaoBarra - tamanhoBarra
 	mousePosition = mousePosition/2.0
 	return Vector2(int(mousePosition.x/partes.x),int(mousePosition.y/partes.y))
@@ -72,6 +72,7 @@ func desenhaCursor():
 func carregaLista():
 	
 	limpaLista()
+	$listaVazia.set_visible(false)
 	primeiro = 0
 	posicao = 0
 	
@@ -82,7 +83,7 @@ func carregaLista():
 	
 	for i in ultimo:
 		var objeto = preItem.instance()
-		objeto.set_position(Vector2(40,-140 +(i*34)))
+		objeto.set_position(Vector2(-10,-140 +(i*34)))
 		objeto.posicao=i
 		add_child(objeto)
 		listaItensObjeto.append(objeto)
@@ -94,7 +95,7 @@ func desenharLista():
 		var objeto = listaItensObjeto[i]
 		objeto.defItem(listaItens[i+primeiro])
 	
-	var tamanhoBarra = $fundo/AreaRolagem/Collision.get_shape().get_extents()
+	var tamanhoBarra = $AreaRolagem/Collision.get_shape().get_extents()
 	
 	var novoTamanhoCursorBarra=tamanhoCursorBarra
 	var novoPosicaoCursorBarra=posicaoCursorBarra
@@ -112,8 +113,8 @@ func desenharLista():
 		
 		
 		
-		$fundo/barraRolagem.set_global_position(novoPosicaoCursorBarra)
-		$fundo/barraRolagem.set_scale(novoTamanhoCursorBarra)
+		$barraRolagem.set_position(novoPosicaoCursorBarra)
+		$barraRolagem.set_scale(novoTamanhoCursorBarra)
 		
 		var descri = get_parent().get_parent().get_parent().areaSecundaria
 		if((descri != null) and (len(listaItensObjeto)>0)):
@@ -142,9 +143,13 @@ func subirLista():
 		ultimo-=1
 		primeiro-=1
 	desenharLista()
-
+	
+	
 
 func limpaLista():
+	$cursor.set_visible(false)
 	for item in listaItensObjeto:
 		item.queue_free()
 	listaItensObjeto=[]
+	
+	

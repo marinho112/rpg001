@@ -1,12 +1,12 @@
 extends Node2D
 
 var item
-
+var tipoVoltar = 0
 
 func _ready():
 	set_process(true)
 	$btnVoltar/texto.set_text(ControlaDados.receberTexto("menus",19))
-	
+
 func _process(delta):
 
 	if(VariaveisGlobais.menuAberto):
@@ -21,11 +21,19 @@ func _process(delta):
 			voltar()
 
 func voltar():
-	var novoNode = get_parent().get_parent().preOpcoes.instance()
-	get_parent().get_parent().selecionaPersonagem=false
-	get_parent().get_parent().atualizaAreaSecundaria(novoNode)
-	get_parent().get_parent().atualizaPersonagens()
-
+	var pai = get_parent().get_parent()
+	var novoNode = pai.preOpcoes.instance()
+	if(tipoVoltar==0):
+		pai.selecionaPersonagem=false
+		pai.atualizaAreaSecundaria(novoNode)
+		pai.atualizaPersonagens()
+	else:
+		novoNode.cursorAtivado=false
+		novoNode.posicao=tipoVoltar
+		pai.atualizaAreaSecundaria(novoNode)
+		novoNode.desenhaCursor()
+		pai.areaPrincipal.reaverFoco()
+		
 func atualizaItem(item):
 	var textoItem = ""
 	

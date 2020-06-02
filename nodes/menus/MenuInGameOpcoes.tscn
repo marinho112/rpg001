@@ -37,4 +37,5 @@ position = Vector2( 0, 90 )
 position = Vector2( 0, 130 )
 
 [node name="cursor" parent="." instance=ExtResource( 4 )]
+visible = false
 scale = Vector2( 0.85, 1 )
